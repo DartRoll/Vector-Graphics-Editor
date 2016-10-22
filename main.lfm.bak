@@ -1085,7 +1085,7 @@ object VectorEditor: TVectorEditor
     object EllipseBtn: TSpeedButton
       Left = 0
       Height = 64
-      Top = 64
+      Top = 63
       Width = 64
       Flat = True
       Glyph.Data = {

@@ -27,7 +27,10 @@ type
   end;
 
   TLine = class(TFigure)
-
+    ALine: TRect;
+    procedure SetFirstDot(X, Y: Integer);
+    procedure SetSecondDot(X, Y: Integer);
+    procedure Draw(Canvas: TCanvas); override;
   end;
 
   TEllipse = class(TFigure)
@@ -79,5 +82,21 @@ procedure TEllipse.Draw(Canvas: TCanvas);
 begin
   Canvas.Ellipse(ARect);
 end;
+
+procedure TLine.SetFirstDot(X, Y: Integer);
+begin
+  ALine := Rect(X, Y, X, Y);
+end;
+
+procedure TLine.SetSecondDot(X, Y: Integer);
+begin
+  ALine := Rect(ALine.Left, ALine.Top, X, Y);
+end;
+
+procedure TLine.Draw(Canvas: TCanvas);
+begin
+  Canvas.Line(ALine);
+end;
+
 end.
 

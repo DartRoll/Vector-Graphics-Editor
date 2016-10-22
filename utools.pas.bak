@@ -82,9 +82,15 @@ begin
   (Figure as TRectangle).SetSecondDot(X, Y);
 end;
 
-procedure TEllipseTool.MouseDown(X, Y: integer);
+procedure TEllipseTool.MouseDown(X, Y: Integer);
 begin
   Figure := TEllipse.Create;
+  (Figure as TEllipse).SetFirstDot(X,Y);
+end;
+
+procedure TEllipseTool.MouseMove(X, Y: Integer);
+begin
+  (Figure as TEllipse).SetSecondDot(X, Y);
 end;
 
 end.

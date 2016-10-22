@@ -28,7 +28,8 @@ type
   end;
 
   TLineTool = class(TTool)
-
+    procedure MouseDown(X, Y: Integer); override;
+    procedure MouseMove(X, Y: Integer); override;
   end;
 
   TEllipseTool = class(TTool)
@@ -91,6 +92,17 @@ end;
 procedure TEllipseTool.MouseMove(X, Y: Integer);
 begin
   (Figure as TEllipse).SetSecondDot(X, Y);
+end;
+
+procedure TLineTool.MouseDown(X, Y: Integer);
+begin
+  Figure := TLine.Create;
+  (Figure as TLine).SetFirstDot(X, Y);
+end;
+
+procedure TLineTool.MouseMove(X, Y: Integer);
+begin
+  (Figure as TLine).SetSecondDot(X, Y);
 end;
 
 end.
