@@ -126,13 +126,17 @@ begin
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
-var i:integer;
+var
+  i:integer;
+  PenColor: TColor;
 begin
+  PenColor := PaintBox.Canvas.Pen.Color;
   for i := 0 to High(Figures) do
   begin
       PaintBox.Canvas.Pen.Color := Figures[i].Color;
       Figures[i].Draw(PaintBox.Canvas);
   end;
+  PaintBox.Canvas.Pen.Color := PenColor;
 end;
 
 procedure TVectorEditor.PolylineBtnClick(Sender: TObject);

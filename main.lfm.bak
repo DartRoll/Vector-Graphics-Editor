@@ -1,20 +1,20 @@
 object VectorEditor: TVectorEditor
-  Left = 561
-  Height = 791
-  Top = 102
-  Width = 1252
+  Left = 737
+  Height = 480
+  Top = 415
+  Width = 741
   Caption = 'VectorEditor'
-  ClientHeight = 771
-  ClientWidth = 1252
+  ClientHeight = 460
+  ClientWidth = 741
   KeyPreview = True
   Menu = MainMenu
   LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 771
+    Height = 460
     Top = 0
-    Width = 1124
+    Width = 613
     Align = alClient
     Anchors = [akTop]
     OnMouseDown = PaintBoxMouseDown
@@ -24,11 +24,11 @@ object VectorEditor: TVectorEditor
   end
   object InstrumentPanel: TPanel
     Left = 0
-    Height = 771
+    Height = 460
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 771
+    ClientHeight = 460
     ClientWidth = 128
     TabOrder = 0
     object PolylineBtn: TSpeedButton
