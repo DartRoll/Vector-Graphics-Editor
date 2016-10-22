@@ -1,0 +1,131 @@
+unit main;
+
+{$mode objfpc}{$H+}{$R+}
+
+interface
+
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
+  ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin;
+
+type
+
+  { TVectorEditor }
+
+  TVectorEditor = class(TForm)
+    MainMenu: TMainMenu;
+    FileMenuItem: TMenuItem;
+    HelpMenuItem: TMenuItem;
+    ExitMenuItem: TMenuItem;
+    AboutMenuItem: TMenuItem;
+    FileDividerMenuItem: TMenuItem;
+    ClearMenuItem: TMenuItem;
+    PaintBox: TPaintBox;
+    procedure AboutMenuItemClick(Sender: TObject);
+    procedure ClearMenuItemClick(Sender: TObject);
+    procedure ExitMenuItemClick(Sender: TObject);
+    procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure PaintBoxMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure PaintBoxPaint(Sender: TObject);
+  private
+    { private declarations }
+
+  public
+    { public declarations }
+
+
+  end;
+
+type
+  TPolylines = record
+  Width: integer;
+  Color: Tcolor;
+  Vertexes: array of TPoint;
+  end;
+
+var
+  //PolylinesArray: array of array of TPoint;
+  Polylines: array of TPolylines;
+  PaintingFlag:boolean = false;
+
+  VectorEditor: TVectorEditor;
+
+implementation
+
+{$R *.lfm}
+
+{ TVectorEditor }
+
+
+procedure TVectorEditor.ExitMenuItemClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  PaintingFlag := true;
+  PaintBox.Cursor := crCross;
+  SetLength(Polylines, Length(Polylines) + 1);
+
+  with Polylines[High(Polylines)] do
+  begin
+    SetLength(Vertexes, 1);
+    Vertexes[0] := Point(X, Y);
+  end;
+
+  PaintBox.Canvas.MoveTo(X, Y);
+
+  PaintBox.Canvas.Pen.Color := clSkyBlue;
+  PaintBox.Canvas.Pen.Width := 2;
+end;
+
+procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+begin
+  if PaintingFlag then
+  begin
+    with Polylines[High(Polylines)] do
+    begin
+      SetLength(Vertexes, Length(Vertexes) + 1);
+      Vertexes[High(Vertexes)] := Point(X, Y);
+    end;
+
+    PaintBox.Canvas.LineTo(X,Y);
+  end;
+end;
+
+procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  PaintingFlag := false;
+  PaintBox.Cursor := crDefault;
+end;
+
+procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
+var i:integer;
+begin
+  for i:=0 to High(Polylines) do
+  begin
+    PaintBox.Canvas.Polyline(Polylines[i].Vertexes);
+  end;
+end;
+
+procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);
+begin
+  aboutprogram.aboutProgramForm.Show;
+end;
+
+procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
+begin
+  Polylines := nil;
+  PaintBox.Canvas.Clear;
+end;
+
+end.
+
