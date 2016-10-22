@@ -31,7 +31,10 @@ type
   end;
 
   TEllipse = class(TFigure)
-
+    ARect: TRect;
+    procedure SetFirstDot(X, Y: Integer);
+    procedure SetSecondDot(X, Y: Integer);
+    procedure Draw(Canvas: TCanvas); override;
   end;
 
 implementation
@@ -62,5 +65,19 @@ begin
   Canvas.Rectangle(ARect);
 end;
 
+procedure TEllipse.SetFirstDot(X, Y: Integer);
+begin
+  ARect := Rect(X, Y, X, Y);
+end;
+
+procedure TEllipse.SetSecondDot(X, Y: Integer);
+begin
+  ARect := Rect(ARect.Left, ARect.Top, X, Y);
+end;
+
+procedure TEllipse.Draw(Canvas: TCanvas);
+begin
+  Canvas.Ellipse(ARect);
+end;
 end.
 

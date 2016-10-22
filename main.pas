@@ -25,10 +25,13 @@ type
     InstrumentPanel: TPanel;
     PolylineBtn: TSpeedButton;
     RectangleBtn: TSpeedButton;
-    SpeedButton1: TSpeedButton;
+    EllipseBtn: TSpeedButton;
+    LineBtn: TSpeedButton;
     procedure AboutMenuItemClick(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
+    procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
+    procedure LineBtnClick(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -49,7 +52,7 @@ type
 
 var
   Figures: array of TFigure;
-  CurrentInstrument: TTool;
+  CurrentTool: TTool;
   PaintingFlag: Boolean = False;
   VectorEditor: TVectorEditor;
 
@@ -65,16 +68,37 @@ begin
   Figures[High(Figures)] := Figure;
 end;
 
+procedure ClearFigures;
+var i:Integer;
+begin
+  for i := 0 to High(Figures) do
+    begin
+      Figures[i].Free;
+    end;
+  Figures := nil;
+end;
+
+procedure SetCurrentTool(Tool: TTool);
+begin
+  CurrentTool.Free;
+  CurrentTool := Tool;
+end;
+
 procedure TVectorEditor.ExitMenuItemClick(Sender: TObject);
 begin
   Application.Terminate;
+end;
+
+procedure TVectorEditor.LineBtnClick(Sender: TObject);
+begin
+  SetCurrentTool(TLineTool.Create);
 end;
 
 procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   PaintingFlag := True;
-  CurrentInstrument.MouseDown(X, Y);
+  CurrentTool.MouseDown(X, Y);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -83,8 +107,8 @@ begin
   if PaintingFlag then
   begin
     PaintBox.Repaint;//TODO: найти способ поэффективнее
-    CurrentInstrument.MouseMove(X, Y);
-    CurrentInstrument.GetFigure.Draw(PaintBox.Canvas);
+    CurrentTool.MouseMove(X, Y);
+    CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
 
 end;
@@ -93,8 +117,8 @@ procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   PaintingFlag := False;
-  CurrentInstrument.MouseUp(X, Y);
-  PushFigure(CurrentInstrument.GetFigure);
+  CurrentTool.MouseUp(X, Y);
+  PushFigure(CurrentTool.GetFigure);
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
@@ -106,12 +130,12 @@ end;
 
 procedure TVectorEditor.PolylineBtnClick(Sender: TObject);
 begin
-  CurrentInstrument := TPolylineTool.Create;
+  SetCurrentTool(TPolylineTool.Create);
 end;
 
 procedure TVectorEditor.RectangleBtnClick(Sender: TObject);
 begin
-  CurrentInstrument := TRectangleTool.Create;
+  SetCurrentTool(TRectangleTool.Create);
 end;
 
 
@@ -122,7 +146,13 @@ end;
 
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
 begin
-  ShowMessage('Чистим')
+  ClearFigures;
+  PaintBox.Canvas.Clear;
+end;
+
+procedure TVectorEditor.EllipseBtnClick(Sender: TObject);
+begin
+  SetCurrentTool(TEllipseTool.Create);
 end;
 
 end.

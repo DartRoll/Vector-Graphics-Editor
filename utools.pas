@@ -32,7 +32,8 @@ type
   end;
 
   TEllipseTool = class(TTool)
-
+    procedure MouseDown(X, Y: Integer); override;
+    procedure MouseMove(X, Y: Integer); override;
   end;
 
 implementation
@@ -79,6 +80,17 @@ end;
 procedure TRectangleTool.MouseMove(X, Y: Integer);
 begin
   (Figure as TRectangle).SetSecondDot(X, Y);
+end;
+
+procedure TEllipseTool.MouseDown(X, Y: Integer);
+begin
+  Figure := TEllipse.Create;
+  (Figure as TEllipse).SetFirstDot(X,Y);
+end;
+
+procedure TEllipseTool.MouseMove(X, Y: Integer);
+begin
+  (Figure as TEllipse).SetSecondDot(X, Y);
 end;
 
 end.
