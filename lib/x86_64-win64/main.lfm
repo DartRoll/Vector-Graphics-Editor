@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 213
+  Left = 561
   Height = 791
-  Top = 89
+  Top = 102
   Width = 1252
   Caption = 'VectorEditor'
   ClientHeight = 771
@@ -2130,6 +2130,20 @@ object VectorEditor: TVectorEditor
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       }
       OnClick = LineBtnClick
+    end
+    object ColorPalette: TColorPalette
+      Left = 0
+      Height = 282
+      Top = 128
+      Width = 100
+      ButtonHeight = 15
+      ButtonWidth = 15
+      ColumnCount = 7
+      PaletteKind = pkGradientPalette
+      PickedIndex = 0
+      SelectionKind = pskThick
+      OnColorPick = ColorPaletteColorPick
+      ParentColor = False
     end
   end
   object MainMenu: TMainMenu

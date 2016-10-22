@@ -12,6 +12,7 @@ type
   TTool = class
     Figure: TFigure;
     function GetFigure: TFigure;
+    procedure SetColor(AColor: TColor);
     procedure MouseDown(X, Y: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
     procedure MouseUp(X, Y: Integer); virtual; //abstract;
@@ -28,7 +29,8 @@ type
   end;
 
   TLineTool = class(TTool)
-
+    procedure MouseDown(X, Y: Integer); override;
+    procedure MouseMove(X, Y: Integer); override;
   end;
 
   TEllipseTool = class(TTool)
@@ -42,6 +44,12 @@ function TTool.GetFigure: TFigure;
 begin
   Result := Figure;
 end;
+
+procedure TTool.SetColor(AColor: TColor);
+begin
+
+end;
+
 {
 procedure TTool.Draw(Canvas: TCanvas);
 begin
@@ -91,6 +99,17 @@ end;
 procedure TEllipseTool.MouseMove(X, Y: Integer);
 begin
   (Figure as TEllipse).SetSecondDot(X, Y);
+end;
+
+procedure TLineTool.MouseDown(X, Y: Integer);
+begin
+  Figure := TLine.Create;
+  (Figure as TLine).SetFirstDot(X, Y);
+end;
+
+procedure TLineTool.MouseMove(X, Y: Integer);
+begin
+  (Figure as TLine).SetSecondDot(X, Y);
 end;
 
 end.

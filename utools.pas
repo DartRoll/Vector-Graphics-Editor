@@ -12,6 +12,7 @@ type
   TTool = class
     Figure: TFigure;
     function GetFigure: TFigure;
+    procedure SetColor(AColor: TColor);
     procedure MouseDown(X, Y: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
     procedure MouseUp(X, Y: Integer); virtual; //abstract;
@@ -43,6 +44,12 @@ function TTool.GetFigure: TFigure;
 begin
   Result := Figure;
 end;
+
+procedure TTool.SetColor(AColor: TColor);
+begin
+  Figure.Color := AColor;
+end;
+
 {
 procedure TTool.Draw(Canvas: TCanvas);
 begin

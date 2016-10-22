@@ -81,7 +81,7 @@ end;
 procedure TEllipse.Draw(Canvas: TCanvas);
 begin
   Canvas.Ellipse(ARect);
-end;                                                                    -
+end;
 
 procedure TLine.SetFirstDot(X, Y: Integer);
 begin

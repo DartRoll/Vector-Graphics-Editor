@@ -5,15 +5,16 @@ unit main;
 interface
 
 uses
-  Classes,Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
-  ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls, Buttons, UFigures,
-  UTools;
+  Classes, Contnrs, SysUtils, FileUtil, ColorPalette, Forms, Controls, Graphics,
+  Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
+  Buttons, UFigures, UTools;
 
 type
 
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
+    ColorPalette: TColorPalette;
     MainMenu: TMainMenu;
     FileMenuItem: TMenuItem;
     HelpMenuItem: TMenuItem;
@@ -29,6 +30,8 @@ type
     LineBtn: TSpeedButton;
     procedure AboutMenuItemClick(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
+    procedure ColorPaletteColorPick(Sender: TObject; AColor: TColor;
+      Shift: TShiftState);
     procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure LineBtnClick(Sender: TObject);
@@ -99,6 +102,7 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
 begin
   PaintingFlag := True;
   CurrentTool.MouseDown(X, Y);
+  CurrentTool.SetColor(PaintBox.Canvas.Pen.Color);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -125,7 +129,10 @@ procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var i:integer;
 begin
   for i := 0 to High(Figures) do
-    Figures[i].Draw(PaintBox.Canvas);
+  begin
+      PaintBox.Canvas.Pen.Color := Figures[i].Color;
+      Figures[i].Draw(PaintBox.Canvas);
+  end;
 end;
 
 procedure TVectorEditor.PolylineBtnClick(Sender: TObject);
@@ -148,6 +155,12 @@ procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
 begin
   ClearFigures;
   PaintBox.Canvas.Clear;
+end;
+
+procedure TVectorEditor.ColorPaletteColorPick(Sender: TObject; AColor: TColor;
+  Shift: TShiftState);
+begin
+  PaintBox.Canvas.Pen.Color := AColor;
 end;
 
 procedure TVectorEditor.EllipseBtnClick(Sender: TObject);
