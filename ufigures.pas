@@ -13,37 +13,51 @@ type
     PenColor: TColor;
     BrushColor: TColor;
     Thickness: Integer;
-    procedure Draw(Canvas: TCanvas); virtual; abstract;
+    procedure Draw(Canvas: TCanvas);
+    procedure DrawFigure(Canvas: TCanvas); virtual; abstract;
   end;
 
   TRectangle = class(TFigure)
     ARect: TRect;
     procedure SetFirstDot(X, Y: Integer);
     procedure SetSecondDot(X, Y: Integer);
-    procedure Draw(Canvas: TCanvas); override;
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   TPolyline = class(TFigure)
     Vertexes: array of TPoint;
     procedure AddPoint(X, Y: Integer);
-    procedure Draw(Canvas: TCanvas); override;
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   TLine = class(TFigure)
     ALine: TRect;
     procedure SetFirstDot(X, Y: Integer);
     procedure SetSecondDot(X, Y: Integer);
-    procedure Draw(Canvas: TCanvas); override;
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   TEllipse = class(TFigure)
     ARect: TRect;
     procedure SetFirstDot(X, Y: Integer);
     procedure SetSecondDot(X, Y: Integer);
-    procedure Draw(Canvas: TCanvas); override;
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
 implementation
+procedure TFigure.Draw(Canvas: TCanvas);
+//var
+  //CurrentPenColor, CurrentBrushColor: TColor;
+begin
+  //CurrentPenColor := Canvas.Pen.Color;
+  //CurrentBrushColor := Canvas.Brush.Color;
+  Canvas.Pen.Color := PenColor;
+  Canvas.Brush.Color := BrushColor;
+  DrawFigure(Canvas);
+  //Canvas.Pen.Color := CurrentPenColor;
+  //Canvas.Brush.Color := CurrentBrushColor;
+
+end;
 
 procedure TPolyline.AddPoint(X, Y: Integer);
 begin
@@ -51,7 +65,7 @@ begin
   Vertexes[High(Vertexes)] := Point(X, Y);
 end;
 
-procedure TPolyline.Draw(Canvas: TCanvas);
+procedure TPolyline.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Polyline(Vertexes);
 end;
@@ -66,7 +80,7 @@ begin
   ARect := Rect(ARect.Left, ARect.Top, X, Y);
 end;
 
-procedure TRectangle.Draw(Canvas: TCanvas);
+procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Rectangle(ARect);
 end;
@@ -81,9 +95,20 @@ begin
   ARect := Rect(ARect.Left, ARect.Top, X, Y);
 end;
 
-procedure TEllipse.Draw(Canvas: TCanvas);
+procedure TEllipse.DrawFigure(Canvas: TCanvas);
+var
+  CurrentPenColor, CurrentBrushColor: TColor;
 begin
+  CurrentPenColor := Canvas.Pen.Color;
+  CurrentBrushColor := Canvas.Brush.Color;
+
+  Canvas.Pen.Color := PenColor;
+  Canvas.Brush.Color := BrushColor;
+
   Canvas.Ellipse(ARect);
+
+  Canvas.Pen.Color := CurrentPenColor;
+  Canvas.Brush.Color := CurrentBrushColor;
 end;
 
 procedure TLine.SetFirstDot(X, Y: Integer);
@@ -96,7 +121,7 @@ begin
   ALine := Rect(ALine.Left, ALine.Top, X, Y);
 end;
 
-procedure TLine.Draw(Canvas: TCanvas);
+procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Line(ALine);
 end;

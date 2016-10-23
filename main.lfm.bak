@@ -2162,6 +2162,14 @@ object VectorEditor: TVectorEditor
       Spacing = -1
       OnColorChanged = BrushColorBtnColorChanged
     end
+    object Label1: TLabel
+      Left = 7
+      Height = 15
+      Top = 189
+      Width = 34
+      Caption = 'Label1'
+      ParentColor = False
+    end
   end
   object MainMenu: TMainMenu
     left = 832

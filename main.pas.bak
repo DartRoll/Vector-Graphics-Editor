@@ -14,6 +14,7 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
+    Label1: TLabel;
     PenColorBtn: TColorButton;
     BrushColorBtn: TColorButton;
     MainMenu: TMainMenu;
@@ -112,10 +113,11 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if PaintingFlag then
   begin
-    PaintBox.Repaint;//TODO: найти способ поэффективнее
+    PaintBox.Canvas.Refresh;//TODO: найти способ поэффективнее
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
+  Label1.Caption := ColorToString(PaintBox.Canvas.brush.color);
 
 end;
 
@@ -130,18 +132,11 @@ end;
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var
   i:integer;
-  PenColor, BrushColor: TColor;
 begin
-  PenColor := PaintBox.Canvas.Pen.Color;
-  BrushColor := PaintBox.Canvas.Brush.Color;
   for i := 0 to High(Figures) do
   begin
-      PaintBox.Canvas.Pen.Color := Figures[i].PenColor;
-      PaintBox.Canvas.Brush.Color := Figures[i].BrushColor;
       Figures[i].Draw(PaintBox.Canvas);
   end;
-  PaintBox.Canvas.Pen.Color := PenColor;
-  PaintBox.Canvas.Brush.Color := BrushColor;
 end;
 
 procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);
@@ -167,9 +162,7 @@ end;
 
 procedure TVectorEditor.BrushColorBtnColorChanged(Sender: TObject);
 begin
-
   PaintBox.Canvas.Brush.Color := (Sender as TColorButton).ButtonColor;
-
 end;
 
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
