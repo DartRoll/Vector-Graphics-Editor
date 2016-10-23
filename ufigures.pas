@@ -48,6 +48,7 @@ implementation
 procedure TFigure.Draw(Canvas: TCanvas);
 begin
   Canvas.Pen.Color := PenColor;
+  Canvas.Pen.Width := Thickness;
   Canvas.Brush.Color := BrushColor;
   DrawFigure(Canvas);
 end;

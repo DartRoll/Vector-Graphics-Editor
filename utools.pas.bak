@@ -56,13 +56,13 @@ begin
   Figure.BrushColor := AColor;
 end;
 
-{TTool}
+{ TTool }
 
 procedure TTool.MouseUp(X, Y: Integer);
 begin
 end;
 
-{TPolylineTool}
+{ TPolylineTool }
 
 procedure TPolylineTool.MouseDown(X, Y: Integer);
 begin
@@ -75,7 +75,7 @@ begin
   (Figure as TPolyline).AddPoint(X, Y);
 end;
 
-{TRectangleTool}
+{ TRectangleTool }
 
 procedure TRectangleTool.MouseDown(X, Y: Integer);
 begin
@@ -88,7 +88,7 @@ begin
   (Figure as TRectangle).SetSecondPoint(X, Y);
 end;
 
-{TEllipseTool}
+{ TEllipseTool }
 
 procedure TEllipseTool.MouseDown(X, Y: Integer);
 begin
@@ -101,7 +101,7 @@ begin
   (Figure as TEllipse).SetSecondPoint(X, Y);
 end;
 
-{TLineTool}
+{ TLineTool }
 
 procedure TLineTool.MouseDown(X, Y: Integer);
 begin

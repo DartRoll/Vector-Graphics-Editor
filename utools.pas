@@ -14,6 +14,7 @@ type
     function GetFigure: TFigure;
     procedure SetPenColor(AColor: TColor);
     procedure SetBrushColor(AColor: TColor);
+    procedure SetThickness(Width: Integer);
     procedure MouseDown(X, Y: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
     procedure MouseUp(X, Y: Integer); virtual;
@@ -54,6 +55,11 @@ end;
 procedure TTool.SetBrushColor(AColor: TColor);
 begin
   Figure.BrushColor := AColor;
+end;
+
+procedure TTool.SetThickness(Width: Integer);
+begin
+  Figure.Thickness := Width;
 end;
 
 { TTool }

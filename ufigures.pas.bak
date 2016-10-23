@@ -43,7 +43,7 @@ type
 
 implementation
 
-{TFigure}
+{ TFigure }
 
 procedure TFigure.Draw(Canvas: TCanvas);
 begin
@@ -52,7 +52,7 @@ begin
   DrawFigure(Canvas);
 end;
 
-{TTwoPointFigure}
+{ TTwoPointFigure }
 
 procedure TTwoPointFigure.SetFirstPoint(X, Y: Integer);
 begin
@@ -64,7 +64,7 @@ begin
   Dimensions := Rect(Dimensions.Left, Dimensions.Top, X, Y);
 end;
 
-{TPolyline}
+{ TPolyline }
 
 procedure TPolyline.AddPoint(X, Y: Integer);
 begin
@@ -77,21 +77,21 @@ begin
   Canvas.Polyline(Vertexes);
 end;
 
-{TRectangle}
+{ TRectangle }
 
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Rectangle(Dimensions);
 end;
 
-{TEllipse}
+{ TEllipse }
 
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Ellipse(Dimensions);
 end;
 
-{TLine}
+{ TLine }
 
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin

@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 1018
+  Left = 1157
   Height = 627
-  Top = 181
+  Top = 197
   Width = 746
   Caption = 'VectorEditor'
   ClientHeight = 607
@@ -2162,13 +2162,67 @@ object VectorEditor: TVectorEditor
       Spacing = -1
       OnColorChanged = BrushColorBtnColorChanged
     end
-    object Label1: TLabel
-      Left = 7
-      Height = 15
-      Top = 189
-      Width = 34
-      Caption = 'Label1'
+    object LineColorLabel: TLabel
+      AnchorSideLeft.Control = InstrumentPanel
+      AnchorSideTop.Control = PenColorBtn
+      AnchorSideTop.Side = asrBottom
+      Left = 1
+      Height = 39
+      Top = 176
+      Width = 64
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Цвет линии'
+      Font.Height = -15
       ParentColor = False
+      ParentFont = False
+      WordWrap = True
+    end
+    object BrushColorLabel: TLabel
+      AnchorSideTop.Control = BrushColorBtn
+      AnchorSideTop.Side = asrBottom
+      Left = 64
+      Height = 37
+      Top = 176
+      Width = 64
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Цвет заливки'
+      Font.Height = -15
+      ParentColor = False
+      ParentFont = False
+      WordWrap = True
+    end
+    object LineWidthSpinEdit: TSpinEdit
+      Left = 64
+      Height = 28
+      Top = 254
+      Width = 64
+      Alignment = taRightJustify
+      AutoSelect = False
+      AutoSize = False
+      Font.Height = -15
+      MaxValue = 500
+      MinValue = 1
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      Value = 2
+    end
+    object LineWidthLabel: TLabel
+      AnchorSideRight.Control = LineWidthSpinEdit
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 20
+      Top = 260
+      Width = 128
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Толщина'
+      Font.Height = -15
+      ParentColor = False
+      ParentFont = False
+      WordWrap = True
     end
   end
   object MainMenu: TMainMenu

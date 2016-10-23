@@ -14,6 +14,9 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
+    BrushColorLabel: TLabel;
+    LineWidthLabel: TLabel;
+    LineColorLabel: TLabel;
     PenColorBtn: TColorButton;
     BrushColorBtn: TColorButton;
     MainMenu: TMainMenu;
@@ -29,6 +32,7 @@ type
     RectangleBtn: TSpeedButton;
     EllipseBtn: TSpeedButton;
     LineBtn: TSpeedButton;
+    LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
     procedure BrushColorBtnColorChanged(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
@@ -105,6 +109,7 @@ begin
   CurrentTool.MouseDown(X, Y);
   CurrentTool.SetPenColor(PenColorBtn.ButtonColor);
   CurrentTool.SetBrushColor(BrushColorBtn.ButtonColor);
+  CurrentTool.SetThickness(LineWidthSpinEdit.Value);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
