@@ -169,6 +169,7 @@ procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
 begin
   ClearFigures;
   PaintBox.Canvas.Clear;
+  PaintBox.Repaint;
 end;
 
 procedure TVectorEditor.EllipseBtnClick(Sender: TObject);

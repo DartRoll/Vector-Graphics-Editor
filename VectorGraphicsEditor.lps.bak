@@ -20,10 +20,9 @@
         <ComponentName Value="VectorEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="97"/>
-        <CursorPos X="54" Y="108"/>
+        <TopLine Value="79"/>
+        <CursorPos X="35" Y="140"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -43,10 +42,11 @@
         <Filename Value="ufigures.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UFigures"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="60"/>
-        <CursorPos X="11" Y="46"/>
+        <CursorPos X="6" Y="98"/>
         <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -67,13 +67,13 @@
         <ComponentName Value="aboutform"/>
         <ResourceBaseClass Value="Form"/>
         <CursorPos X="27" Y="30"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="17"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <TopLine Value="4188"/>
         <CursorPos Y="4214"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit6>
       <Unit7>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32wsforms.pp"/>
@@ -82,7 +82,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="357"/>
         <CursorPos Y="382"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit7>
       <Unit8>
         <Filename Value="C:\lazarus\lcl\include\brush.inc"/>

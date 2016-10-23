@@ -46,17 +46,16 @@ type
 
 implementation
 procedure TFigure.Draw(Canvas: TCanvas);
-var
-  CurrentPenColor, CurrentBrushColor: TColor;
+{var
+  //CurrentPenColor, CurrentBrushColor: TColor;}
 begin
-  CurrentPenColor := Canvas.Pen.Color;
-  CurrentBrushColor := Canvas.Brush.Color;
+  {CurrentPenColor := Canvas.Pen.Color;
+  CurrentBrushColor := Canvas.Brush.Color;}
   Canvas.Pen.Color := PenColor;
   Canvas.Brush.Color := BrushColor;
   DrawFigure(Canvas);
-  Canvas.Pen.Color := CurrentPenColor;
-  Canvas.Brush.Color := CurrentBrushColor;
-
+  {Canvas.Pen.Color := CurrentPenColor;
+  Canvas.Brush.Color := CurrentBrushColor; }
 end;
 
 procedure TPolyline.AddPoint(X, Y: Integer);
@@ -96,19 +95,8 @@ begin
 end;
 
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
-var
-  CurrentPenColor, CurrentBrushColor: TColor;
 begin
-  CurrentPenColor := Canvas.Pen.Color;
-  CurrentBrushColor := Canvas.Brush.Color;
-
-  Canvas.Pen.Color := PenColor;
-  Canvas.Brush.Color := BrushColor;
-
   Canvas.Ellipse(ARect);
-
-  Canvas.Pen.Color := CurrentPenColor;
-  Canvas.Brush.Color := CurrentBrushColor;
 end;
 
 procedure TLine.SetFirstDot(X, Y: Integer);

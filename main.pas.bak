@@ -104,8 +104,8 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
 begin
   PaintingFlag := True;
   CurrentTool.MouseDown(X, Y);
-  CurrentTool.SetPenColor(PaintBox.Canvas.Pen.Color);
-  CurrentTool.SetBrushColor(PaintBox.Canvas.Brush.Color);
+  CurrentTool.SetPenColor(PenColorBtn.ButtonColor);
+  CurrentTool.SetBrushColor(BrushColorBtn.ButtonColor);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -113,7 +113,7 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if PaintingFlag then
   begin
-    PaintBox.Canvas.Refresh;//TODO: найти способ поэффективнее
+    PaintBox.Repaint;//TODO: найти способ поэффективнее
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
