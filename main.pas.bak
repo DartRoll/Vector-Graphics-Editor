@@ -14,7 +14,8 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
-    ColorPalette: TColorPalette;
+    PenColorBtn: TColorButton;
+    BrushColorBtn: TColorButton;
     MainMenu: TMainMenu;
     FileMenuItem: TMenuItem;
     HelpMenuItem: TMenuItem;
@@ -29,9 +30,8 @@ type
     EllipseBtn: TSpeedButton;
     LineBtn: TSpeedButton;
     procedure AboutMenuItemClick(Sender: TObject);
+    procedure BrushColorBtnColorChanged(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
-    procedure ColorPaletteColorPick(Sender: TObject; AColor: TColor;
-      Shift: TShiftState);
     procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure LineBtnClick(Sender: TObject);
@@ -42,6 +42,7 @@ type
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
+    procedure PenColorBtnColorChanged(Sender: TObject);
     procedure PolylineBtnClick(Sender: TObject);
     procedure RectangleBtnClick(Sender: TObject);
 
@@ -102,7 +103,8 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
 begin
   PaintingFlag := True;
   CurrentTool.MouseDown(X, Y);
-  CurrentTool.SetColor(PaintBox.Canvas.Pen.Color);
+  CurrentTool.SetPenColor(PaintBox.Canvas.Pen.Color);
+  CurrentTool.SetBrushColor(PaintBox.Canvas.Brush.Color);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -128,13 +130,23 @@ end;
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var
   i:integer;
-
+  PenColor, BrushColor: TColor;
 begin
+  PenColor := PaintBox.Canvas.Pen.Color;
+  BrushColor := PaintBox.Canvas.Brush.Color;
   for i := 0 to High(Figures) do
   begin
-      PaintBox.Canvas.Pen.Color := Figures[i].Color;
+      PaintBox.Canvas.Pen.Color := Figures[i].PenColor;
+      PaintBox.Canvas.Brush.Color := Figures[i].BrushColor;
       Figures[i].Draw(PaintBox.Canvas);
   end;
+  PaintBox.Canvas.Pen.Color := PenColor;
+  PaintBox.Canvas.Brush.Color := BrushColor;
+end;
+
+procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);
+begin
+  PaintBox.Canvas.Pen.Color := (Sender as TColorButton).ButtonColor;
 end;
 
 procedure TVectorEditor.PolylineBtnClick(Sender: TObject);
@@ -153,16 +165,17 @@ begin
   aboutprogram.aboutProgramForm.Show;
 end;
 
+procedure TVectorEditor.BrushColorBtnColorChanged(Sender: TObject);
+begin
+
+  PaintBox.Canvas.Brush.Color := (Sender as TColorButton).ButtonColor;
+
+end;
+
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
 begin
   ClearFigures;
   PaintBox.Canvas.Clear;
-end;
-
-procedure TVectorEditor.ColorPaletteColorPick(Sender: TObject; AColor: TColor;
-  Shift: TShiftState);
-begin
-  PaintBox.Canvas.Pen.Color := AColor;
 end;
 
 procedure TVectorEditor.EllipseBtnClick(Sender: TObject);

@@ -10,6 +10,8 @@ uses
 type
 
   TFigure = class
+    Color: TColor;
+    Thickness: Integer;
     procedure Draw(Canvas: TCanvas); virtual; abstract;
   end;
 

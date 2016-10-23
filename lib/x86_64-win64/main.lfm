@@ -1,22 +1,25 @@
 object VectorEditor: TVectorEditor
-  Left = 737
-  Height = 480
-  Top = 415
-  Width = 741
+  Left = 1018
+  Height = 627
+  Top = 181
+  Width = 746
   Caption = 'VectorEditor'
-  ClientHeight = 460
-  ClientWidth = 741
+  ClientHeight = 607
+  ClientWidth = 746
+  Color = clWhite
   KeyPreview = True
   Menu = MainMenu
   LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 460
+    Height = 607
     Top = 0
-    Width = 613
+    Width = 618
     Align = alClient
     Anchors = [akTop]
+    Color = clWhite
+    ParentColor = False
     OnMouseDown = PaintBoxMouseDown
     OnMouseMove = PaintBoxMouseMove
     OnMouseUp = PaintBoxMouseUp
@@ -24,12 +27,14 @@ object VectorEditor: TVectorEditor
   end
   object InstrumentPanel: TPanel
     Left = 0
-    Height = 460
+    Height = 607
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 460
+    ClientHeight = 607
     ClientWidth = 128
+    Color = clWhite
+    ParentColor = False
     TabOrder = 0
     object PolylineBtn: TSpeedButton
       Left = 0
@@ -553,6 +558,7 @@ object VectorEditor: TVectorEditor
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6A6A6AFF0F0F
         0FFF000000FF000000FF444444FFE4E4E4FFFFFFFFFFFFFFFFFF
       }
+      GroupIndex = 1
       Spacing = -1
       OnClick = PolylineBtnClick
       ShowCaption = False
@@ -1079,6 +1085,7 @@ object VectorEditor: TVectorEditor
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       }
+      GroupIndex = 1
       OnClick = RectangleBtnClick
       ShowCaption = False
     end
@@ -1604,6 +1611,7 @@ object VectorEditor: TVectorEditor
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       }
+      GroupIndex = 1
       OnClick = EllipseBtnClick
       ShowCaption = False
     end
@@ -2129,21 +2137,30 @@ object VectorEditor: TVectorEditor
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       }
+      GroupIndex = 1
       OnClick = LineBtnClick
     end
-    object ColorPalette: TColorPalette
+    object PenColorBtn: TColorButton
       Left = 0
-      Height = 282
+      Height = 48
       Top = 128
-      Width = 100
-      ButtonHeight = 15
-      ButtonWidth = 15
-      ColumnCount = 7
-      PaletteKind = pkGradientPalette
-      PickedIndex = 0
-      SelectionKind = pskThick
-      OnColorPick = ColorPaletteColorPick
-      ParentColor = False
+      Width = 64
+      BorderWidth = 2
+      ButtonColorSize = 64
+      ButtonColor = clBlack
+      Spacing = -1
+      OnColorChanged = PenColorBtnColorChanged
+    end
+    object BrushColorBtn: TColorButton
+      Left = 64
+      Height = 48
+      Top = 128
+      Width = 64
+      BorderWidth = 2
+      ButtonColorSize = 64
+      ButtonColor = clDefault
+      Spacing = -1
+      OnColorChanged = BrushColorBtnColorChanged
     end
   end
   object MainMenu: TMainMenu

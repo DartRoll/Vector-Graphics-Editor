@@ -10,7 +10,8 @@ uses
 type
 
   TFigure = class
-    Color: TColor;
+    PenColor: TColor;
+    BrushColor: TColor;
     Thickness: Integer;
     procedure Draw(Canvas: TCanvas); virtual; abstract;
   end;

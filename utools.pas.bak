@@ -47,7 +47,7 @@ end;
 
 procedure TTool.SetColor(AColor: TColor);
 begin
-
+  Figure.Color := AColor;
 end;
 
 {

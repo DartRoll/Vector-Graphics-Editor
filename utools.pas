@@ -12,7 +12,8 @@ type
   TTool = class
     Figure: TFigure;
     function GetFigure: TFigure;
-    procedure SetColor(AColor: TColor);
+    procedure SetPenColor(AColor: TColor);
+    procedure SetBrushColor(AColor: TColor);
     procedure MouseDown(X, Y: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
     procedure MouseUp(X, Y: Integer); virtual; //abstract;
@@ -45,11 +46,15 @@ begin
   Result := Figure;
 end;
 
-procedure TTool.SetColor(AColor: TColor);
+procedure TTool.SetPenColor(AColor: TColor);
 begin
-  Figure.Color := AColor;
+  Figure.PenColor := AColor;
 end;
 
+procedure TTool.SetBrushColor(AColor: TColor);
+begin
+  Figure.BrushColor := AColor;
+end;
 {
 procedure TTool.Draw(Canvas: TCanvas);
 begin
