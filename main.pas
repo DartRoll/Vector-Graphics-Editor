@@ -14,7 +14,6 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
-    Label1: TLabel;
     PenColorBtn: TColorButton;
     BrushColorBtn: TColorButton;
     MainMenu: TMainMenu;
@@ -117,8 +116,6 @@ begin
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
-  Label1.Caption := ColorToString(PaintBox.Canvas.brush.color);
-
 end;
 
 procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;

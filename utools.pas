@@ -16,7 +16,7 @@ type
     procedure SetBrushColor(AColor: TColor);
     procedure MouseDown(X, Y: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
-    procedure MouseUp(X, Y: Integer); virtual; //abstract;
+    procedure MouseUp(X, Y: Integer); virtual;
   end;
 
   TRectangleTool = class(TTool)
@@ -55,23 +55,14 @@ procedure TTool.SetBrushColor(AColor: TColor);
 begin
   Figure.BrushColor := AColor;
 end;
-{
-procedure TTool.Draw(Canvas: TCanvas);
-begin
-end;
 
-procedure TTool.MouseDown(X, Y: Integer);
-begin
-end;
-
-procedure TTool.MouseMove(X, Y: Integer);
-begin
-end;
-}
+{ TTool }
 
 procedure TTool.MouseUp(X, Y: Integer);
 begin
 end;
+
+{ TPolylineTool }
 
 procedure TPolylineTool.MouseDown(X, Y: Integer);
 begin
@@ -84,6 +75,8 @@ begin
   (Figure as TPolyline).AddPoint(X, Y);
 end;
 
+{ TRectangleTool }
+
 procedure TRectangleTool.MouseDown(X, Y: Integer);
 begin
   Figure := TRectangle.Create;
@@ -95,6 +88,8 @@ begin
   (Figure as TRectangle).SetSecondPoint(X, Y);
 end;
 
+{ TEllipseTool }
+
 procedure TEllipseTool.MouseDown(X, Y: Integer);
 begin
   Figure := TEllipse.Create;
@@ -105,6 +100,8 @@ procedure TEllipseTool.MouseMove(X, Y: Integer);
 begin
   (Figure as TEllipse).SetSecondPoint(X, Y);
 end;
+
+{ TLineTool }
 
 procedure TLineTool.MouseDown(X, Y: Integer);
 begin

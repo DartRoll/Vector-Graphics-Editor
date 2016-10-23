@@ -42,18 +42,17 @@ type
   end;
 
 implementation
+
+{TFigure}
+
 procedure TFigure.Draw(Canvas: TCanvas);
-{var
-  CurrentPenColor, CurrentBrushColor: TColor;}
 begin
-  {CurrentPenColor := Canvas.Pen.Color;
-  CurrentBrushColor := Canvas.Brush.Color;}
   Canvas.Pen.Color := PenColor;
   Canvas.Brush.Color := BrushColor;
   DrawFigure(Canvas);
-  {Canvas.Pen.Color := CurrentPenColor;
-  Canvas.Brush.Color := CurrentBrushColor; }
 end;
+
+{TTwoPointFigure}
 
 procedure TTwoPointFigure.SetFirstPoint(X, Y: Integer);
 begin
@@ -64,6 +63,8 @@ procedure TTwoPointFigure.SetSecondPoint(X, Y: Integer);
 begin
   Dimensions := Rect(Dimensions.Left, Dimensions.Top, X, Y);
 end;
+
+{TPolyline}
 
 procedure TPolyline.AddPoint(X, Y: Integer);
 begin
@@ -76,19 +77,25 @@ begin
   Canvas.Polyline(Vertexes);
 end;
 
+{TRectangle}
+
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(ARect);
+  Canvas.Rectangle(Dimensions);
 end;
+
+{TEllipse}
 
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Ellipse(ARect);
+  Canvas.Ellipse(Dimensions);
 end;
+
+{TLine}
 
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Line(ALine);
+  Canvas.Line(Dimensions);
 end;
 
 end.
