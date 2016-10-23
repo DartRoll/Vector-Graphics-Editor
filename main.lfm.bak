@@ -33,7 +33,7 @@ object VectorEditor: TVectorEditor
     Align = alLeft
     ClientHeight = 607
     ClientWidth = 128
-    Color = clWhite
+    Color = 16119285
     ParentColor = False
     TabOrder = 0
     object PolylineBtn: TSpeedButton
