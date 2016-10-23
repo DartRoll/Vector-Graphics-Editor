@@ -20,9 +20,10 @@
         <ComponentName Value="VectorEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
         <TopLine Value="94"/>
-        <CursorPos X="58" Y="110"/>
+        <CursorPos X="59" Y="137"/>
         <UsageCount Value="51"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -42,11 +43,10 @@
         <Filename Value="ufigures.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UFigures"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="22"/>
-        <CursorPos X="50" Y="36"/>
+        <CursorPos X="63" Y="35"/>
         <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit3>

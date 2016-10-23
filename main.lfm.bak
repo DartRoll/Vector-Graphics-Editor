@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 1157
+  Left = 980
   Height = 627
-  Top = 197
+  Top = 187
   Width = 746
   Caption = 'VectorEditor'
   ClientHeight = 607
@@ -2205,7 +2205,6 @@ object VectorEditor: TVectorEditor
       MaxValue = 500
       MinValue = 1
       ParentFont = False
-      ReadOnly = True
       TabOrder = 0
       Value = 2
     end
