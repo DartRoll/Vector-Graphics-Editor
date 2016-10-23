@@ -87,34 +87,34 @@ end;
 procedure TRectangleTool.MouseDown(X, Y: Integer);
 begin
   Figure := TRectangle.Create;
-  (Figure as TRectangle).SetFirstDot(X,Y);
+  (Figure as TRectangle).SetFirstPoint(X,Y);
 end;
 
 procedure TRectangleTool.MouseMove(X, Y: Integer);
 begin
-  (Figure as TRectangle).SetSecondDot(X, Y);
+  (Figure as TRectangle).SetSecondPoint(X, Y);
 end;
 
 procedure TEllipseTool.MouseDown(X, Y: Integer);
 begin
   Figure := TEllipse.Create;
-  (Figure as TEllipse).SetFirstDot(X,Y);
+  (Figure as TEllipse).SetFirstPoint(X,Y);
 end;
 
 procedure TEllipseTool.MouseMove(X, Y: Integer);
 begin
-  (Figure as TEllipse).SetSecondDot(X, Y);
+  (Figure as TEllipse).SetSecondPoint(X, Y);
 end;
 
 procedure TLineTool.MouseDown(X, Y: Integer);
 begin
   Figure := TLine.Create;
-  (Figure as TLine).SetFirstDot(X, Y);
+  (Figure as TLine).SetFirstPoint(X, Y);
 end;
 
 procedure TLineTool.MouseMove(X, Y: Integer);
 begin
-  (Figure as TLine).SetSecondDot(X, Y);
+  (Figure as TLine).SetSecondPoint(X, Y);
 end;
 
 end.
