@@ -140,11 +140,9 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if Drawing then
   begin
-    //PaintBox.Repaint;//TODO: найти способ поэффективнее
-
+    PaintBox.Repaint;//TODO: найти способ поэффективнее
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
-    Update;
   end;
 end;
 
