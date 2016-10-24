@@ -8,63 +8,75 @@ uses
   Classes, SysUtils, UFigures, Graphics;
 
 type
-
   TTool = class
-    Figure: TFigure;
-    function GetFigure: TFigure;
-    procedure SetPenColor(AColor: TColor);
-    procedure SetBrushColor(AColor: TColor);
-    procedure SetThickness(Width: Integer);
+    function GetFigure: TFigure; virtual; abstract;
+    procedure SetPenColor(AColor: TColor); virtual; abstract;
+    procedure SetBrushColor(AColor: TColor); virtual; abstract;
+    procedure SetThickness(Width: Integer); virtual; abstract;
     procedure MouseDown(X, Y: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
-    procedure MouseUp(X, Y: Integer); virtual;
+    procedure MouseUp(X, Y: Integer); virtual; abstract;
   end;
 
-  TRectangleTool = class(TTool)
+  TPointerTool = class(TTool)
+  end;
+
+  TDrawinTool = class(TTool)//был TTool
+    Figure: TFigure;
+    function GetFigure: TFigure; override;
+    procedure SetPenColor(AColor: TColor); override;
+    procedure SetBrushColor(AColor: TColor); override;
+    procedure SetThickness(Width: Integer); override;
+    {procedure MouseDown(X, Y: Integer); virtual; abstract;
+    procedure MouseMove(X, Y: Integer); virtual; abstract;}
+    procedure MouseUp(X, Y: Integer); override;
+  end;
+
+  TRectangleTool = class(TDrawinTool)
     procedure MouseDown(X, Y: Integer); override;
     procedure MouseMove(X, Y: Integer); override;
   end;
 
-  TPolylineTool = class(TTool)
+  TPolylineTool = class(TDrawinTool)
     procedure MouseDown(X, Y: Integer); override;
     procedure MouseMove(X, Y: Integer); override;
   end;
 
-  TLineTool = class(TTool)
+  TLineTool = class(TDrawinTool)
     procedure MouseDown(X, Y: Integer); override;
     procedure MouseMove(X, Y: Integer); override;
   end;
 
-  TEllipseTool = class(TTool)
+  TEllipseTool = class(TDrawinTool)
     procedure MouseDown(X, Y: Integer); override;
     procedure MouseMove(X, Y: Integer); override;
   end;
 
 implementation
 
-function TTool.GetFigure: TFigure;
+function TDrawinTool.GetFigure: TFigure;
 begin
   Result := Figure;
 end;
 
-procedure TTool.SetPenColor(AColor: TColor);
+procedure TDrawinTool.SetPenColor(AColor: TColor);
 begin
   Figure.PenColor := AColor;
 end;
 
-procedure TTool.SetBrushColor(AColor: TColor);
+procedure TDrawinTool.SetBrushColor(AColor: TColor);
 begin
   Figure.BrushColor := AColor;
 end;
 
-procedure TTool.SetThickness(Width: Integer);
+procedure TDrawinTool.SetThickness(Width: Integer);
 begin
   Figure.Thickness := Width;
 end;
 
-{ TTool }
+{ TDrawinTool }
 
-procedure TTool.MouseUp(X, Y: Integer);
+procedure TDrawinTool.MouseUp(X, Y: Integer);
 begin
 end;
 
