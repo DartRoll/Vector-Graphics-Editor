@@ -10,31 +10,62 @@ uses
 type
 
   TFigure = class
-    procedure Draw(Canvas: TCanvas); virtual; abstract;
+    PenColor: TColor;
+    BrushColor: TColor;
+    Thickness: Integer;
+    procedure Draw(Canvas: TCanvas);
+    procedure DrawFigure(Canvas: TCanvas); virtual; abstract;
   end;
 
-  TRectangle = class(TFigure)
-    ARect: TRect;
-    procedure SetFirstDot(X, Y: Integer);
-    procedure SetSecondDot(X, Y: Integer);
-    procedure Draw(Canvas: TCanvas); override;
+  TTwoPointFigure = class(TFigure)
+    Dimensions: TRect;
+    procedure SetFirstPoint(X, Y: Integer); virtual;
+    procedure SetSecondPoint(X, Y: Integer); virtual;
+  end;
+
+  TRectangle = class(TTwoPointFigure)
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   TPolyline = class(TFigure)
     Vertexes: array of TPoint;
     procedure AddPoint(X, Y: Integer);
-    procedure Draw(Canvas: TCanvas); override;
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
-  TLine = class(TFigure)
-
+  TLine = class(TTwoPointFigure)
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
-  TEllipse = class(TFigure)
-
+  TEllipse = class(TTwoPointFigure)
+    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
 implementation
+
+{ TFigure }
+
+procedure TFigure.Draw(Canvas: TCanvas);
+begin
+  Canvas.Pen.Color := PenColor;
+  Canvas.Pen.Width := Thickness;
+  Canvas.Brush.Color := BrushColor;
+  DrawFigure(Canvas);
+end;
+
+{ TTwoPointFigure }
+
+procedure TTwoPointFigure.SetFirstPoint(X, Y: Integer);
+begin
+  Dimensions := Rect(X, Y, X, Y);
+end;
+
+procedure TTwoPointFigure.SetSecondPoint(X, Y: Integer);
+begin
+  Dimensions := Rect(Dimensions.Left, Dimensions.Top, X, Y);
+end;
+
+{ TPolyline }
 
 procedure TPolyline.AddPoint(X, Y: Integer);
 begin
@@ -42,24 +73,30 @@ begin
   Vertexes[High(Vertexes)] := Point(X, Y);
 end;
 
-procedure TPolyline.Draw(Canvas: TCanvas);
+procedure TPolyline.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Polyline(Vertexes);
 end;
 
-procedure TRectangle.SetFirstDot(X, Y: Integer);
+{ TRectangle }
+
+procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  ARect := Rect(X, Y, X, Y);
+  Canvas.Rectangle(Dimensions);
 end;
 
-procedure TRectangle.SetSecondDot(X, Y: Integer);
+{ TEllipse }
+
+procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  ARect := Rect(ARect.Left, ARect.Top, X, Y);
+  Canvas.Ellipse(Dimensions);
 end;
 
-procedure TRectangle.Draw(Canvas: TCanvas);
+{ TLine }
+
+procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(ARect);
+  Canvas.Line(Dimensions);
 end;
 
 end.
