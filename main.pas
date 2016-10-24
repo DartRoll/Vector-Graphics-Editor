@@ -140,8 +140,7 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if Drawing then
   begin
-    //PaintBox.Repaint;//TODO: найти способ поэффективнее
-    PaintBox.Update;
+    PaintBox.Repaint;//TODO: найти способ поэффективнее
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
@@ -171,14 +170,12 @@ end;
 
 procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);
 begin
-  //PaintBox.Canvas.Pen.Color := (Sender as TColorButton).ButtonColor;
   PenColor := (Sender as TColorButton).ButtonColor;
 end;
 
 procedure TVectorEditor.PolylineBtnClick(Sender: TObject);
 begin
   SetCurrentTool(PolylineTool);
-  //ShowMessage(BoolToStr(PolylineBtn.Down,True));
 end;
 
 procedure TVectorEditor.RectangleBtnClick(Sender: TObject);
@@ -198,7 +195,6 @@ end;
 
 procedure TVectorEditor.BrushColorBtnColorChanged(Sender: TObject);
 begin
-  //PaintBox.Canvas.Brush.Color := (Sender as TColorButton).ButtonColor;
   BrushColor := (Sender as TColorButton).ButtonColor;
 end;
 
@@ -221,7 +217,7 @@ RectangleTool := TRectangleTool.Create;
 EllipseTool := TEllipseTool.Create;
 LineTool := TLineTool.Create;
 PointerTool := TPointerTool.Create;
-
 CurrentTool := PointerTool;
+
 end.
 
