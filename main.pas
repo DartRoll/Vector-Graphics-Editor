@@ -5,7 +5,7 @@ unit main;
 interface
 
 uses
-  Classes, Contnrs, SysUtils, FileUtil, ColorPalette, Forms, Controls, Graphics,
+  Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics,
   Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
   Buttons, ActnList, UFigures, UTools;
 
@@ -39,7 +39,7 @@ type
     procedure ClearMenuItemClick(Sender: TObject);
     procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
-    procedure InstrumentPanelPaint(Sender: TObject);
+    //procedure InstrumentPanelPaint(Sender: TObject);
     procedure LineBtnClick(Sender: TObject);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
@@ -105,12 +105,13 @@ begin
   Application.Terminate;
 end;
 
-procedure TVectorEditor.InstrumentPanelPaint(Sender: TObject);
+//Не поддерживается старой версией lazrus
+{procedure TVectorEditor.InstrumentPanelPaint(Sender: TObject);
 begin
   PenColorBtn.ButtonColor := PenColor;
   BrushColorBtn.ButtonColor := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
-end;
+end;}
 
 procedure TVectorEditor.LineBtnClick(Sender: TObject);
 begin
@@ -140,7 +141,7 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if Drawing then
   begin
-    PaintBox.Repaint;//TODO: найти способ поэффективнее
+    PaintBox.Refresh;//TODO: найти способ поэффективнее
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
@@ -154,7 +155,7 @@ begin
     Drawing := False;
     SaveFigure(CurrentTool.GetFigure);
     CurrentTool.MouseUp(X, Y);
-    PaintBox.Repaint;
+    PaintBox.Refresh;
   end;
 end;
 

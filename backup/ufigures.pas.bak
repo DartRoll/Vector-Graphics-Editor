@@ -18,7 +18,7 @@ type
   end;
 
   TTwoPointFigure = class(TFigure)
-    Bounds: TRect;
+    Dimensions: TRect;
     procedure SetFirstPoint(X, Y: Integer); virtual;
     procedure SetSecondPoint(X, Y: Integer); virtual;
   end;
@@ -57,12 +57,12 @@ end;
 
 procedure TTwoPointFigure.SetFirstPoint(X, Y: Integer);
 begin
-  Bounds := Rect(X, Y, X, Y);
+  Dimensions := Rect(X, Y, X, Y);
 end;
 
 procedure TTwoPointFigure.SetSecondPoint(X, Y: Integer);
 begin
-  Bounds := Rect(Bounds.Left, Bounds.Top, X, Y);
+  Dimensions := Rect(Dimensions.Left, Dimensions.Top, X, Y);
 end;
 
 { TPolyline }
@@ -82,21 +82,21 @@ end;
 
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(Bounds);
+  Canvas.Rectangle(Dimensions);
 end;
 
 { TEllipse }
 
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Ellipse(Bounds);
+  Canvas.Ellipse(Dimensions);
 end;
 
 { TLine }
 
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Line(Bounds);
+  Canvas.Line(Dimensions);
 end;
 
 end.

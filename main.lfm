@@ -1,21 +1,21 @@
 object VectorEditor: TVectorEditor
-  Left = 416
-  Height = 627
-  Top = 230
-  Width = 727
+  Left = 283
+  Height = 785
+  Top = 90
+  Width = 1320
   Caption = 'VectorEditor'
-  ClientHeight = 607
-  ClientWidth = 727
+  ClientHeight = 765
+  ClientWidth = 1320
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.2.6.0'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 607
+    Height = 765
     Top = 0
-    Width = 599
+    Width = 1192
     Align = alClient
     Anchors = [akTop]
     Color = clWhite
@@ -27,16 +27,15 @@ object VectorEditor: TVectorEditor
   end
   object InstrumentPanel: TPanel
     Left = 0
-    Height = 607
+    Height = 765
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 607
+    ClientHeight = 765
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
     TabOrder = 0
-    OnPaint = InstrumentPanelPaint
     object PolylineBtn: TSpeedButton
       Left = 0
       Height = 64
