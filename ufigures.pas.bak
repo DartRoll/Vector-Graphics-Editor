@@ -42,14 +42,12 @@ type
   TLine = class(TTwoPointFigure)
 //    constructor Create(AX, AY: Integer;
 //      APenColor, ABrushColor: TColor; AThickness: Integer);
-    procedure AddPoint(X, Y: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   TEllipse = class(TTwoPointFigure)
 //    constructor Create(AX, AY: Integer;
 //      APenColor, ABrushColor: TColor; AThickness: Integer);
-    procedure AddPoint(X, Y: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 

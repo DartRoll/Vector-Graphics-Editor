@@ -26,8 +26,6 @@ type
   end;
 
   TRectangle = class(TTwoPointFigure)
-    {constructor Create(AX, AY: Integer;
-      APenColor, ABrushColor: TColor; AThickness: Integer);  }
    procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
@@ -40,14 +38,10 @@ type
   end;
 
   TLine = class(TTwoPointFigure)
-//    constructor Create(AX, AY: Integer;
-//      APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   TEllipse = class(TTwoPointFigure)
-//    constructor Create(AX, AY: Integer;
-//      APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
@@ -102,11 +96,6 @@ begin
 end;
 
 { TRectangle }
-{constructor TRectangle.Create(AX, AY: Integer;
-      APenColor, ABrushColor: TColor; AThickness: Integer);
-begin
-  inherited;
-end;}
 
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
