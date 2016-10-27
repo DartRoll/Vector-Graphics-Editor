@@ -1,21 +1,22 @@
 object VectorEditor: TVectorEditor
-  Left = 416
-  Height = 627
-  Top = 230
-  Width = 727
+  Left = 310
+  Height = 785
+  Top = 94
+  Width = 1320
   Caption = 'VectorEditor'
-  ClientHeight = 607
-  ClientWidth = 727
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
+  OnCreate = FormCreate
   LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
-    Left = 128
-    Height = 607
+    Left = 0
+    Height = 0
     Top = 0
-    Width = 599
+    Width = 0
     Align = alClient
     Anchors = [akTop]
     Color = clWhite
@@ -25,18 +26,17 @@ object VectorEditor: TVectorEditor
     OnMouseUp = PaintBoxMouseUp
     OnPaint = PaintBoxPaint
   end
-  object InstrumentPanel: TPanel
+  object ToolPanel: TPanel
     Left = 0
-    Height = 607
+    Height = 0
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 607
+    ClientHeight = 0
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
     TabOrder = 0
-    OnPaint = InstrumentPanelPaint
     object PolylineBtn: TSpeedButton
       Left = 0
       Height = 64
@@ -2164,7 +2164,7 @@ object VectorEditor: TVectorEditor
       OnColorChanged = BrushColorBtnColorChanged
     end
     object PenColorLabel: TLabel
-      AnchorSideLeft.Control = InstrumentPanel
+      AnchorSideLeft.Control = ToolPanel
       AnchorSideTop.Control = PenColorBtn
       AnchorSideTop.Side = asrBottom
       Left = 1
@@ -2748,7 +2748,6 @@ object VectorEditor: TVectorEditor
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       }
       GroupIndex = 1
-      OnClick = PointerBtnClick
       ShowCaption = False
     end
   end

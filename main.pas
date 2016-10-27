@@ -27,7 +27,7 @@ type
     FileDividerMenuItem: TMenuItem;
     ClearMenuItem: TMenuItem;
     PaintBox: TPaintBox;
-    InstrumentPanel: TPanel;
+    ToolPanel: TPanel;
     PolylineBtn: TSpeedButton;
     RectangleBtn: TSpeedButton;
     EllipseBtn: TSpeedButton;
@@ -39,7 +39,7 @@ type
     procedure ClearMenuItemClick(Sender: TObject);
     procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
-    //procedure InstrumentPanelPaint(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure LineBtnClick(Sender: TObject);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
@@ -52,7 +52,6 @@ type
     procedure PenColorBtnColorChanged(Sender: TObject);
     procedure PolylineBtnClick(Sender: TObject);
     procedure RectangleBtnClick(Sender: TObject);
-    procedure PointerBtnClick(Sender: TObject);
 
   private
     { private declarations }
@@ -68,9 +67,8 @@ var
   BrushColor: TColor = clWhite;
   LineWidth: Integer = 2;
   CurrentTool: TTool;
-  Drawing: Boolean = False;
-  PolylineTool, RectangleTool, EllipseTool, LineTool: TDrawinTool;
-  PointerTool: TPointerTool;
+  isDrawing: Boolean = False;
+  PolylineTool, RectangleTool, EllipseTool, LineTool: TTool;
   VectorEditor: TVectorEditor;
 
 implementation
@@ -89,9 +87,7 @@ procedure ClearFigures;
 var i:Integer;
 begin
   for i := 0 to High(Figures) do
-    begin
-      Figures[i].Free;
-    end;
+    Figures[i].Destroy;
   Figures := nil;
 end;
 
@@ -105,13 +101,12 @@ begin
   Application.Terminate;
 end;
 
-//Не поддерживается старой версией lazrus
-{procedure TVectorEditor.InstrumentPanelPaint(Sender: TObject);
+procedure TVectorEditor.FormCreate(Sender: TObject);
 begin
-  PenColorBtn.ButtonColor := PenColor;
-  BrushColorBtn.ButtonColor := BrushColor;
+  //PenColorBtn.ButtonColor := PenColor;
+  //BrushColorBtn.ButtonColor := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
-end;}
+end;
 
 procedure TVectorEditor.LineBtnClick(Sender: TObject);
 begin
@@ -126,22 +121,19 @@ end;
 procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  if not (CurrentTool is TPointerTool) then
-  begin
-    Drawing := True;
-    CurrentTool.MouseDown(X, Y);
-    CurrentTool.SetPenColor(PenColor);
-    CurrentTool.SetBrushColor(BrushColor);
-    CurrentTool.SetThickness(LineWidth);
-  end;
+  isDrawing := True;
+  CurrentTool.MouseDown(X, Y, PenColor, BrushColor, LineWidth);
+  {CurrentTool.SetPenColor(PenColor);
+  CurrentTool.SetBrushColor(BrushColor);
+  CurrentTool.SetThickness(LineWidth);}
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-  if Drawing then
+  if isDrawing then
   begin
-    PaintBox.Refresh;//TODO: найти способ поэффективнее
+    PaintBox.Refresh;
     CurrentTool.MouseMove(X, Y);
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
@@ -150,18 +142,13 @@ end;
 procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  if Drawing then
-  begin
-    Drawing := False;
-    SaveFigure(CurrentTool.GetFigure);
-    CurrentTool.MouseUp(X, Y);
-    PaintBox.Refresh;
-  end;
+  isDrawing := False;
+  SaveFigure(CurrentTool.GetFigure);
+  CurrentTool.MouseUp(X, Y);
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
-var
-  i:integer;
+var i:integer;
 begin
   for i := 0 to High(Figures) do
   begin
@@ -182,11 +169,6 @@ end;
 procedure TVectorEditor.RectangleBtnClick(Sender: TObject);
 begin
   SetCurrentTool(RectangleTool);
-end;
-
-procedure TVectorEditor.PointerBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(PointerTool);
 end;
 
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);
@@ -217,8 +199,6 @@ PolylineTool := TPolylineTool.Create;
 RectangleTool := TRectangleTool.Create;
 EllipseTool := TEllipseTool.Create;
 LineTool := TLineTool.Create;
-PointerTool := TPointerTool.Create;
-CurrentTool := PointerTool;
 
 end.
-
+                                                             g
