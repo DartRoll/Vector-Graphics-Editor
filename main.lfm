@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 710
+  Left = 463
   Height = 630
-  Top = 269
+  Top = 192
   Width = 899
   Caption = 'VectorEditor'
   ClientHeight = 610
@@ -38,9 +38,9 @@ object VectorEditor: TVectorEditor
     ParentColor = False
     TabOrder = 0
     object LineWidthSpinEdit: TSpinEdit
-      Left = 72
+      Left = 64
       Height = 28
-      Top = 496
+      Top = 472
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -55,10 +55,10 @@ object VectorEditor: TVectorEditor
     end
     object LineWidthLabel: TLabel
       AnchorSideRight.Control = LineWidthSpinEdit
-      Left = -14
+      Left = 0
       Height = 20
-      Top = 480
-      Width = 86
+      Top = 472
+      Width = 64
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       Caption = 'Толщина'
@@ -86,8 +86,9 @@ object VectorEditor: TVectorEditor
       TabAdvance = aaNone
       TabOrder = 1
       TabStop = False
+      OnDblClick = PaletteGridDblClick
       OnDrawCell = PaletteGridDrawCell
-      OnMouseUp = PaletteGridMouseUp
+      OnMouseDown = PaletteGridMouseDown
     end
     object BrushColorPanel: TPanel
       Left = 48
@@ -132,7 +133,7 @@ object VectorEditor: TVectorEditor
       end
     end
   end
-  object ColorDialog1: TColorDialog
+  object ColorDialog: TColorDialog
     Color = clBlack
     CustomColors.Strings = (
       'ColorA=000000'
@@ -156,6 +157,7 @@ object VectorEditor: TVectorEditor
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 784
+    left = 281
+    top = 72
   end
 end

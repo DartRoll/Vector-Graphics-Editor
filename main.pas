@@ -14,7 +14,7 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
-    ColorDialog1: TColorDialog;
+    ColorDialog: TColorDialog;
     PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
     MainMenu: TMainMenu;
@@ -42,9 +42,10 @@ type
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
+    procedure PaletteGridDblClick(Sender: TObject);
     procedure PaletteGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
-    procedure PaletteGridMouseUp(Sender: TObject; Button: TMouseButton;
+    procedure PaletteGridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PenColorBtnColorChanged(Sender: TObject);
     procedure ToolClick(Sender: TObject);
@@ -218,6 +219,15 @@ begin
   end;
 end;
 
+procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
+begin
+  if ColorDialog.Execute then begin
+    with Sender as TDrawGrid do begin
+      PaletteColors[Col, Row] := ColorDialog.Color;
+    end;
+  end;
+end;
+
 procedure TVectorEditor.PaletteGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
 begin
@@ -225,7 +235,7 @@ begin
   PaletteGrid.Canvas.FillRect(aRect);
 end;
 
-procedure TVectorEditor.PaletteGridMouseUp(Sender: TObject;
+procedure TVectorEditor.PaletteGridMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   aCol, aRow: Integer;
