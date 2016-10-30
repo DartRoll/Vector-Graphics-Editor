@@ -4,13 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="VectorGraphicsEditor.lpr"/>
         <IsPartOfProject Value="True"/>
         <WindowIndex Value="1"/>
         <CursorPos X="22" Y="21"/>
-        <UsageCount Value="73"/>
+        <UsageCount Value="74"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -21,9 +21,9 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="97"/>
-        <CursorPos X="42" Y="142"/>
-        <UsageCount Value="73"/>
+        <TopLine Value="184"/>
+        <CursorPos X="18" Y="205"/>
+        <UsageCount Value="74"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -35,7 +35,7 @@
         <ResourceBaseClass Value="Form"/>
         <WindowIndex Value="1"/>
         <CursorPos Y="5"/>
-        <UsageCount Value="69"/>
+        <UsageCount Value="70"/>
       </Unit2>
       <Unit3>
         <Filename Value="ufigures.pas"/>
@@ -44,7 +44,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="7"/>
         <CursorPos X="19" Y="21"/>
-        <UsageCount Value="64"/>
+        <UsageCount Value="65"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -53,9 +53,9 @@
         <UnitName Value="UTools"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="11"/>
+        <TopLine Value="98"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="63"/>
+        <UsageCount Value="64"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -151,134 +151,141 @@
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32winapi.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="1905"/>
         <CursorPos Y="1931"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="VectorGraphicsEditor.lpi"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="34"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit18>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="main.pas"/>
-        <Caret Line="147" TopLine="103"/>
+        <Caret Line="136" Column="7" TopLine="111"/>
       </Position1>
       <Position2>
         <Filename Value="main.pas"/>
-        <Caret Line="94" Column="48" TopLine="61"/>
+        <Caret Line="189" Column="16" TopLine="163"/>
       </Position2>
       <Position3>
         <Filename Value="main.pas"/>
-        <Caret Line="61" Column="21" TopLine="23"/>
+        <Caret Line="186" TopLine="160"/>
       </Position3>
       <Position4>
         <Filename Value="main.pas"/>
-        <Caret Line="134" Column="24" TopLine="109"/>
+        <Caret Line="47" Column="42" TopLine="10"/>
       </Position4>
       <Position5>
         <Filename Value="main.pas"/>
-        <Caret Line="136" Column="24" TopLine="111"/>
+        <Caret Line="135" Column="34" TopLine="110"/>
       </Position5>
       <Position6>
         <Filename Value="main.pas"/>
-        <Caret Line="189" Column="35" TopLine="165"/>
+        <Caret Line="86" Column="45" TopLine="45"/>
       </Position6>
       <Position7>
         <Filename Value="main.pas"/>
-        <Caret Line="136" Column="7" TopLine="111"/>
+        <Caret Line="93" Column="23" TopLine="67"/>
       </Position7>
       <Position8>
         <Filename Value="main.pas"/>
-        <Caret Line="189" Column="16" TopLine="163"/>
+        <Caret Line="47" Column="18" TopLine="16"/>
       </Position8>
       <Position9>
         <Filename Value="main.pas"/>
-        <Caret Line="186" TopLine="160"/>
+        <Caret Line="184" Column="5" TopLine="143"/>
       </Position9>
       <Position10>
         <Filename Value="main.pas"/>
-        <Caret Line="47" Column="42" TopLine="10"/>
+        <Caret Line="93" Column="12" TopLine="55"/>
       </Position10>
       <Position11>
         <Filename Value="main.pas"/>
-        <Caret Line="135" Column="34" TopLine="110"/>
+        <Caret Line="89" Column="18" TopLine="55"/>
       </Position11>
       <Position12>
         <Filename Value="main.pas"/>
-        <Caret Line="86" Column="45" TopLine="45"/>
+        <Caret Line="95" Column="14" TopLine="69"/>
       </Position12>
       <Position13>
         <Filename Value="main.pas"/>
-        <Caret Line="93" Column="23" TopLine="67"/>
+        <Caret Line="210" Column="24" TopLine="159"/>
       </Position13>
       <Position14>
         <Filename Value="main.pas"/>
-        <Caret Line="47" Column="18" TopLine="16"/>
+        <Caret Line="136" Column="39" TopLine="93"/>
       </Position14>
       <Position15>
         <Filename Value="main.pas"/>
-        <Caret Line="184" Column="5" TopLine="143"/>
+        <Caret Line="124" Column="19" TopLine="106"/>
       </Position15>
       <Position16>
         <Filename Value="main.pas"/>
-        <Caret Line="93" Column="12" TopLine="55"/>
+        <Caret Line="123" Column="19" TopLine="105"/>
       </Position16>
       <Position17>
         <Filename Value="main.pas"/>
-        <Caret Line="89" Column="18" TopLine="55"/>
+        <Caret Line="122" Column="19" TopLine="104"/>
       </Position17>
       <Position18>
-        <Filename Value="C:\lazarus\lcl\interfaces\win32\win32winapi.inc"/>
-        <Caret Line="1931" TopLine="1905"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="121" Column="19" TopLine="103"/>
       </Position18>
       <Position19>
         <Filename Value="main.pas"/>
-        <Caret Line="95" Column="14" TopLine="69"/>
+        <Caret Line="120" Column="19" TopLine="102"/>
       </Position19>
       <Position20>
         <Filename Value="main.pas"/>
-        <Caret Line="210" Column="24" TopLine="159"/>
+        <Caret Line="119" Column="19" TopLine="101"/>
       </Position20>
       <Position21>
         <Filename Value="main.pas"/>
-        <Caret Line="136" Column="39" TopLine="93"/>
+        <Caret Line="120" Column="19" TopLine="102"/>
       </Position21>
       <Position22>
         <Filename Value="main.pas"/>
-        <Caret Line="139" Column="33" TopLine="163"/>
+        <Caret Line="73" Column="32" TopLine="43"/>
       </Position22>
       <Position23>
         <Filename Value="main.pas"/>
-        <Caret Line="124" Column="19" TopLine="106"/>
+        <Caret Line="143" Column="42" TopLine="110"/>
       </Position23>
       <Position24>
         <Filename Value="main.pas"/>
-        <Caret Line="123" Column="19" TopLine="105"/>
+        <Caret Line="200" TopLine="187"/>
       </Position24>
       <Position25>
         <Filename Value="main.pas"/>
-        <Caret Line="122" Column="19" TopLine="104"/>
+        <Caret Line="58" Column="33" TopLine="44"/>
       </Position25>
       <Position26>
         <Filename Value="main.pas"/>
-        <Caret Line="121" Column="19" TopLine="103"/>
+        <Caret Line="148" Column="29" TopLine="132"/>
       </Position26>
       <Position27>
         <Filename Value="main.pas"/>
-        <Caret Line="120" Column="19" TopLine="102"/>
+        <Caret Line="58" Column="16" TopLine="41"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="119" Column="19" TopLine="101"/>
+        <Caret Line="149" Column="57" TopLine="120"/>
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="120" Column="19" TopLine="102"/>
+        <Caret Line="146" Column="72" TopLine="117"/>
       </Position29>
       <Position30>
         <Filename Value="main.pas"/>
-        <Caret Line="73" Column="32" TopLine="43"/>
+        <Caret Line="129" Column="11" TopLine="102"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

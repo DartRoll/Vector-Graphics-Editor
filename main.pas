@@ -39,6 +39,9 @@ type
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
+    procedure PaletteDrawGridClick(Sender: TObject);
+    procedure PaletteDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
     procedure PenColorBtnColorChanged(Sender: TObject);
     procedure ToolClick(Sender: TObject);
   private
@@ -52,6 +55,7 @@ type
 var
   Tools: array of TTool;
   Figures: array of TFigure;
+  PaletteColors: array of TColor;
   PenColor: TColor = clBlack;
   BrushColor: TColor = clWhite;
   LineWidth: Integer = 2;
@@ -137,10 +141,15 @@ begin
     if i = 0 then ToolBtn.Down := True;
     ToolBtn.OnClick := @ToolClick;
     ToolBtn.Parent := ToolPanel;
+    end;
 
-    //Палитра
-    for i := 0 to PaletteDrawGrid.Columns.Items[];
-   end;
+  //Палитра
+    for i := 0 to (PaletteDrawGrid.ColCount * PaletteDrawGrid.RowCount) do
+    begin
+      SetLength(PaletteColors, Length(PaletteColors) + 1);
+      PaletteColors[High(PaletteColors)] := $000000 + i;
+    end;
+
 
 end;
 
@@ -182,6 +191,18 @@ begin
   begin
       Figures[i].Draw(PaintBox.Canvas);
   end;
+end;
+
+procedure TVectorEditor.PaletteDrawGridClick(Sender: TObject);
+begin
+
+end;
+
+procedure TVectorEditor.PaletteDrawGridDrawCell(Sender: TObject; aCol,
+  aRow: Integer; aRect: TRect; aState: TGridDrawState);
+begin
+  PaletteDrawGrid.Canvas.Brush.Color := PaletteColors[aCol*aRow];
+ PaletteDrawGrid.Canvas.FillRect(aRect);
 end;
 
 procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);
