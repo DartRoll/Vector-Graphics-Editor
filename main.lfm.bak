@@ -67,7 +67,7 @@ object VectorEditor: TVectorEditor
       ParentFont = False
       WordWrap = True
     end
-    object PaletteDrawGrid: TDrawGrid
+    object PaletteGrid: TDrawGrid
       Left = 0
       Height = 189
       Top = 168
@@ -84,8 +84,8 @@ object VectorEditor: TVectorEditor
       RowCount = 9
       TabOrder = 1
       TabStop = False
-      OnClick = PaletteDrawGridClick
-      OnDrawCell = PaletteDrawGridDrawCell
+      OnClick = PaletteGridClick
+      OnDrawCell = PaletteGridDrawCell
     end
   end
   object MainMenu: TMainMenu

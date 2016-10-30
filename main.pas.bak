@@ -14,7 +14,7 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
-    PaletteDrawGrid: TDrawGrid;
+    PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
     MainMenu: TMainMenu;
     FileMenuItem: TMenuItem;
@@ -39,11 +39,13 @@ type
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
-    procedure PaletteDrawGridClick(Sender: TObject);
-    procedure PaletteDrawGridDrawCell(Sender: TObject; aCol, aRow: Integer;
+    procedure PaletteGridClick(Sender: TObject);
+    procedure PaletteGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure PenColorBtnColorChanged(Sender: TObject);
     procedure ToolClick(Sender: TObject);
+    procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
+    procedure CreatePalette;
   private
     { private declarations }
 
@@ -55,7 +57,7 @@ type
 var
   Tools: array of TTool;
   Figures: array of TFigure;
-  PaletteColors: array of TColor;
+  PaletteColors: array of array of TColor;
   PenColor: TColor = clBlack;
   BrushColor: TColor = clWhite;
   LineWidth: Integer = 2;
@@ -95,27 +97,13 @@ begin
   CurrentTool := Tools[(Sender as TSpeedButton).Tag];
 end;
 
-procedure TVectorEditor.ExitMenuItemClick(Sender: TObject);
-begin
-  Application.Terminate;
-end;
-
-procedure TVectorEditor.FormCreate(Sender: TObject);
+procedure TVectorEditor.CreateToolsButtons(
+  ABtnWidth, ABtnHeight, AColsCount: Integer);
 var
   i: Integer;
   ToolBtn: TSpeedButton;
   ToolIcon: TBitmap;
-  btnWidth, btnHeight, cols: Integer;
 begin
-  {РАЗДЕЛИТЬ ВСЁ ЭТО ДЕЛО}
-  //PenColorBtn.ButtonColor := PenColor;
-  //BrushColorBtn.ButtonColor := BrushColor;
-  LineWidthSpinEdit.Value := LineWidth;
-
-  //Кнопки
-  btnWidth := 64;
-  btnHeight := 64;
-  cols := 2;
   for i := 0 to High(Tools) do begin
     ToolBtn := TSpeedButton.Create(VectorEditor);
     ToolIcon := TBitmap.Create;
@@ -128,29 +116,62 @@ begin
         Free;
       end;
     end;
-    ToolBtn.Transparent := True;
+
+    ToolBtn.Transparent := True;//чому не робит?
     ToolBtn.Flat := True;
     ToolIcon.Transparent := true;
     ToolBtn.Glyph := ToolIcon;
-    ToolBtn.Width := btnWidth;
-    ToolBtn.Height := btnHeight;
-    ToolBtn.Top := (i div cols) * btnHeight;
-    ToolBtn.Left := (i mod cols) * btnWidth;
+    ToolBtn.Width := ABtnWidth;
+    ToolBtn.Height := ABtnHeight;
+    ToolBtn.Top := (i div AColsCount) * ABtnHeight;
+    ToolBtn.Left := (i mod AColsCount) * ABtnWidth;
     ToolBtn.Tag := i;
     ToolBtn.GroupIndex := 1;
     if i = 0 then ToolBtn.Down := True;
     ToolBtn.OnClick := @ToolClick;
     ToolBtn.Parent := ToolPanel;
+  end;
+end;
+
+procedure TVectorEditor.CreatePalette;
+var
+  col, row, rate, index: Integer;
+begin
+  index := 0;
+  rate := floor($ffffff / (PaletteGrid.RowCount * PaletteGrid.ColCount));
+
+  for col := 0 to PaletteGrid.ColCount do begin
+    SetLength(PaletteColors, Length(PaletteColors) + 1);
+    for row := 0  to PaletteGrid.RowCount do begin
+      SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
+      PaletteColors[col, row] := $000000 + rate * index;
+      index += 1;
     end;
+  end;
+end;
+
+procedure TVectorEditor.ExitMenuItemClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TVectorEditor.FormCreate(Sender: TObject);
+var
+  BtnWidth, BtnHeight, ColsCount: Integer;
+begin
+  //Выставляем дефолтные параметры
+  //PenColorBtn.ButtonColor := PenColor;
+  //BrushColorBtn.ButtonColor := BrushColor;
+  LineWidthSpinEdit.Value := LineWidth;
+
+  //Параметры кнопок
+  BtnWidth := 64;
+  BtnHeight := 64;
+  ColsCount := 2;
+  CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
 
   //Палитра
-    for i := 0 to (PaletteDrawGrid.ColCount * PaletteDrawGrid.RowCount) do
-    begin
-      SetLength(PaletteColors, Length(PaletteColors) + 1);
-      PaletteColors[High(PaletteColors)] := $000000 + i;
-    end;
-
-
+   CreatePalette;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -193,16 +214,16 @@ begin
   end;
 end;
 
-procedure TVectorEditor.PaletteDrawGridClick(Sender: TObject);
+procedure TVectorEditor.PaletteGridClick(Sender: TObject);
 begin
 
 end;
 
-procedure TVectorEditor.PaletteDrawGridDrawCell(Sender: TObject; aCol,
+procedure TVectorEditor.PaletteGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
 begin
-  PaletteDrawGrid.Canvas.Brush.Color := PaletteColors[aCol*aRow];
-  Canvas.FillRect(aRect);
+  PaletteGrid.Canvas.Brush.Color := PaletteColors[aCol, aRow];
+ PaletteGrid.Canvas.FillRect(aRect);
 end;
 
 procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);
@@ -236,4 +257,4 @@ RegisterTool(TLineTool.Create);
 
 CurrentTool := Tools[0];
 end.
-                                                             g
+
