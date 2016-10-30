@@ -14,6 +14,7 @@ type
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
+    ColorDialog1: TColorDialog;
     PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
     MainMenu: TMainMenu;
@@ -24,6 +25,8 @@ type
     FileDividerMenuItem: TMenuItem;
     ClearMenuItem: TMenuItem;
     PaintBox: TPaintBox;
+    BrushColorPanel: TPanel;
+    PenColorPanel: TPanel;
     ToolPanel: TPanel;
     LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
@@ -39,9 +42,10 @@ type
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
-    procedure PaletteGridClick(Sender: TObject);
     procedure PaletteGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure PaletteGridMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure PenColorBtnColorChanged(Sender: TObject);
     procedure ToolClick(Sender: TObject);
     procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
@@ -138,13 +142,13 @@ var
   col, row, rate, index: Integer;
 begin
   index := 0;
-  rate := floor($ffffff / (PaletteGrid.RowCount * PaletteGrid.ColCount));
+  rate := floor(16777215 / (PaletteGrid.RowCount * PaletteGrid.ColCount));
 
   for col := 0 to PaletteGrid.ColCount do begin
     SetLength(PaletteColors, Length(PaletteColors) + 1);
     for row := 0  to PaletteGrid.RowCount do begin
       SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
-      PaletteColors[col, row] := $000000 + rate * index;
+      PaletteColors[col, row] := StringToColor(IntToStr(rate * index));
       index += 1;
     end;
   end;
@@ -160,8 +164,8 @@ var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
   //Выставляем дефолтные параметры
-  //PenColorBtn.ButtonColor := PenColor;
-  //BrushColorBtn.ButtonColor := BrushColor;
+  PenColorPanel.Color := PenColor;
+  BrushColorPanel.Color := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
 
   //Параметры кнопок
@@ -214,16 +218,29 @@ begin
   end;
 end;
 
-procedure TVectorEditor.PaletteGridClick(Sender: TObject);
-begin
-
-end;
-
 procedure TVectorEditor.PaletteGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
 begin
   PaletteGrid.Canvas.Brush.Color := PaletteColors[aCol, aRow];
- PaletteGrid.Canvas.FillRect(aRect);
+  PaletteGrid.Canvas.FillRect(aRect);
+end;
+
+procedure TVectorEditor.PaletteGridMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  aCol, aRow: Integer;
+begin
+  PaletteGrid.MouseToCell(X, Y, aCol, aRow);
+  //Left
+  if Button = TMouseButton.mbLeft then  begin
+    PenColor := PaletteColors[aCol, aRow];
+    PenColorPanel.Color := PenColor;
+  end;
+  //Right
+  if Button = TMouseButton.mbRight then begin
+    BrushColor := PaletteColors[aCol, aRow];
+    BrushColorPanel.Color := BrushColor;
+  end;
 end;
 
 procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);

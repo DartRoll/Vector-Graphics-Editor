@@ -1,11 +1,11 @@
 object VectorEditor: TVectorEditor
-  Left = 171
-  Height = 431
-  Top = 152
-  Width = 809
+  Left = 710
+  Height = 630
+  Top = 269
+  Width = 899
   Caption = 'VectorEditor'
-  ClientHeight = 411
-  ClientWidth = 809
+  ClientHeight = 610
+  ClientWidth = 899
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -14,9 +14,9 @@ object VectorEditor: TVectorEditor
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 411
+    Height = 610
     Top = 0
-    Width = 681
+    Width = 771
     Align = alClient
     Anchors = [akTop]
     Color = clWhite
@@ -28,11 +28,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 411
+    Height = 610
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 411
+    ClientHeight = 610
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
@@ -40,7 +40,7 @@ object VectorEditor: TVectorEditor
     object LineWidthSpinEdit: TSpinEdit
       Left = 72
       Height = 28
-      Top = 416
+      Top = 496
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -55,10 +55,10 @@ object VectorEditor: TVectorEditor
     end
     object LineWidthLabel: TLabel
       AnchorSideRight.Control = LineWidthSpinEdit
-      Left = 0
+      Left = -14
       Height = 20
-      Top = 416
-      Width = 72
+      Top = 480
+      Width = 86
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       Caption = 'Толщина'
@@ -77,15 +77,35 @@ object VectorEditor: TVectorEditor
       DefaultColWidth = 21
       DefaultRowHeight = 21
       ExtendedSelect = False
-      FixedCols = 6
-      FixedRows = 9
+      FixedCols = 0
+      FixedRows = 0
       Flat = True
       ParentColor = True
       RowCount = 9
+      ScrollBars = ssNone
+      TabAdvance = aaNone
       TabOrder = 1
       TabStop = False
-      OnClick = PaletteGridClick
       OnDrawCell = PaletteGridDrawCell
+      OnMouseUp = PaletteGridMouseUp
+    end
+    object BrushColorPanel: TPanel
+      Left = 48
+      Height = 50
+      Top = 392
+      Width = 50
+      Color = clWhite
+      ParentColor = False
+      TabOrder = 2
+    end
+    object PenColorPanel: TPanel
+      Left = 22
+      Height = 50
+      Top = 368
+      Width = 50
+      Color = clBlack
+      ParentColor = False
+      TabOrder = 3
     end
   end
   object MainMenu: TMainMenu
@@ -111,5 +131,31 @@ object VectorEditor: TVectorEditor
         OnClick = AboutMenuItemClick
       end
     end
+  end
+  object ColorDialog1: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 784
   end
 end
