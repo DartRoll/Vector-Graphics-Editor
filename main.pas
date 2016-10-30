@@ -62,6 +62,7 @@ type
   end;
 
 var
+  Tools: array of TTool;
   Figures: array of TFigure;
   PenColor: TColor = clBlack;
   BrushColor: TColor = clWhite;
@@ -76,6 +77,12 @@ implementation
 {$R *.lfm}
 
 { TVectorEditor }
+
+procedure RegisterTool(Tool: TTool);
+begin
+  SetLength(Tools, Length(Tools) + 1);
+  Tools[High(Tools)] := Tool;
+end;
 
 procedure SaveFigure(Figure: TFigure);
 begin
@@ -102,10 +109,16 @@ begin
 end;
 
 procedure TVectorEditor.FormCreate(Sender: TObject);
+var i: Integer;
 begin
   //PenColorBtn.ButtonColor := PenColor;
   //BrushColorBtn.ButtonColor := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
+
+  for i := 0 to High(Tools) do
+  begin
+
+  end;
 end;
 
 procedure TVectorEditor.LineBtnClick(Sender: TObject);
@@ -123,9 +136,6 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
 begin
   isDrawing := True;
   CurrentTool.MouseDown(X, Y, PenColor, BrushColor, LineWidth);
-  {CurrentTool.SetPenColor(PenColor);
-  CurrentTool.SetBrushColor(BrushColor);
-  CurrentTool.SetThickness(LineWidth);}
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -194,11 +204,17 @@ begin
 end;
 
 initialization
-
 PolylineTool := TPolylineTool.Create;
 RectangleTool := TRectangleTool.Create;
 EllipseTool := TEllipseTool.Create;
 LineTool := TLineTool.Create;
+
+
+
+RegisterTool(TPolylineTool.Create);
+RegisterTool(TRectangleTool.Create);
+RegisterTool(TEllipseTool.Create);
+RegisterTool(TLineTool.Create);
 
 end.
                                                              g

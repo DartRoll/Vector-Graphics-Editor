@@ -59,7 +59,6 @@ procedure TPolylineTool.MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColo
       ALineWidth: Integer);
 begin
   Figure := TPolyline.Create(AX, AY, APenColor, ABrushColor, ALineWidth);
-  //(Figure as TPolyline).AddPoint(AX, AY);
 end;
 
 procedure TPolylineTool.MouseMove(X, Y: Integer);

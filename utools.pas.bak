@@ -95,7 +95,7 @@ end;
 
 { TLineTool }
 
-procedure TLineTool.MMouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+procedure TLineTool.MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer);
 begin
   Figure := TLine.Create(AX, AY, APenColor,ABrushColor, ALineWidth);
