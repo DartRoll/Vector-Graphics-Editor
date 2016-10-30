@@ -5,20 +5,17 @@ unit main;
 interface
 
 uses
-  Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics,
+  Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics, Math,
   Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
-  Buttons, ActnList, UFigures, UTools;
+  Buttons, ActnList, Grids, UFigures, UTools;
 
 type
 
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
-    BrushColorLabel: TLabel;
+    PaletteDrawGrid: TDrawGrid;
     LineWidthLabel: TLabel;
-    PenColorLabel: TLabel;
-    PenColorBtn: TColorButton;
-    BrushColorBtn: TColorButton;
     MainMenu: TMainMenu;
     FileMenuItem: TMenuItem;
     HelpMenuItem: TMenuItem;
@@ -28,19 +25,12 @@ type
     ClearMenuItem: TMenuItem;
     PaintBox: TPaintBox;
     ToolPanel: TPanel;
-    PolylineBtn: TSpeedButton;
-    RectangleBtn: TSpeedButton;
-    EllipseBtn: TSpeedButton;
-    LineBtn: TSpeedButton;
     LineWidthSpinEdit: TSpinEdit;
-    PointerBtn: TSpeedButton;
     procedure AboutMenuItemClick(Sender: TObject);
     procedure BrushColorBtnColorChanged(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
-    procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure LineBtnClick(Sender: TObject);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -50,9 +40,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
     procedure PenColorBtnColorChanged(Sender: TObject);
-    procedure PolylineBtnClick(Sender: TObject);
-    procedure RectangleBtnClick(Sender: TObject);
-
+    procedure ToolClick(Sender: TObject);
   private
     { private declarations }
 
@@ -91,16 +79,16 @@ begin
 end;
 
 procedure ClearFigures;
-var i:Integer;
+var i: Integer;
 begin
   for i := 0 to High(Figures) do
     Figures[i].Destroy;
   Figures := nil;
 end;
 
-procedure SetCurrentTool(Tool: TTool);
+procedure TVectorEditor.ToolClick(Sender: TObject);
 begin
-  CurrentTool := Tool;
+  CurrentTool := Tools[(Sender as TSpeedButton).Tag];
 end;
 
 procedure TVectorEditor.ExitMenuItemClick(Sender: TObject);
@@ -109,21 +97,51 @@ begin
 end;
 
 procedure TVectorEditor.FormCreate(Sender: TObject);
-var i: Integer;
+var
+  i: Integer;
+  ToolBtn: TSpeedButton;
+  ToolIcon: TBitmap;
+  btnWidth, btnHeight, cols: Integer;
 begin
+  {РАЗДЕЛИТЬ ВСЁ ЭТО ДЕЛО}
   //PenColorBtn.ButtonColor := PenColor;
   //BrushColorBtn.ButtonColor := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
 
-  for i := 0 to High(Tools) do
-  begin
+  //Кнопки
+  btnWidth := 64;
+  btnHeight := 64;
+  cols := 2;
+  for i := 0 to High(Tools) do begin
+    ToolBtn := TSpeedButton.Create(VectorEditor);
+    ToolIcon := TBitmap.Create;
+    with TPicture.create do
+    begin
+      try
+        LoadFromFile(Tools[i].FIcon);
+        ToolIcon.Assign(Graphic);
+      finally
+        Free;
+      end;
+    end;
+    ToolBtn.Transparent := True;
+    ToolBtn.Flat := True;
+    ToolIcon.Transparent := true;
+    ToolBtn.Glyph := ToolIcon;
+    ToolBtn.Width := btnWidth;
+    ToolBtn.Height := btnHeight;
+    ToolBtn.Top := (i div cols) * btnHeight;
+    ToolBtn.Left := (i mod cols) * btnWidth;
+    ToolBtn.Tag := i;
+    ToolBtn.GroupIndex := 1;
+    if i = 0 then ToolBtn.Down := True;
+    ToolBtn.OnClick := @ToolClick;
+    ToolBtn.Parent := ToolPanel;
 
-  end;
-end;
+    //Палитра
+    for i := 0 to PaletteDrawGrid.Columns.Items[];
+   end;
 
-procedure TVectorEditor.LineBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(LineTool);
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -171,16 +189,6 @@ begin
   PenColor := (Sender as TColorButton).ButtonColor;
 end;
 
-procedure TVectorEditor.PolylineBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(PolylineTool);
-end;
-
-procedure TVectorEditor.RectangleBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(RectangleTool);
-end;
-
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);
 begin
   aboutprogram.aboutProgramForm.Show;
@@ -198,23 +206,13 @@ begin
   PaintBox.Repaint;
 end;
 
-procedure TVectorEditor.EllipseBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(EllipseTool);
-end;
-
 initialization
-PolylineTool := TPolylineTool.Create;
-RectangleTool := TRectangleTool.Create;
-EllipseTool := TEllipseTool.Create;
-LineTool := TLineTool.Create;
-
-
 
 RegisterTool(TPolylineTool.Create);
 RegisterTool(TRectangleTool.Create);
 RegisterTool(TEllipseTool.Create);
 RegisterTool(TLineTool.Create);
 
+CurrentTool := Tools[0];
 end.
                                                              g
