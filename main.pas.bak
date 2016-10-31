@@ -30,7 +30,6 @@ type
     ToolPanel: TPanel;
     LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
-    procedure BrushColorBtnColorChanged(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -47,7 +46,6 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure PaletteGridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure PenColorBtnColorChanged(Sender: TObject);
     procedure ToolClick(Sender: TObject);
     procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
     procedure FillPalette;
@@ -84,9 +82,11 @@ end;
 procedure ClearFigures;
 var i: Integer;
 begin
-  for i := 0 to High(Figures) do
-    Figures[i].Destroy;
-  Figures := nil;
+  if Length(Figures) > 0 then begin
+    for i := 0 to High(Figures) do
+      Figures[i].Destroy;
+    Figures := nil;
+  end;
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);

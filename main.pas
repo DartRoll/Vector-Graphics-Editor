@@ -83,7 +83,7 @@ procedure ClearFigures;
 var i: Integer;
 begin
   for i := 0 to High(Figures) do
-    Figures[i].Destroy;
+    Figures[i].free;
   Figures := nil;
 end;
 
