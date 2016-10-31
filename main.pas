@@ -123,7 +123,7 @@ begin
     end;
 
     ToolBtn.Transparent := True;//чому не робит?
-    ToolBtn.Flat := True;
+    //ToolBtn.Flat := True;
     ToolIcon.Transparent := true;
     ToolBtn.Glyph := ToolIcon;
     ToolBtn.Width := ABtnWidth;

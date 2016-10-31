@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <WindowIndex Value="1"/>
         <CursorPos X="22" Y="21"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="87"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -22,8 +22,8 @@
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
         <TopLine Value="225"/>
-        <CursorPos X="15" Y="244"/>
-        <UsageCount Value="83"/>
+        <CursorPos X="38" Y="230"/>
+        <UsageCount Value="87"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -35,7 +35,7 @@
         <ResourceBaseClass Value="Form"/>
         <WindowIndex Value="1"/>
         <CursorPos Y="5"/>
-        <UsageCount Value="79"/>
+        <UsageCount Value="83"/>
       </Unit2>
       <Unit3>
         <Filename Value="ufigures.pas"/>
@@ -44,7 +44,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="7"/>
         <CursorPos X="19" Y="21"/>
-        <UsageCount Value="74"/>
+        <UsageCount Value="78"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -55,7 +55,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="66"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="73"/>
+        <UsageCount Value="77"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -316,6 +316,15 @@
     </JumpHistory>
   </ProjectSession>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="228"/>
+      </Item1>
+    </BreakPoints>
     <Watches Count="3">
       <Item1>
         <Expression Value="index"/>
