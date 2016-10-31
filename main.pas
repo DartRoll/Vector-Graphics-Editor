@@ -1,6 +1,6 @@
 unit main;
 
-{$mode objfpc}{$H+}{$R+}
+{$mode objfpc}{$H+}
 
 interface
 
@@ -143,13 +143,12 @@ var
   col, row, rate, index: Integer;
 begin
   index := 0;
-  rate := floor(16777215 / (PaletteGrid.RowCount * PaletteGrid.ColCount));
-
+  rate := floor(255 / (PaletteGrid.RowCount * PaletteGrid.ColCount));
   for col := 0 to PaletteGrid.ColCount do begin
     SetLength(PaletteColors, Length(PaletteColors) + 1);
     for row := 0  to PaletteGrid.RowCount do begin
       SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
-      PaletteColors[col, row] := StringToColor(IntToStr(rate * index));
+      PaletteColors[col, row] := RGBToColor(index * rate, row * 28 , col * 42); //сделать норм цвета
       index += 1;
     end;
   end;
