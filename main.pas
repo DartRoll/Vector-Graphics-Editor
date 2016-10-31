@@ -241,12 +241,12 @@ var
 begin
   PaletteGrid.MouseToCell(X, Y, aCol, aRow);
   //Левая кнопка
-  if Button = TMouseButton.mbLeft then  begin
+  if Button = mbLeft then  begin
     PenColor := PaletteColors[aCol, aRow];
     PenColorPanel.Color := PenColor;
   end;
   //Правая кнопка
-  if Button = TMouseButton.mbRight then begin
+  if Button = mbRight then begin
     BrushColor := PaletteColors[aCol, aRow];
     BrushColorPanel.Color := BrushColor;
   end;

@@ -148,7 +148,7 @@ begin
     SetLength(PaletteColors, Length(PaletteColors) + 1);
     for row := 0  to PaletteGrid.RowCount do begin
       SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
-      PaletteColors[col, row] := RGBToColor(index * rate, rows * 28 , col * 42); //сделать норм цвета
+      PaletteColors[col, row] := RGBToColor(index * rate, row * 28 , col * 42); //сделать норм цвета
       index += 1;
     end;
   end;
@@ -241,12 +241,12 @@ var
 begin
   PaletteGrid.MouseToCell(X, Y, aCol, aRow);
   //Левая кнопка
-  if Button = TMouseButton.mbLeft then  begin
+  if Button = mbLeft then  begin
     PenColor := PaletteColors[aCol, aRow];
     PenColorPanel.Color := PenColor;
   end;
   //Правая кнопка
-  if Button = TMouseButton.mbRight then begin
+  if Button = mbRight then begin
     BrushColor := PaletteColors[aCol, aRow];
     BrushColorPanel.Color := BrushColor;
   end;
