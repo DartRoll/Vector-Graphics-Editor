@@ -89,7 +89,7 @@ end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
 begin
-  CurrentTool := Tools[(Sender as TSpeedButton).Tag];
+  CurrentTool := UTools.Tools[(Sender as TSpeedButton).Tag];
 end;
 
 procedure TVectorEditor.CreateToolsButtons(

@@ -82,16 +82,14 @@ end;
 procedure ClearFigures;
 var i: Integer;
 begin
-  if Length(Figures) > 0 then begin
-    for i := 0 to High(Figures) do
-      Figures[i].Destroy;
-    Figures := nil;
-  end;
+  for i := 0 to High(Figures) do
+    Figures[i].free;
+  Figures := nil;
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
 begin
-  CurrentTool := Tools[(Sender as TSpeedButton).Tag];
+  CurrentTool := UTools.Tools[(Sender as TSpeedButton).Tag];
 end;
 
 procedure TVectorEditor.CreateToolsButtons(
@@ -105,7 +103,7 @@ begin
     ToolBtn := TSpeedButton.Create(VectorEditor);
     //Иконка
     ToolIcon := TBitmap.Create;
-    ToolIcon.TransparentColor := clWhite;
+    //ToolIcon.TransparentColor := clWhite;
     ToolIcon.Transparent := True;
     ToolIcon.LoadFromFile(Tools[i].FIcon);
     //Парметры кнопки
