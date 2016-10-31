@@ -18,22 +18,22 @@ type
     procedure DrawFigure(Canvas: TCanvas); virtual; abstract;
   end;
 
+  TPolyline = class(TFigure)
+    Vertexes: array of TPoint;
+    constructor Create(X, Y: Integer;
+      APenColor, ABrushColor: TColor; AThickness: Integer);
+    procedure AddPoint(X, Y: Integer);
+    procedure DrawFigure(Canvas: TCanvas); override;
+  end;
+
   TTwoPointFigure = class(TFigure)
     Bounds: TRect;
-    constructor Create(AX, AY: Integer;
-    APenColor, ABrushColor: TColor; AThickness: Integer);
-    procedure SetSecondPoint(AX, AY: Integer);
+    constructor Create(X, Y: Integer;
+      APenColor, ABrushColor: TColor; AThickness: Integer);
+    procedure SetSecondPoint(X, Y: Integer);
   end;
 
   TRectangle = class(TTwoPointFigure)
-   procedure DrawFigure(Canvas: TCanvas); override;
-  end;
-
-  TPolyline = class(TFigure)
-    Vertexes: array of TPoint;
-    constructor Create(AX, AY: Integer;
-      APenColor, ABrushColor: TColor; AThickness: Integer);
-    procedure AddPoint(X, Y: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
@@ -64,24 +64,24 @@ begin
 end;
 
 { TTwoPointFigure }
-constructor TTwoPointFigure.Create(AX, AY: Integer;
+constructor TTwoPointFigure.Create(X, Y: Integer;
   APenColor, ABrushColor: TColor; AThickness: Integer);
 begin
   inherited Create(APenColor, ABrushColor, AThickness);
-  Bounds := Rect(AX, AY, AX, AY);
+  Bounds := Rect(X, Y, X, Y);
 end;
 
-procedure TTwoPointFigure.SetSecondPoint(AX, AY: Integer);
+procedure TTwoPointFigure.SetSecondPoint(X, Y: Integer);
 begin
-  Bounds := Rect(Bounds.Left, Bounds.Top, AX, AY);
+  Bounds := Rect(Bounds.Left, Bounds.Top, X, Y);
 end;
 
 { TPolyline }
-constructor TPolyline.Create(AX, AY: Integer;
+constructor TPolyline.Create(X, Y: Integer;
       APenColor, ABrushColor: TColor; AThickness: Integer);
 begin
   inherited Create(APenColor, ABrushColor, AThickness);
-  AddPoint(AX, AY);
+  AddPoint(X, Y);
 end;
 
 procedure TPolyline.AddPoint(X, Y: Integer);
@@ -96,21 +96,18 @@ begin
 end;
 
 { TRectangle }
-
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Rectangle(Bounds);
 end;
 
 { TEllipse }
-
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Ellipse(Bounds);
 end;
 
 { TLine }
-
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Line(Bounds);

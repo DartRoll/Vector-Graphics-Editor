@@ -1,11 +1,11 @@
 object VectorEditor: TVectorEditor
   Left = 214
-  Height = 401
+  Height = 521
   Top = 132
-  Width = 736
+  Width = 930
   Caption = 'VectorEditor'
-  ClientHeight = 381
-  ClientWidth = 736
+  ClientHeight = 501
+  ClientWidth = 930
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -14,9 +14,9 @@ object VectorEditor: TVectorEditor
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 381
+    Height = 501
     Top = 0
-    Width = 608
+    Width = 802
     Align = alClient
     Anchors = [akTop]
     Color = clWhite
@@ -28,11 +28,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 381
+    Height = 501
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 381
+    ClientHeight = 501
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
@@ -158,7 +158,6 @@ object VectorEditor: TVectorEditor
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 281
-    top = 72
+    left = 800
   end
 end

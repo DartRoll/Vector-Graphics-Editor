@@ -12,43 +12,52 @@ type
     FFigure: TFigure;
     FIcon: String;
     function GetFigure: TFigure;
-    procedure MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); virtual; abstract;
-    procedure MouseMove(AX, AY: Integer); virtual; abstract;
-    procedure MouseUp(AX, AY: Integer);
+    procedure MouseMove(X, Y: Integer); virtual; abstract;
   end;
 
-  TRectangleTool = class(TTool)
-    constructor Create;
-    procedure MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer); override;
+  TTwoPointFigureTool = class(TTool)
     procedure MouseMove(X, Y: Integer); override;
   end;
 
   TPolylineTool = class(TTool)
     constructor Create;
-    procedure MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
     procedure MouseMove(X, Y: Integer); override;
   end;
 
-  TLineTool = class(TTool)
+  TRectangleTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
-    procedure MouseMove(X, Y: Integer); override;
   end;
 
-  TEllipseTool = class(TTool)
+  TLineTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
-    procedure MouseMove(X, Y: Integer); override;
   end;
+
+  TEllipseTool = class(TTwoPointFigureTool)
+    constructor Create;
+    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+      ALineWidth: Integer); override;
+  end;
+
+var
+  Tools: array of TTool;
+  PolylineTool, RectangleTool, EllipseTool, LineTool: TTool;
 
 implementation
 
-{TODO: может вынести mousemove?}
+{Misc}
+procedure RegisterTool(Tool: TTool);
+begin
+  SetLength(Tools, Length(Tools) + 1);
+  Tools[High(Tools)] := Tool;
+end;
 
 { TTool }
 function TTool.GetFigure: TFigure;
@@ -56,20 +65,24 @@ begin
   Result := FFigure;
 end;
 
-procedure TTool.MouseUp(AX, AY: Integer);
+{TTwoPointFigureTool}
+procedure TTwoPointFigureTool.MouseMove(X, Y: Integer);
 begin
+  (FFigure as TTwoPointFigure).SetSecondPoint(X, Y);
 end;
 
 { TPolylineTool }
 constructor TPolylineTool.Create;
 begin
-  FIcon := 'img/polyline.png';
+  Inherited;
+  RegisterTool(Self);
+  FIcon := 'img/polyline.bmp';
 end;
 
-procedure TPolylineTool.MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+procedure TPolylineTool.MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer);
 begin
-  FFigure := TPolyline.Create(AX, AY, APenColor, ABrushColor, ALineWidth);
+  FFigure := TPolyline.Create(X, Y, APenColor, ABrushColor, ALineWidth);
 end;
 
 procedure TPolylineTool.MouseMove(X, Y: Integer);
@@ -80,53 +93,50 @@ end;
 { TRectangleTool }
 constructor TRectangleTool.Create;
 begin
-  FIcon := 'img/rectangle.png';
+  Inherited;
+  RegisterTool(Self);
+  FIcon := 'img/rectangle.bmp';
 end;
 
-procedure TRectangleTool.MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer);
+procedure TRectangleTool.MouseDown(X, Y: Integer;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
-  FFigure := TRectangle.Create(AX, AY, APenColor,ABrushColor, ALineWidth);
-end;
-
-procedure TRectangleTool.MouseMove(X, Y: Integer);
-begin
-  (FFigure as TRectangle).SetSecondPoint(X, Y);
+  FFigure := TRectangle.Create(X, Y, APenColor, ABrushColor, ALineWidth);
 end;
 
 { TEllipseTool }
 constructor TEllipseTool.Create;
 begin
-  FIcon := 'img/ellipse.png';
+  Inherited;
+  RegisterTool(Self);
+  FIcon := 'img/ellipse.bmp';
 end;
 
-procedure TEllipseTool.MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer);
+procedure TEllipseTool.MouseDown(X, Y: Integer;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
-  FFigure := TEllipse.Create(AX, AY, APenColor,ABrushColor, ALineWidth);
-end;
-
-procedure TEllipseTool.MouseMove(X, Y: Integer);
-begin
-  (FFigure as TEllipse).SetSecondPoint(X, Y);
+  FFigure := TEllipse.Create(X, Y, APenColor, ABrushColor, ALineWidth);
 end;
 
 { TLineTool }
 constructor TLineTool.Create;
 begin
-  FIcon := 'img/line.png';
+  Inherited;
+  RegisterTool(Self);
+  FIcon := 'img/line.bmp';
 end;
 
-procedure TLineTool.MouseDown(AX, AY: Integer; APenColor, ABrushColor: TColor;
+procedure TLineTool.MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer);
 begin
-  FFigure := TLine.Create(AX, AY, APenColor,ABrushColor, ALineWidth);
+  FFigure := TLine.Create(X, Y, APenColor,ABrushColor, ALineWidth);
 end;
 
-procedure TLineTool.MouseMove(X, Y: Integer);
-begin
-  (FFigure as TLine).SetSecondPoint(X, Y);
-end;
+initialization
+PolylineTool := TPolylineTool.Create;
+RectangleTool := TRectangleTool.Create;
+EllipseTool := TEllipseTool.Create;
+LineTool := TLineTool.Create;
 
 end.
 
