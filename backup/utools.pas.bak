@@ -134,6 +134,5 @@ RegisterTool(TPolylineTool.Create);
 RegisterTool(TRectangleTool.Create);
 RegisterTool(TEllipseTool.Create);
 RegisterTool(TLineTool.Create);
-
 end.
 

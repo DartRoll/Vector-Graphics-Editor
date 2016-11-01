@@ -13,23 +13,27 @@ type
     PenColor: TColor;
     BrushColor: TColor;
     Thickness: Integer;
+    constructor Create(APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure Draw(Canvas: TCanvas);
     procedure DrawFigure(Canvas: TCanvas); virtual; abstract;
   end;
 
-  TTwoPointFigure = class(TFigure)
-    Dimensions: TRect;
-    procedure SetFirstPoint(X, Y: Integer); virtual;
-    procedure SetSecondPoint(X, Y: Integer); virtual;
-  end;
-
-  TRectangle = class(TTwoPointFigure)
+  TPolyline = class(TFigure)
+    Vertexes: array of TPoint;
+    constructor Create(X, Y: Integer;
+      APenColor, ABrushColor: TColor; AThickness: Integer);
+    procedure AddPoint(X, Y: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
-  TPolyline = class(TFigure)
-    Vertexes: array of TPoint;
-    procedure AddPoint(X, Y: Integer);
+  TTwoPointFigure = class(TFigure)
+    Bounds: TRect;
+    constructor Create(X, Y: Integer;
+      APenColor, ABrushColor: TColor; AThickness: Integer);
+    procedure SetSecondPoint(X, Y: Integer);
+  end;
+
+  TRectangle = class(TTwoPointFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
@@ -44,6 +48,12 @@ type
 implementation
 
 { TFigure }
+constructor TFigure.Create(APenColor, ABrushColor: TColor; AThickness: Integer);
+begin
+  PenColor := APenColor;
+  BrushColor := ABrushColor;
+  Thickness := AThickness;
+end;
 
 procedure TFigure.Draw(Canvas: TCanvas);
 begin
@@ -54,18 +64,25 @@ begin
 end;
 
 { TTwoPointFigure }
-
-procedure TTwoPointFigure.SetFirstPoint(X, Y: Integer);
+constructor TTwoPointFigure.Create(X, Y: Integer;
+  APenColor, ABrushColor: TColor; AThickness: Integer);
 begin
-  Dimensions := Rect(X, Y, X, Y);
+  inherited Create(APenColor, ABrushColor, AThickness);
+  Bounds := Rect(X, Y, X, Y);
 end;
 
 procedure TTwoPointFigure.SetSecondPoint(X, Y: Integer);
 begin
-  Dimensions := Rect(Dimensions.Left, Dimensions.Top, X, Y);
+  Bounds := Rect(Bounds.Left, Bounds.Top, X, Y);
 end;
 
 { TPolyline }
+constructor TPolyline.Create(X, Y: Integer;
+      APenColor, ABrushColor: TColor; AThickness: Integer);
+begin
+  inherited Create(APenColor, ABrushColor, AThickness);
+  AddPoint(X, Y);
+end;
 
 procedure TPolyline.AddPoint(X, Y: Integer);
 begin
@@ -79,24 +96,21 @@ begin
 end;
 
 { TRectangle }
-
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(Dimensions);
+  Canvas.Rectangle(Bounds);
 end;
 
 { TEllipse }
-
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Ellipse(Dimensions);
+  Canvas.Ellipse(Bounds);
 end;
 
 { TLine }
-
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Line(Dimensions);
+  Canvas.Line(Bounds);
 end;
 
 end.

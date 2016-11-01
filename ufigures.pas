@@ -78,7 +78,7 @@ end;
 
 { TPolyline }
 constructor TPolyline.Create(X, Y: Integer;
-      APenColor, ABrushColor: TColor; AThickness: Integer);
+  APenColor, ABrushColor: TColor; AThickness: Integer);
 begin
   inherited Create(APenColor, ABrushColor, AThickness);
   AddPoint(X, Y);

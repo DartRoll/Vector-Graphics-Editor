@@ -1,24 +1,22 @@
 unit main;
 
-{$mode objfpc}{$H+}{$R+}
+{$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics,
+  Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics, Math,
   Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
-  Buttons, ActnList, UFigures, UTools;
+  Buttons, ActnList, Grids, UFigures, UTools;
 
 type
 
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
-    BrushColorLabel: TLabel;
+    ColorDialog: TColorDialog;
+    PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
-    PenColorLabel: TLabel;
-    PenColorBtn: TColorButton;
-    BrushColorBtn: TColorButton;
     MainMenu: TMainMenu;
     FileMenuItem: TMenuItem;
     HelpMenuItem: TMenuItem;
@@ -27,20 +25,14 @@ type
     FileDividerMenuItem: TMenuItem;
     ClearMenuItem: TMenuItem;
     PaintBox: TPaintBox;
-    InstrumentPanel: TPanel;
-    PolylineBtn: TSpeedButton;
-    RectangleBtn: TSpeedButton;
-    EllipseBtn: TSpeedButton;
-    LineBtn: TSpeedButton;
+    BrushColorPanel: TPanel;
+    PenColorPanel: TPanel;
+    ToolPanel: TPanel;
     LineWidthSpinEdit: TSpinEdit;
-    PointerBtn: TSpeedButton;
     procedure AboutMenuItemClick(Sender: TObject);
-    procedure BrushColorBtnColorChanged(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
-    procedure EllipseBtnClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
-    //procedure InstrumentPanelPaint(Sender: TObject);
-    procedure LineBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -49,11 +41,14 @@ type
     procedure PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxPaint(Sender: TObject);
-    procedure PenColorBtnColorChanged(Sender: TObject);
-    procedure PolylineBtnClick(Sender: TObject);
-    procedure RectangleBtnClick(Sender: TObject);
-    procedure PointerBtnClick(Sender: TObject);
-
+    procedure PaletteGridDblClick(Sender: TObject);
+    procedure PaletteGridDrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
+    procedure PaletteGridMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ToolClick(Sender: TObject);
+    procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
+    procedure FillPalette;
   private
     { private declarations }
 
@@ -63,14 +58,13 @@ type
   end;
 
 var
-  Figures: array of TFigure;
   PenColor: TColor = clBlack;
   BrushColor: TColor = clWhite;
   LineWidth: Integer = 2;
+  isDrawing: Boolean = False;
+  Figures: array of TFigure;
+  PaletteColors: array of array of TColor;
   CurrentTool: TTool;
-  Drawing: Boolean = False;
-  PolylineTool, RectangleTool, EllipseTool, LineTool: TDrawinTool;
-  PointerTool: TPointerTool;
   VectorEditor: TVectorEditor;
 
 implementation
@@ -85,19 +79,64 @@ begin
   Figures[High(Figures)] := Figure;
 end;
 
-procedure ClearFigures;
-var i:Integer;
+procedure ClearCanvas;
+var i: Integer;
 begin
   for i := 0 to High(Figures) do
-    begin
-      Figures[i].Free;
-    end;
+    Figures[i].free;
   Figures := nil;
+  VectorEditor.PaintBox.Canvas.Clear;//внести функцию в класс
 end;
 
-procedure SetCurrentTool(Tool: TTool);
+procedure TVectorEditor.ToolClick(Sender: TObject);
 begin
-  CurrentTool := Tool;
+  CurrentTool := UTools.Tools[(Sender as TSpeedButton).Tag];
+end;
+
+procedure TVectorEditor.CreateToolsButtons(
+  ABtnWidth, ABtnHeight, AColsCount: Integer);
+var
+  i: Integer;
+  ToolBtn: TSpeedButton;
+  ToolIcon: TBitmap;
+begin
+  for i := 0 to High(Tools) do begin
+    ToolBtn := TSpeedButton.Create(VectorEditor);
+    //Иконка Упростить с with
+    ToolIcon := TBitmap.Create;
+    ToolIcon.TransparentColor := clWhite;
+    ToolIcon.Transparent := True;
+    ToolIcon.LoadFromFile(Tools[i].FIcon);
+    //Парметры кнопки. Можно упростить с with
+    ToolBtn.Glyph := ToolIcon;
+    ToolBtn.Flat := True;
+    ToolBtn.Width := ABtnWidth;
+    ToolBtn.Height := ABtnHeight;
+    ToolBtn.Top := (i div AColsCount) * ABtnHeight;
+    ToolBtn.Left := (i mod AColsCount) * ABtnWidth;
+    ToolBtn.Tag := i;
+    ToolBtn.GroupIndex := 1;
+    ToolBtn.OnClick := @ToolClick;
+    if i = 0 then ToolBtn.Down := True;
+    ToolBtn.Parent := ToolPanel;
+  end;
+end;
+
+procedure TVectorEditor.FillPalette;
+var
+  col, row, rate, index: Integer;
+begin
+  index := 0;
+  rate := floor(255 / (PaletteGrid.RowCount * PaletteGrid.ColCount));
+  for col := 0 to PaletteGrid.ColCount do begin
+    SetLength(PaletteColors, Length(PaletteColors) + 1);
+    for row := 0  to PaletteGrid.RowCount do begin
+      SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
+      PaletteColors[col, row] := RGBToColor(index * rate, row * 28 ,
+        (PaletteGrid.ColCount - col) * 42);
+      index += 1;
+    end;
+  end;
 end;
 
 procedure TVectorEditor.ExitMenuItemClick(Sender: TObject);
@@ -105,17 +144,22 @@ begin
   Application.Terminate;
 end;
 
-//Не поддерживается старой версией lazrus
-{procedure TVectorEditor.InstrumentPanelPaint(Sender: TObject);
+procedure TVectorEditor.FormCreate(Sender: TObject);
+var
+  BtnWidth, BtnHeight, ColsCount: Integer;
 begin
-  PenColorBtn.ButtonColor := PenColor;
-  BrushColorBtn.ButtonColor := BrushColor;
+  CurrentTool := Tools[0];
+  //Передаём дефолтный параметры представлению
+  PenColorPanel.Color := PenColor;
+  BrushColorPanel.Color := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
-end;}
-
-procedure TVectorEditor.LineBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(LineTool);
+  //Параметры кнопок  интрументов
+  BtnWidth := 64;
+  BtnHeight := 64;
+  ColsCount := 2;
+  CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
+  //Палитра
+   FillPalette;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -126,67 +170,68 @@ end;
 procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  if not (CurrentTool is TPointerTool) then
-  begin
-    Drawing := True;
-    CurrentTool.MouseDown(X, Y);
-    CurrentTool.SetPenColor(PenColor);
-    CurrentTool.SetBrushColor(BrushColor);
-    CurrentTool.SetThickness(LineWidth);
-  end;
+  isDrawing := True;
+  CurrentTool.MouseDown(X, Y, PenColor, BrushColor, LineWidth);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-  if Drawing then
+  if isDrawing then
   begin
-    PaintBox.Refresh;//TODO: найти способ поэффективнее
     CurrentTool.MouseMove(X, Y);
-    CurrentTool.GetFigure.Draw(PaintBox.Canvas);
+    PaintBox.Invalidate;
   end;
 end;
 
 procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  if Drawing then
-  begin
-    Drawing := False;
-    SaveFigure(CurrentTool.GetFigure);
-    CurrentTool.MouseUp(X, Y);
-    PaintBox.Refresh;
-  end;
+  isDrawing := False;
+  SaveFigure(CurrentTool.GetFigure);
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
-var
-  i:integer;
+var i:integer;
 begin
-  for i := 0 to High(Figures) do
-  begin
-      Figures[i].Draw(PaintBox.Canvas);
+  for i := 0 to High(Figures) do begin
+    Figures[i].Draw(PaintBox.Canvas);
+  end;
+  if isDrawing then
+    CurrentTool.GetFigure.Draw(PaintBox.Canvas);
+end;
+
+procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
+begin
+  if ColorDialog.Execute then begin
+    with Sender as TDrawGrid do begin
+      PaletteColors[Col, Row] := ColorDialog.Color;
+    end;
+    Invalidate;
   end;
 end;
 
-procedure TVectorEditor.PenColorBtnColorChanged(Sender: TObject);
+procedure TVectorEditor.PaletteGridDrawCell(Sender: TObject; aCol,
+  aRow: Integer; aRect: TRect; aState: TGridDrawState);
 begin
-  PenColor := (Sender as TColorButton).ButtonColor;
+  PaletteGrid.Canvas.Brush.Color := PaletteColors[aCol, aRow];
+  PaletteGrid.Canvas.FillRect(aRect);
 end;
 
-procedure TVectorEditor.PolylineBtnClick(Sender: TObject);
+procedure TVectorEditor.PaletteGridMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  ACol, ARow: Integer;
 begin
-  SetCurrentTool(PolylineTool);
-end;
-
-procedure TVectorEditor.RectangleBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(RectangleTool);
-end;
-
-procedure TVectorEditor.PointerBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(PointerTool);
+  PaletteGrid.MouseToCell(X, Y, ACol, ARow);
+  if Button = mbLeft then  begin
+    PenColor := PaletteColors[ACol, ARow];
+    PenColorPanel.Color := PenColor;
+  end;
+  if Button = mbRight then begin
+    BrushColor := PaletteColors[ACol, ARow];
+    BrushColorPanel.Color := BrushColor;
+  end;
 end;
 
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);
@@ -194,31 +239,15 @@ begin
   aboutprogram.aboutProgramForm.Show;
 end;
 
-procedure TVectorEditor.BrushColorBtnColorChanged(Sender: TObject);
-begin
-  BrushColor := (Sender as TColorButton).ButtonColor;
-end;
-
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
 begin
-  ClearFigures;
-  PaintBox.Canvas.Clear;
-  PaintBox.Repaint;
+  ClearCanvas;
+  PaintBox.Invalidate;
 end;
 
-procedure TVectorEditor.EllipseBtnClick(Sender: TObject);
-begin
-  SetCurrentTool(EllipseTool);
-end;
+{ Вопросы:
+  Нужно ли перекрывать конструктор? см. UFigures
 
-initialization
-
-PolylineTool := TPolylineTool.Create;
-RectangleTool := TRectangleTool.Create;
-EllipseTool := TEllipseTool.Create;
-LineTool := TLineTool.Create;
-PointerTool := TPointerTool.Create;
-CurrentTool := PointerTool;
-
+}
 end.
 

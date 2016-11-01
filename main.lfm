@@ -1,25 +1,24 @@
 object VectorEditor: TVectorEditor
-  Left = 214
-  Height = 521
-  Top = 132
-  Width = 930
+  Left = 418
+  Height = 583
+  Top = 140
+  Width = 1023
   Caption = 'VectorEditor'
-  ClientHeight = 501
-  ClientWidth = 930
+  ClientHeight = 563
+  ClientWidth = 1023
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
   OnCreate = FormCreate
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.2.6.0'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 501
+    Height = 563
     Top = 0
-    Width = 802
+    Width = 895
     Align = alClient
     Anchors = [akTop]
-    Color = clWhite
     ParentColor = False
     OnMouseDown = PaintBoxMouseDown
     OnMouseMove = PaintBoxMouseMove
@@ -28,11 +27,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 501
+    Height = 563
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 501
+    ClientHeight = 563
     ClientWidth = 128
     Color = 16119285
     ParentColor = False

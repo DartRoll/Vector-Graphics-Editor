@@ -79,12 +79,13 @@ begin
   Figures[High(Figures)] := Figure;
 end;
 
-procedure ClearFigures;
+procedure ClearCanvas;
 var i: Integer;
 begin
   for i := 0 to High(Figures) do
     Figures[i].free;
   Figures := nil;
+  VectorEditor.PaintBox.Canvas.Clear;//внести функцию в класс
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -101,12 +102,12 @@ var
 begin
   for i := 0 to High(Tools) do begin
     ToolBtn := TSpeedButton.Create(VectorEditor);
-    //Иконка
+    //Иконка Упростить с with
     ToolIcon := TBitmap.Create;
     ToolIcon.TransparentColor := clWhite;
     ToolIcon.Transparent := True;
     ToolIcon.LoadFromFile(Tools[i].FIcon);
-    //Парметры кнопки
+    //Парметры кнопки. Можно упростить с with
     ToolBtn.Glyph := ToolIcon;
     ToolBtn.Flat := True;
     ToolBtn.Width := ABtnWidth;
@@ -125,14 +126,14 @@ procedure TVectorEditor.FillPalette;
 var
   col, row, rate, index: Integer;
 begin
-  {TODO: СДЕЛАТЬ АДЕКВАТНЫЕ ЦВЕТА}
   index := 0;
   rate := floor(255 / (PaletteGrid.RowCount * PaletteGrid.ColCount));
   for col := 0 to PaletteGrid.ColCount do begin
     SetLength(PaletteColors, Length(PaletteColors) + 1);
     for row := 0  to PaletteGrid.RowCount do begin
       SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
-      PaletteColors[col, row] := RGBToColor(index * rate, row * 28 , col * 42);
+      PaletteColors[col, row] := RGBToColor(index * rate, row * 28 ,
+        (PaletteGrid.ColCount - col) * 42);
       index += 1;
     end;
   end;
@@ -147,11 +148,11 @@ procedure TVectorEditor.FormCreate(Sender: TObject);
 var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
-  //Передаём дефолтный параметры предствалению
+  CurrentTool := Tools[0];
+  //Передаём дефолтный параметры представлению
   PenColorPanel.Color := PenColor;
   BrushColorPanel.Color := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
-  CurrentTool := Tools[0];
   //Параметры кнопок  интрументов
   BtnWidth := 64;
   BtnHeight := 64;
@@ -178,9 +179,8 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if isDrawing then
   begin
-    PaintBox.Refresh;
     CurrentTool.MouseMove(X, Y);
-    CurrentTool.GetFigure.Draw(PaintBox.Canvas);
+    PaintBox.Invalidate;
   end;
 end;
 
@@ -195,8 +195,10 @@ procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var i:integer;
 begin
   for i := 0 to High(Figures) do begin
-      Figures[i].Draw(PaintBox.Canvas);
+    Figures[i].Draw(PaintBox.Canvas);
   end;
+  if isDrawing then
+    CurrentTool.GetFigure.Draw(PaintBox.Canvas);
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -205,6 +207,7 @@ begin
     with Sender as TDrawGrid do begin
       PaletteColors[Col, Row] := ColorDialog.Color;
     end;
+    Invalidate;
   end;
 end;
 
@@ -238,13 +241,9 @@ end;
 
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
 begin
-  ClearFigures;
-  PaintBox.Canvas.Clear;
-  PaintBox.Repaint;
+  ClearCanvas;
+  PaintBox.Invalidate;
 end;
 
-{ Вопросы:
-  Нужно ли перекрывать конструктор? см. UFigures
-}
 end.
 
