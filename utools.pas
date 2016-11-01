@@ -12,9 +12,9 @@ type
     FFigure: TFigure;
     FIcon: String;
     function GetFigure: TFigure;
-    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(X, Y: Double; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); virtual; abstract;
-    procedure MouseMove(X, Y: Integer); virtual; abstract;
+    procedure MouseMove(X, Y: Double); virtual; abstract;
   end;
 
   TTwoPointFigureTool = class(TTool)
@@ -45,6 +45,10 @@ type
     procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
   end;
+
+const
+  WMaxX: Double = 1.7E308;
+  WMaxY: Double = 1.7E308;
 
 var
   Tools: array of TTool;

@@ -1,22 +1,22 @@
 object VectorEditor: TVectorEditor
   Left = 418
-  Height = 583
-  Top = 140
-  Width = 1023
+  Height = 697
+  Top = 99
+  Width = 1338
   Caption = 'VectorEditor'
-  ClientHeight = 563
-  ClientWidth = 1023
+  ClientHeight = 677
+  ClientWidth = 1338
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
   OnCreate = FormCreate
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 563
+    Height = 677
     Top = 0
-    Width = 895
+    Width = 1210
     Align = alClient
     Anchors = [akTop]
     ParentColor = False
@@ -27,11 +27,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 563
+    Height = 677
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 563
+    ClientHeight = 677
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
@@ -108,6 +108,56 @@ object VectorEditor: TVectorEditor
       ParentColor = False
       TabOrder = 3
     end
+    object ScaleSpinEdit: TSpinEdit
+      Left = 62
+      Height = 28
+      Top = 512
+      Width = 66
+      Alignment = taRightJustify
+      Font.Height = -15
+      ParentFont = False
+      TabStop = False
+      TabOrder = 4
+      Value = 100
+    end
+    object Button1: TButton
+      Left = 32
+      Height = 42
+      Top = 552
+      Width = 47
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 5
+    end
+  end
+  object ScrollBar1: TScrollBar
+    AnchorSideLeft.Control = PaintBox
+    AnchorSideRight.Control = ScrollBar2
+    AnchorSideBottom.Control = PaintBox
+    AnchorSideBottom.Side = asrBottom
+    Left = 128
+    Height = 20
+    Top = 657
+    Width = 1190
+    Anchors = [akLeft, akRight, akBottom]
+    PageSize = 0
+    TabOrder = 1
+  end
+  object ScrollBar2: TScrollBar
+    AnchorSideLeft.Control = ScrollBar1
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = PaintBox
+    AnchorSideRight.Control = PaintBox
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = ScrollBar1
+    Left = 1318
+    Height = 657
+    Top = 0
+    Width = 20
+    Anchors = [akTop, akRight, akBottom]
+    Kind = sbVertical
+    PageSize = 0
+    TabOrder = 2
   end
   object MainMenu: TMainMenu
     left = 832

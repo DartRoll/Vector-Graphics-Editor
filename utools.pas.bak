@@ -75,8 +75,7 @@ end;
 constructor TPolylineTool.Create;
 begin
   Inherited;
-  RegisterTool(Self);
-  FIcon := 'img/polyline.png';
+  FIcon := 'img/polyline.bmp';
 end;
 
 procedure TPolylineTool.MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
@@ -94,12 +93,11 @@ end;
 constructor TRectangleTool.Create;
 begin
   Inherited;
-  RegisterTool(Self);
-  FIcon := 'img/rectangle.png';
+  FIcon := 'img/rectangle.bmp';
 end;
 
-procedure TRectangleTool.MouseDown(X, Y: Integer;
-      APenColor, ABrushColor: TColor; ALineWidth: Integer);
+procedure TRectangleTool.MouseDown(
+  X, Y: Integer; APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
   FFigure := TRectangle.Create(X, Y, APenColor, ABrushColor, ALineWidth);
 end;
@@ -108,12 +106,11 @@ end;
 constructor TEllipseTool.Create;
 begin
   Inherited;
-  RegisterTool(Self);
-  FIcon := 'img/ellipse.png';
+  FIcon := 'img/ellipse.bmp';
 end;
 
-procedure TEllipseTool.MouseDown(X, Y: Integer;
-      APenColor, ABrushColor: TColor; ALineWidth: Integer);
+procedure TEllipseTool.MouseDown(
+  X, Y: Integer; APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
   FFigure := TEllipse.Create(X, Y, APenColor, ABrushColor, ALineWidth);
 end;
@@ -122,21 +119,21 @@ end;
 constructor TLineTool.Create;
 begin
   Inherited;
-  RegisterTool(Self);
-  FIcon := 'img/line.png';
+  FIcon := 'img/line.bmp';
 end;
 
-procedure TLineTool.MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer);
+procedure TLineTool.MouseDown(
+  X, Y: Integer; APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
   FFigure := TLine.Create(X, Y, APenColor,ABrushColor, ALineWidth);
 end;
 
 initialization
-PolylineTool := TPolylineTool.Create;
-RectangleTool := TRectangleTool.Create;
-EllipseTool := TEllipseTool.Create;
-LineTool := TLineTool.Create;
+
+RegisterTool(TPolylineTool.Create);
+RegisterTool(TRectangleTool.Create);
+RegisterTool(TEllipseTool.Create);
+RegisterTool(TLineTool.Create);
 
 end.
 

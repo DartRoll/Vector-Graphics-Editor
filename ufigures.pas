@@ -5,7 +5,7 @@ unit UFigures;
 interface
 
 uses
-  Classes, SysUtils, Graphics;
+  UScale, Classes, SysUtils, Graphics;
 
 type
 
@@ -19,7 +19,7 @@ type
   end;
 
   TPolyline = class(TFigure)
-    Vertexes: array of TPoint;
+    Vertexes: array of TDoublePoint;
     constructor Create(X, Y: Integer;
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure AddPoint(X, Y: Integer);
@@ -27,7 +27,7 @@ type
   end;
 
   TTwoPointFigure = class(TFigure)
-    Bounds: TRect;
+    Bounds: TDoubleRect;
     constructor Create(X, Y: Integer;
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure SetSecondPoint(X, Y: Integer);
@@ -68,12 +68,12 @@ constructor TTwoPointFigure.Create(X, Y: Integer;
   APenColor, ABrushColor: TColor; AThickness: Integer);
 begin
   inherited Create(APenColor, ABrushColor, AThickness);
-  Bounds := Rect(X, Y, X, Y);
+  Bounds := DoubleRect(X, Y, X, Y);
 end;
 
 procedure TTwoPointFigure.SetSecondPoint(X, Y: Integer);
 begin
-  Bounds := Rect(Bounds.Left, Bounds.Top, X, Y);
+  Bounds := DoubleRect(Bounds.Left, Bounds.Top, X, Y);
 end;
 
 { TPolyline }
@@ -87,30 +87,30 @@ end;
 procedure TPolyline.AddPoint(X, Y: Integer);
 begin
   SetLength(Vertexes, Length(Vertexes) + 1);
-  Vertexes[High(Vertexes)] := Point(X, Y);
+  Vertexes[High(Vertexes)] := DoublePoint(X, Y);
 end;
 
 procedure TPolyline.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Polyline(Vertexes);
+  //Canvas.Polyline(Vertexes);
 end;
 
 { TRectangle }
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(Bounds);
+  //Canvas.Rectangle(Bounds);
 end;
 
 { TEllipse }
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Ellipse(Bounds);
+ // Canvas.Ellipse(Bounds);
 end;
 
 { TLine }
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Line(Bounds);
+  //Canvas.Line(Bounds);
 end;
 
 end.

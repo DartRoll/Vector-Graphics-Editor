@@ -7,13 +7,14 @@ interface
 uses
   Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics, Math,
   Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
-  Buttons, ActnList, Grids, UFigures, UTools;
+  Buttons, ActnList, Grids, UFigures, UTools, UScale;
 
 type
 
   { TVectorEditor }
 
   TVectorEditor = class(TForm)
+    Button1: TButton;
     ColorDialog: TColorDialog;
     PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
@@ -27,9 +28,13 @@ type
     PaintBox: TPaintBox;
     BrushColorPanel: TPanel;
     PenColorPanel: TPanel;
+    ScrollBar1: TScrollBar;
+    ScrollBar2: TScrollBar;
+    ScaleSpinEdit: TSpinEdit;
     ToolPanel: TPanel;
     LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -73,6 +78,7 @@ implementation
 
 { TVectorEditor }
 
+
 procedure SaveFigure(Figure: TFigure);
 begin
   SetLength(Figures, Length(Figures) + 1);
@@ -102,23 +108,25 @@ var
 begin
   for i := 0 to High(Tools) do begin
     ToolBtn := TSpeedButton.Create(VectorEditor);
-    //Иконка Упростить с with
     ToolIcon := TBitmap.Create;
-    ToolIcon.TransparentColor := clWhite;
-    ToolIcon.Transparent := True;
-    ToolIcon.LoadFromFile(Tools[i].FIcon);
-    //Парметры кнопки. Можно упростить с with
-    ToolBtn.Glyph := ToolIcon;
-    ToolBtn.Flat := True;
-    ToolBtn.Width := ABtnWidth;
-    ToolBtn.Height := ABtnHeight;
-    ToolBtn.Top := (i div AColsCount) * ABtnHeight;
-    ToolBtn.Left := (i mod AColsCount) * ABtnWidth;
-    ToolBtn.Tag := i;
-    ToolBtn.GroupIndex := 1;
-    ToolBtn.OnClick := @ToolClick;
-    if i = 0 then ToolBtn.Down := True;
-    ToolBtn.Parent := ToolPanel;
+    with ToolIcon do begin
+      TransparentColor := clWhite;
+      Transparent := True;
+      LoadFromFile(Tools[i].FIcon);
+    end;
+    with ToolBtn do begin
+      Glyph := ToolIcon;
+      Flat := True;
+      Width := ABtnWidth;
+      Height := ABtnHeight;
+      Top := (i div AColsCount) * ABtnHeight;
+      Left := (i mod AColsCount) * ABtnWidth;
+      Tag := i;
+      GroupIndex := 1;
+      OnClick := @ToolClick;
+      if i = 0 then Down := True;
+      Parent := ToolPanel;
+    end;
   end;
 end;
 
@@ -159,7 +167,7 @@ begin
   ColsCount := 2;
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
-   FillPalette;
+  FillPalette;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -237,6 +245,11 @@ end;
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);
 begin
   aboutprogram.aboutProgramForm.Show;
+end;
+
+procedure TVectorEditor.Button1Click(Sender: TObject);
+begin
+  ShowMessage(FloatToStr(WMaxX));
 end;
 
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);
