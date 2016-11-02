@@ -5,50 +5,49 @@ unit UTools;
 interface
 
 uses
-  Classes, SysUtils, UFigures, Graphics;
+  Classes, SysUtils, UFigures, Graphics, UScale;
 
 type
   TTool = class
     FFigure: TFigure;
     FIcon: String;
     function GetFigure: TFigure;
-    procedure MouseDown(X, Y: Double; APenColor, ABrushColor: TColor;
+    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); virtual; abstract;
-    procedure MouseMove(X, Y: Integer); virtual; abstract;
+    procedure MouseMove(ADoublePoint: TDoublePoint); virtual; abstract;
   end;
 
   TTwoPointFigureTool = class(TTool)
-    procedure MouseMove(X, Y: Integer); override;
+    procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
   TPolylineTool = class(TTool)
     constructor Create;
-    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
-    procedure MouseMove(X, Y: Integer); override;
+    procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
   TRectangleTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
   end;
 
   TLineTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
   end;
 
   TEllipseTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); override;
   end;
 
 var
   Tools: array of TTool;
-  PolylineTool, RectangleTool, EllipseTool, LineTool: TTool;
 
 implementation
 
@@ -66,9 +65,9 @@ begin
 end;
 
 {TTwoPointFigureTool}
-procedure TTwoPointFigureTool.MouseMove(X, Y: Integer);
+procedure TTwoPointFigureTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
-  (FFigure as TTwoPointFigure).SetSecondPoint(X, Y);
+  (FFigure as TTwoPointFigure).SetSecondPoint(DispToWorld(X, Y));
 end;
 
 { TPolylineTool }
@@ -78,15 +77,16 @@ begin
   FIcon := 'img/polyline.bmp';
 end;
 
-procedure TPolylineTool.MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+procedure TPolylineTool.MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       ALineWidth: Integer);
 begin
-  FFigure := TPolyline.Create(X, Y, APenColor, ABrushColor, ALineWidth);
+  FFigure := TPolyline.Create(
+    DispToWorld(X, Y), APenColor, ABrushColor, ALineWidth);
 end;
 
-procedure TPolylineTool.MouseMove(X, Y: Integer);
+procedure TPolylineTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
-  (FFigure as TPolyline).AddPoint(X, Y);
+  (FFigure as TPolyline).AddPoint(DispToWorld(X, Y));
 end;
 
 { TRectangleTool }
@@ -97,9 +97,9 @@ begin
 end;
 
 procedure TRectangleTool.MouseDown(
-  X, Y: Integer; APenColor, ABrushColor: TColor; ALineWidth: Integer);
+  ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
-  FFigure := TRectangle.Create(X, Y, APenColor, ABrushColor, ALineWidth);
+  FFigure := TRectangle.Create(DispToWorld(X, Y), APenColor, ABrushColor, ALineWidth);
 end;
 
 { TEllipseTool }
@@ -110,7 +110,7 @@ begin
 end;
 
 procedure TEllipseTool.MouseDown(
-  X, Y: Integer; APenColor, ABrushColor: TColor; ALineWidth: Integer);
+  ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
   FFigure := TEllipse.Create(X, Y, APenColor, ABrushColor, ALineWidth);
 end;
@@ -123,7 +123,7 @@ begin
 end;
 
 procedure TLineTool.MouseDown(
-  X, Y: Integer; APenColor, ABrushColor: TColor; ALineWidth: Integer);
+  ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor; ALineWidth: Integer);
 begin
   FFigure := TLine.Create(X, Y, APenColor,ABrushColor, ALineWidth);
 end;

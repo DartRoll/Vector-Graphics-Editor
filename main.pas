@@ -172,8 +172,6 @@ begin
   FillPalette;
   //Сдвиг канваса
   SetCanvasOffset(PaintBox.ClientWidth, PaintBox.ClientHeight);
-  ShowMessage(FloatToStr(PaintBox.ClientHeight));
-  ShowMessage(FloatToStr(Offset.y));
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -185,7 +183,7 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := True;
-  CurrentTool.MouseDown(X, Y, PenColor, BrushColor, LineWidth);
+  CurrentTool.MouseDown(DispToWorld(X, Y), PenColor, BrushColor, LineWidth);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -193,7 +191,7 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if isDrawing then
   begin
-    CurrentTool.MouseMove(X, Y);
+    CurrentTool.MouseMove(DispToWorld(X, Y));
     PaintBox.Invalidate;
   end;
 end;
