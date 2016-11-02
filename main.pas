@@ -15,6 +15,7 @@ type
 
   TVectorEditor = class(TForm)
     Button1: TButton;
+    Button2: TButton;
     ColorDialog: TColorDialog;
     PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
@@ -35,6 +36,7 @@ type
     LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -168,6 +170,10 @@ begin
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
+  //Сдвиг канваса
+  SetCanvasOffset(PaintBox.ClientWidth, PaintBox.ClientHeight);
+  ShowMessage(FloatToStr(PaintBox.ClientHeight));
+  ShowMessage(FloatToStr(Offset.y));
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -250,6 +256,11 @@ end;
 procedure TVectorEditor.Button1Click(Sender: TObject);
 begin
   ShowMessage(FloatToStr(WMaxX));
+end;
+
+procedure TVectorEditor.Button2Click(Sender: TObject);
+begin
+  ShowMessage(IntToStr(PaintBox.BoundsRect.Right));
 end;
 
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);

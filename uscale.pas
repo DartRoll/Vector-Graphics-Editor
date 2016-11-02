@@ -23,9 +23,15 @@ type
 
 function DoublePoint(AX, AY: Double): TDoublePoint;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
+procedure SetCanvasOffset(AWidth, AHeight: Integer);
 
+const
+  WMaxX: Double = 999999999999999;
+  WMaxY: Double = 999999999999999;
 
-
+var
+  Scale: Double = 1;
+  Offset: TDoublePoint;
 implementation
 
 function DoublePoint(AX, AY: Double): TDoublePoint;
@@ -48,9 +54,18 @@ begin
   end;
 end;
 
-procedure lol;
+procedure SetCanvasOffset(AWidth, AHeight: Integer);
 begin
-  //kek.Left := 2;
+  Offset.X := (WMaxX + 1) / 2 - round(AWidth / 2);
+  Offset.Y := (WMaxY + 1) / 2 - round(AHeight / 2);
+end;
+
+function WorldToDisp(ADoublePoint: TDoublePoint): TPoint;
+begin
+  with Result do begin
+    x := round(Scale * ADoublePoint.X - Offset.X);
+    y := round(Scale * ADoublePoint.Y - Offset.Y);
+  end;
 end;
 
 end.

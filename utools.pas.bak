@@ -12,7 +12,7 @@ type
     FFigure: TFigure;
     FIcon: String;
     function GetFigure: TFigure;
-    procedure MouseDown(X, Y: Integer; APenColor, ABrushColor: TColor;
+    procedure MouseDown(X, Y: Double; APenColor, ABrushColor: TColor;
       ALineWidth: Integer); virtual; abstract;
     procedure MouseMove(X, Y: Integer); virtual; abstract;
   end;
