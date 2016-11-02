@@ -15,8 +15,9 @@ type
 
   TVectorEditor = class(TForm)
     Button1: TButton;
-    Button2: TButton;
     ColorDialog: TColorDialog;
+    Label1: TLabel;
+    Label2: TLabel;
     PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
     MainMenu: TMainMenu;
@@ -83,8 +84,10 @@ implementation
 
 procedure SaveFigure(Figure: TFigure);
 begin
-  SetLength(Figures, Length(Figures) + 1);
-  Figures[High(Figures)] := Figure;
+  if Figure <> nil then begin
+    SetLength(Figures, Length(Figures) + 1);
+    Figures[High(Figures)] := Figure;
+  end;
 end;
 
 procedure ClearCanvas;
@@ -206,10 +209,12 @@ end;
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var i:integer;
 begin
+  Label1.Caption := FloatToStr(CanvasOffset.X);
+  Label2.Caption := FloatToStr(CanvasOffset.Y);
   for i := 0 to High(Figures) do begin
     Figures[i].Draw(PaintBox.Canvas);
   end;
-  if isDrawing then
+  if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
 end;
 

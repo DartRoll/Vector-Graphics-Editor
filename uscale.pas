@@ -41,8 +41,9 @@ function VertexesToDisp(AVertexes: array of TDoublePoint): TArrayOfTpoint;
 function FigureBoundsToDisp(ADoubleRect: TDoubleRect): TRect;
 
 const
-  WMaxX: Double = 999999999999999;
-  WMaxY: Double = 999999999999999;
+  //999999999999999
+  WMaxX: Double = 99999999;
+  WMaxY: Double = 99999999;
 
 var
   Scale: Double = 1;

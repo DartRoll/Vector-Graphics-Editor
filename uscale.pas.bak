@@ -38,10 +38,12 @@ function DispToWorld(APoint: TPoint): TDoublePoint;
 function DispToWorld(AX, AY: Integer): TDoublePoint;
 function WorldToDisp(ADoublePoint: TDoublePoint): TPoint;
 function VertexesToDisp(AVertexes: array of TDoublePoint): TArrayOfTpoint;
+function FigureBoundsToDisp(ADoubleRect: TDoubleRect): TRect;
 
 const
-  WMaxX: Double = 999999999999999;
-  WMaxY: Double = 999999999999999;
+  //999999999999999
+  WMaxX: Double = 999999999999;
+  WMaxY: Double = 999999999999;
 
 var
   Scale: Double = 1;
@@ -118,6 +120,15 @@ begin
     PointVertexes[i] := WorldToDisp(AVertexes[i]);
   end;
   Result := PointVertexes;
+end;
+
+function FigureBoundsToDisp(ADoubleRect: TDoubleRect): TRect;
+begin
+  //можно перегрузить и сдлеать проще
+  with Result do begin
+    TopLeft := WorldToDisp(ADoubleRect.TopLeft);
+    BottomRight := WorldToDisp(ADoubleRect.BottomRight);
+  end;
 end;
 
 end.

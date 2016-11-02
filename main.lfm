@@ -1,10 +1,10 @@
 object VectorEditor: TVectorEditor
-  Left = 226
-  Height = 605
-  Top = 55
+  Left = 529
+  Height = 757
+  Top = 101
   Width = 789
   Caption = 'VectorEditor'
-  ClientHeight = 585
+  ClientHeight = 737
   ClientWidth = 789
   Color = clWhite
   KeyPreview = True
@@ -14,7 +14,7 @@ object VectorEditor: TVectorEditor
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
     Left = 128
-    Height = 585
+    Height = 737
     Top = 0
     Width = 661
     Align = alClient
@@ -27,11 +27,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 585
+    Height = 737
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 585
+    ClientHeight = 737
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
@@ -129,14 +129,21 @@ object VectorEditor: TVectorEditor
       OnClick = Button1Click
       TabOrder = 5
     end
-    object Button2: TButton
-      Left = 87
-      Height = 32
-      Top = 365
-      Width = 31
-      Caption = 'Button2'
-      OnClick = Button2Click
-      TabOrder = 6
+    object Label1: TLabel
+      Left = 8
+      Height = 15
+      Top = 560
+      Width = 34
+      Caption = 'Label1'
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 8
+      Height = 15
+      Top = 584
+      Width = 34
+      Caption = 'Label2'
+      ParentColor = False
     end
   end
   object ScrollBar1: TScrollBar
@@ -146,7 +153,7 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Side = asrBottom
     Left = 128
     Height = 20
-    Top = 565
+    Top = 717
     Width = 641
     Anchors = [akLeft, akRight, akBottom]
     PageSize = 0
@@ -160,7 +167,7 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = ScrollBar1
     Left = 769
-    Height = 565
+    Height = 717
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]

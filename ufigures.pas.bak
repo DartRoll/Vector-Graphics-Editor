@@ -98,19 +98,19 @@ end;
 { TRectangle }
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  //Canvas.Rectangle(Bounds);
+  Canvas.Rectangle(FigureBoundsToDisp(Bounds));
 end;
 
 { TEllipse }
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
- // Canvas.Ellipse(Bounds);
+  Canvas.Ellipse(FigureBoundsToDisp(Bounds));
 end;
 
 { TLine }
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  //Canvas.Line(Bounds);
+  Canvas.Line(FigureBoundsToDisp(Bounds));
 end;
 
 end.

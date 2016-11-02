@@ -12,9 +12,19 @@ type
     FFigure: TFigure;
     FIcon: String;
     function GetFigure: TFigure;
-    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer); virtual; abstract;
+    procedure MouseDown(ADoublePoint: TDoublePoint;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer); virtual; abstract;
     procedure MouseMove(ADoublePoint: TDoublePoint); virtual; abstract;
+  end;
+
+  { THandTool }
+
+  THandTool = class(TTool)
+    FFirstPoint, FSecondPoint: TPoint;
+    constructor Create;
+    procedure MouseDown(ADoublePoint: TDoublePoint;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer); override;
+    procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
   TTwoPointFigureTool = class(TTool)
@@ -23,27 +33,27 @@ type
 
   TPolylineTool = class(TTool)
     constructor Create;
-    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer); override;
+    procedure MouseDown(ADoublePoint: TDoublePoint;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer); override;
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
   TRectangleTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer); override;
+    procedure MouseDown(ADoublePoint: TDoublePoint;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer); override;
   end;
 
   TLineTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer); override;
+    procedure MouseDown(ADoublePoint: TDoublePoint;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer); override;
   end;
 
   TEllipseTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer); override;
+    procedure MouseDown(ADoublePoint: TDoublePoint;
+      APenColor, ABrushColor: TColor; ALineWidth: Integer); override;
   end;
 
 var
@@ -58,13 +68,34 @@ begin
   Tools[High(Tools)] := Tool;
 end;
 
+{ THandTool }
+constructor THandTool.Create;
+begin
+  Inherited;
+  FIcon := 'img/hand.bmp';
+end;
+
+procedure THandTool.MouseDown(ADoublePoint: TDoublePoint; APenColor,
+  ABrushColor: TColor; ALineWidth: Integer);
+begin
+  FFirstPoint := WorldToDisp(ADoublePoint);
+end;
+
+procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
+begin
+  //добавить Scale
+  CanvasOffset.X  -= WorldToDisp(ADoublePoint).x - FFirstPoint.X;
+  CanvasOffset.Y -= WorldToDisp(ADoublePoint).y - FFirstPoint.Y;
+  FFirstPoint := WorldToDisp(ADoublePoint);
+end;
+
 { TTool }
 function TTool.GetFigure: TFigure;
 begin
   Result := FFigure;
 end;
 
-{TTwoPointFigureTool}
+{ TTwoPointFigureTool }
 procedure TTwoPointFigureTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
   (FFigure as TTwoPointFigure).SetSecondPoint(ADoublePoint);
@@ -128,11 +159,10 @@ begin
 end;
 
 initialization
-
+RegisterTool(THandTool.Create);
 RegisterTool(TPolylineTool.Create);
 RegisterTool(TRectangleTool.Create);
 RegisterTool(TEllipseTool.Create);
 RegisterTool(TLineTool.Create);
-
 end.
 
