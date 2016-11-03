@@ -211,7 +211,9 @@ procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := False;
+  CurrentTool.GetFigure.GetBounds;
   SaveFigure(CurrentTool.GetFigure);
+
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);

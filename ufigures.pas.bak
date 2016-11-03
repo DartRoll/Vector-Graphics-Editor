@@ -58,7 +58,7 @@ end;
 procedure TFigure.Draw(Canvas: TCanvas);
 begin
   Canvas.Pen.Color := PenColor;
-  Canvas.Pen.Width := {round(GetScale() *} Thickness;
+  Canvas.Pen.Width := Thickness;
   Canvas.Brush.Color := BrushColor;
   DrawFigure(Canvas);
 end;

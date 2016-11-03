@@ -5,7 +5,7 @@ unit UFigures;
 interface
 
 uses
-  UScale, Classes, SysUtils, Graphics;
+  UScale, Classes, SysUtils, Graphics, math;
 
 type
 
@@ -16,6 +16,7 @@ type
     constructor Create(APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure Draw(Canvas: TCanvas);
     procedure DrawFigure(Canvas: TCanvas); virtual; abstract;
+    function GetBounds: TDoubleRect; virtual; abstract;
   end;
 
   TPolyline = class(TFigure)
@@ -24,6 +25,7 @@ type
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure AddPoint(ADoublePoint: TDoublePoint);
     procedure DrawFigure(Canvas: TCanvas); override;
+    function GetBounds: TDoubleRect;
   end;
 
   TTwoPointFigure = class(TFigure)
@@ -31,6 +33,7 @@ type
     constructor Create(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure SetSecondPoint(ADoublePoint: TDoublePoint);
+    function GetBounds: TDoubleRect;
   end;
 
   TRectangle = class(TTwoPointFigure)
@@ -93,6 +96,28 @@ end;
 procedure TPolyline.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Polyline(WorldVertexesToDispCoord(Vertexes));
+end;
+
+function TPolyline.GetBounds: TDoubleRect;
+var
+  i: Integer;
+  LeftX, RightX, TopY, BottomY: Double;
+begin
+  with Vertexes[0] do begin
+    LeftX := X;
+    RightX := X;
+    TopY := Y;
+    BottomY := Y;
+  end;
+  for i := 1 to High(Vertexes) do begin
+    with Vertexes[i] do begin
+      LeftX := Min(LeftX, X);
+      RightX := Max(RightX, X);
+      BottomY := Min(BottomY, Y);
+      TopY := Max(TopY, y);
+    end;
+  end;
+  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
 end;
 
 { TRectangle }
