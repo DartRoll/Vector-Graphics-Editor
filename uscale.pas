@@ -33,23 +33,28 @@ type
 function DoublePoint(AX, AY: Double): TDoublePoint;
 function DoubleRect(ATopLeft, ABottomRight: TDoublePoint): TDoubleRect;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
-procedure SetCanvasOffset(AWidth, AHeight: Integer);
-function DispToWorld(APoint: TPoint): TDoublePoint;
-function DispToWorld(AX, AY: Integer): TDoublePoint;
-function WorldToDisp(ADoublePoint: TDoublePoint): TPoint;
-function VertexesToDisp(AVertexes: array of TDoublePoint): TArrayOfTpoint;
-function FigureBoundsToDisp(ADoubleRect: TDoubleRect): TRect;
-
-const
+procedure SetCanvasOffset(AX, AY: Double);
+procedure AddCanvasOffset(AX, AY: Double);
+function GetCanvasOffset: TDoublePoint;
+function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
+function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
+function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
+function WorldVertexesToDispCoord(
+  AVertexes: array of TDoublePoint): TArrayOfTpoint;
+procedure SetScale(AScale: Double);
+function GetScale:Double;
+//const
   //999999999999999
-  WMaxX: Double = 999999;
-  WMaxY: Double = 999999;
+  //WMaxX: Double = 999999999999999;
+  //WMaxY: Double = 999999999999999;
+
+implementation
 
 var
   Scale: Double = 1.0;
-  CanvasOffset: TDoublePoint;
-implementation
+  CanvasOffset: TDoublePoint;//X:=0, Y:=0
 
+{ TDoublePoint }
 function DoublePoint(AX, AY: Double): TDoublePoint;
 begin
   with Result do
@@ -59,6 +64,7 @@ begin
   end;
 end;
 
+{ TDoubleRect }
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
 begin
   with Result do begin
@@ -76,63 +82,79 @@ begin
     BottomRight := ABottomRight;
   end;
 end;
+{ Scale }
 
-procedure SetCanvasOffset(AWidth, AHeight: Integer);
+procedure SetScale(AScale: Double);
 begin
-  //floor returns integer so does round
-  CanvasOffset.X := RoundTo(WMaxX / 2, 0) - round(AWidth / 2);
-  CanvasOffset.Y := RoundTo(WMaxY / 2, 0) - round(AHeight / 2);
+  Scale := AScale / 100;
 end;
 
-function WorldToDisp(ADoublePoint: TDoublePoint): TPoint;
+function GetScale:Double;
+begin
+  Result := Scale;
+end;
+
+{ Canvas Offset }
+procedure SetCanvasOffset(AX, AY: Double);
+begin
+  CanvasOffset.X := AX;
+  CanvasOffset.Y := AY;
+end;
+
+procedure AddCanvasOffset(AX, AY: Double);
+begin
+  CanvasOffset.X += Scale * AX;
+  CanvasOffset.Y += Scale * AY;
+end;
+
+function GetCanvasOffset: TDoublePoint;
+begin
+  Result := CanvasOffset;
+end;
+
+{ World -> Display}
+function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 begin
   with Result do begin
     //Проверить потерю точности
-    x := round(ADoublePoint.X - CanvasOffset.X);
-    y := round(ADoublePoint.Y - CanvasOffset.Y);
+    x := round(Scale * ADoublePoint.X - CanvasOffset.X);
+    y := round(Scale * ADoublePoint.Y - CanvasOffset.Y);
   end;
 end;
 
-function DispToWorld(AX, AY: Integer): TDoublePoint;
+function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
 begin
   with Result do begin
-    //Потеря точности
-    X := (AX + CanvasOffset.X);
-    Y := (AY + CanvasOffset.Y);
+    TopLeft := WorldToDispCoord(ADoubleRect.TopLeft);
+    BottomRight := WorldToDispCoord(ADoubleRect.BottomRight);
   end;
 end;
 
-function DispToWorld(APoint: TPoint): TDoublePoint;
-begin
-  with Result do begin
-    //Потеря точности?
-    X := (APoint.x + CanvasOffset.X);
-    Y := (APoint.y + CanvasOffset.Y);
-  end;
-end;
-
-function VertexesToDisp(AVertexes: array of TDoublePoint): TArrayOfTpoint;
+function WorldVertexesToDispCoord(
+  AVertexes: array of TDoublePoint): TArrayOfTpoint;
 var
   i: Integer;
   PointVertexes: TArrayOfTpoint;
 begin
   SetLength(PointVertexes, Length(AVertexes));
   for i := 0 to High(AVertexes) do begin
-    PointVertexes[i] := WorldToDisp(AVertexes[i]);
+    PointVertexes[i] := WorldToDispCoord(AVertexes[i]);
   end;
   Result := PointVertexes;
 end;
 
-function FigureBoundsToDisp(ADoubleRect: TDoubleRect): TRect;
+{Display -> World}
+
+function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 begin
-  //можно перегрузить и сдлеать проще
   with Result do begin
-    TopLeft := WorldToDisp(ADoubleRect.TopLeft);
-    BottomRight := WorldToDisp(ADoubleRect.BottomRight);
+    X := (AX + CanvasOffset.X) / Scale;
+    Y := (AY + CanvasOffset.Y) / Scale;
   end;
 end;
 
 initialization
+
 CanvasOffset.X := 0;
 CanvasOffset.Y := 0;
 

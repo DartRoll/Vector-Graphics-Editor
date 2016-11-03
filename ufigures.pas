@@ -92,25 +92,25 @@ end;
 
 procedure TPolyline.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Polyline(VertexesToDisp(Vertexes));
+  Canvas.Polyline(WorldVertexesToDispCoord(Vertexes));
 end;
 
 { TRectangle }
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(FigureBoundsToDisp(Bounds));
+  Canvas.Rectangle(WorldToDispCoord(Bounds));
 end;
 
 { TEllipse }
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Ellipse(FigureBoundsToDisp(Bounds));
+  Canvas.Ellipse(WorldToDispCoord(Bounds));
 end;
 
 { TLine }
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Line(FigureBoundsToDisp(Bounds));
+  Canvas.Line(WorldToDispCoord(Bounds));
 end;
 
 end.

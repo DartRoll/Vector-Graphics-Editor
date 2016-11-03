@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 529
+  Left = 934
   Height = 685
-  Top = 11
+  Top = 169
   Width = 789
   Caption = 'VectorEditor'
   ClientHeight = 665
@@ -39,7 +39,7 @@ object VectorEditor: TVectorEditor
     object LineWidthSpinEdit: TSpinEdit
       Left = 64
       Height = 28
-      Top = 472
+      Top = 448
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -56,7 +56,7 @@ object VectorEditor: TVectorEditor
       AnchorSideRight.Control = LineWidthSpinEdit
       Left = 0
       Height = 20
-      Top = 472
+      Top = 448
       Width = 64
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
@@ -93,7 +93,7 @@ object VectorEditor: TVectorEditor
     object BrushColorPanel: TPanel
       Left = 48
       Height = 50
-      Top = 392
+      Top = 384
       Width = 50
       Color = clWhite
       ParentColor = False
@@ -102,37 +102,25 @@ object VectorEditor: TVectorEditor
     object PenColorPanel: TPanel
       Left = 22
       Height = 50
-      Top = 368
+      Top = 360
       Width = 50
       Color = clBlack
       ParentColor = False
       TabOrder = 3
     end
-    object ScaleSpinEdit: TSpinEdit
-      Left = 62
-      Height = 28
-      Top = 512
-      Width = 66
-      Alignment = taRightJustify
-      Font.Height = -15
-      ParentFont = False
-      TabStop = False
-      TabOrder = 4
-      Value = 100
-    end
     object Button1: TButton
-      Left = 0
+      Left = 80
       Height = 42
-      Top = 498
+      Top = 512
       Width = 47
       Caption = 'Button1'
       OnClick = Button1Click
-      TabOrder = 5
+      TabOrder = 4
     end
     object Label1: TLabel
       Left = 0
       Height = 15
-      Top = 544
+      Top = 496
       Width = 34
       Caption = 'Label1'
       ParentColor = False
@@ -140,7 +128,7 @@ object VectorEditor: TVectorEditor
     object Label2: TLabel
       Left = 0
       Height = 15
-      Top = 552
+      Top = 512
       Width = 34
       Caption = 'Label2'
       ParentColor = False
@@ -148,7 +136,7 @@ object VectorEditor: TVectorEditor
     object Label3: TLabel
       Left = 0
       Height = 15
-      Top = 576
+      Top = 528
       Width = 34
       Caption = 'Label3'
       ParentColor = False
@@ -156,55 +144,82 @@ object VectorEditor: TVectorEditor
     object Label4: TLabel
       Left = 0
       Height = 15
-      Top = 592
+      Top = 539
       Width = 34
       Caption = 'Label4'
       ParentColor = False
     end
     object Label5: TLabel
-      Left = 32
+      Left = 0
       Height = 15
-      Top = 608
+      Top = 560
       Width = 34
       Caption = 'Label5'
       ParentColor = False
     end
     object Label6: TLabel
-      Left = 30
+      Left = 0
       Height = 15
-      Top = 624
+      Top = 576
       Width = 34
       Caption = 'Label6'
       ParentColor = False
     end
+    object Button2: TButton
+      Left = 80
+      Height = 37
+      Top = 552
+      Width = 44
+      Caption = 'Button2'
+      OnClick = Button2Click
+      TabOrder = 5
+    end
+    object ScaleFloatSpinEdit: TFloatSpinEdit
+      Left = 71
+      Height = 23
+      Top = 480
+      Width = 57
+      Alignment = taRightJustify
+      AutoSelect = False
+      AutoSize = False
+      DecimalPlaces = 0
+      Font.Height = -15
+      Increment = 10
+      MaxValue = 1000
+      MinValue = 10
+      OnChange = ScaleFloatSpinEditChange
+      ParentFont = False
+      TabStop = False
+      TabOrder = 6
+      Value = 100
+    end
   end
-  object ScrollBar1: TScrollBar
-    AnchorSideLeft.Control = PaintBox
-    AnchorSideRight.Control = ScrollBar2
-    AnchorSideBottom.Control = PaintBox
-    AnchorSideBottom.Side = asrBottom
+  object HorizontalScrollBar: TScrollBar
     Left = 128
     Height = 20
     Top = 645
     Width = 641
     Anchors = [akLeft, akRight, akBottom]
-    PageSize = 0
+    Max = 30
+    PageSize = 10
+    Position = 30
     TabOrder = 1
   end
-  object ScrollBar2: TScrollBar
-    AnchorSideLeft.Control = ScrollBar1
+  object VerticalScrollBar: TScrollBar
+    AnchorSideLeft.Control = HorizontalScrollBar
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = PaintBox
     AnchorSideRight.Control = PaintBox
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = ScrollBar1
+    AnchorSideBottom.Control = HorizontalScrollBar
     Left = 769
     Height = 645
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
     Kind = sbVertical
-    PageSize = 0
+    Max = 0
+    PageSize = 1
     TabOrder = 2
   end
   object MainMenu: TMainMenu

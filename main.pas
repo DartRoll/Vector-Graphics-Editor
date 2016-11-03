@@ -15,7 +15,9 @@ type
 
   TVectorEditor = class(TForm)
     Button1: TButton;
+    Button2: TButton;
     ColorDialog: TColorDialog;
+    ScaleFloatSpinEdit: TFloatSpinEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -34,9 +36,8 @@ type
     PaintBox: TPaintBox;
     BrushColorPanel: TPanel;
     PenColorPanel: TPanel;
-    ScrollBar1: TScrollBar;
-    ScrollBar2: TScrollBar;
-    ScaleSpinEdit: TSpinEdit;
+    HorizontalScrollBar: TScrollBar;
+    VerticalScrollBar: TScrollBar;
     ToolPanel: TPanel;
     LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
@@ -58,9 +59,12 @@ type
       aRect: TRect; aState: TGridDrawState);
     procedure PaletteGridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ScaleFloatSpinEditChange(Sender: TObject);
+    procedure ScaleSpinEditChange(Sender: TObject);
     procedure ToolClick(Sender: TObject);
     procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
     procedure FillPalette;
+    procedure ClearCanvas;
   private
     { private declarations }
 
@@ -94,13 +98,13 @@ begin
   end;
 end;
 
-procedure ClearCanvas;
+procedure TVectorEditor.ClearCanvas;
 var i: Integer;
 begin
   for i := 0 to High(Figures) do
     Figures[i].free;
   Figures := nil;
-  VectorEditor.PaintBox.Canvas.Clear;//внести функцию в класс
+  PaintBox.Canvas.Clear;
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -171,14 +175,12 @@ begin
   BrushColorPanel.Color := BrushColor;
   LineWidthSpinEdit.Value := LineWidth;
   //Параметры кнопок  интрументов
-  BtnWidth := 64;
-  BtnHeight := 64;
+  BtnWidth := 48;
+  BtnHeight := 48;
   ColsCount := 2;
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
-  //Сдвиг канваса
-  //SetCanvasOffset(PaintBox.ClientWidth, PaintBox.ClientHeight);
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -190,19 +192,17 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := True;
-  CurrentTool.MouseDown(DispToWorld(X, Y), PenColor, BrushColor, LineWidth);
+  CurrentTool.MouseDown(DispToWorldCoord(X, Y), PenColor, BrushColor, LineWidth);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
+  Label1.Caption := 'x:' + FloatToStr(GetCanvasOffset.X);
+  Label2.Caption := 'y:' + FloatToStr(GetCanvasOffset.Y);
   if isDrawing then
   begin
-    Label3.Caption := 'x: '+FloatToStr(DispToWorld(X, Y).x);
-    Label4.Caption := 'y:'+FloatToStr(DispToWorld(X,Y).y);
-    Label5.Caption := FloatToStr(CanvasOffset.X - (DispToWorld(X, Y).x - Tools[0].FFirstPoint.X));
-    Label6.Caption := IntToStr(Y);
-    CurrentTool.MouseMove(DispToWorld(X, Y));
+    CurrentTool.MouseMove(DispToWorldCoord(X, Y));
     PaintBox.Invalidate;
   end;
 end;
@@ -217,13 +217,12 @@ end;
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var i:integer;
 begin
-  Label1.Caption := 'x: ' + FloatToStr(CanvasOffset.X);
-  Label2.Caption := 'y: ' + FloatToStr(CanvasOffset.Y);
   for i := 0 to High(Figures) do begin
     Figures[i].Draw(PaintBox.Canvas);
   end;
-  if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально
+  if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально !!!
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
+
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -232,7 +231,7 @@ begin
     with Sender as TDrawGrid do begin
       PaletteColors[Col, Row] := ColorDialog.Color;
     end;
-    Invalidate;
+    PaletteGrid.Invalidate;
   end;
 end;
 
@@ -259,6 +258,18 @@ begin
   end;
 end;
 
+procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
+begin
+  SetScale((Sender as TFloatSpinEdit).Value);
+  PaintBox.Invalidate;
+end;
+
+procedure TVectorEditor.ScaleSpinEditChange(Sender: TObject);
+begin
+  SetScale((Sender as TSpinEdit).Value);
+  PaintBox.Invalidate;
+end;
+
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);
 begin
   aboutprogram.aboutProgramForm.Show;
@@ -266,12 +277,15 @@ end;
 
 procedure TVectorEditor.Button1Click(Sender: TObject);
 begin
-  ShowMessage(FloatToStr(WMaxX));
+  CurrentTool.MouseDown(DispToWorldCoord(10, 10), PenColor, BrushColor, LineWidth);
+
 end;
 
 procedure TVectorEditor.Button2Click(Sender: TObject);
 begin
-  ShowMessage(IntToStr(PaintBox.BoundsRect.Right));
+  CurrentTool.MouseMove(DispToWorldCoord(20, 20));
+  CurrentTool.MouseMove(DispToWorldCoord(30, 30));
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.ClearMenuItemClick(Sender: TObject);

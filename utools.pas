@@ -18,7 +18,6 @@ type
   end;
 
   { THandTool }
-
   THandTool = class(TTool)
     FFirstPoint: TDoublePoint;
     constructor Create;
@@ -83,14 +82,8 @@ end;
 
 procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
-  //добавить Scale
-  {TUT OCHIBKA}
-  with CanvasOffset do begin;
-    X := X - (ADoublePoint.x - FFirstPoint.X);
-    Y := Y - (ADoublePoint.y - FFirstPoint.Y);
-
-  end;
-  FFirstPoint := ADoublePoint;
+  AddCanvasOffset(FFirstPoint.X - ADoublePoint.x,
+                  FFirstPoint.Y - ADoublePoint.y);
 end;
 
 { TTool }
