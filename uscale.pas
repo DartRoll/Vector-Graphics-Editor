@@ -42,11 +42,11 @@ function FigureBoundsToDisp(ADoubleRect: TDoubleRect): TRect;
 
 const
   //999999999999999
-  WMaxX: Double = 99999999;
-  WMaxY: Double = 99999999;
+  WMaxX: Double = 999999;
+  WMaxY: Double = 999999;
 
 var
-  Scale: Double = 1;
+  Scale: Double = 1.0;
   CanvasOffset: TDoublePoint;
 implementation
 
@@ -79,25 +79,26 @@ end;
 
 procedure SetCanvasOffset(AWidth, AHeight: Integer);
 begin
-  CanvasOffset.X := floor(WMaxX / 2) - round(AWidth / 2);
-  CanvasOffset.Y := floor(WMaxY / 2) - round(AHeight / 2);
+  //floor returns integer so does round
+  CanvasOffset.X := RoundTo(WMaxX / 2, 0) - round(AWidth / 2);
+  CanvasOffset.Y := RoundTo(WMaxY / 2, 0) - round(AHeight / 2);
 end;
 
 function WorldToDisp(ADoublePoint: TDoublePoint): TPoint;
 begin
   with Result do begin
     //Проверить потерю точности
-    x := round(Scale * ADoublePoint.X - CanvasOffset.X);
-    y := round(Scale * ADoublePoint.Y - CanvasOffset.Y);
+    x := round(ADoublePoint.X - CanvasOffset.X);
+    y := round(ADoublePoint.Y - CanvasOffset.Y);
   end;
 end;
 
 function DispToWorld(AX, AY: Integer): TDoublePoint;
 begin
   with Result do begin
-    //Потеря точности?
-    X := (AX + CanvasOffset.X) / scale;
-    Y := (AY + CanvasOffset.Y) / scale;
+    //Потеря точности
+    X := (AX + CanvasOffset.X);
+    Y := (AY + CanvasOffset.Y);
   end;
 end;
 
@@ -105,8 +106,8 @@ function DispToWorld(APoint: TPoint): TDoublePoint;
 begin
   with Result do begin
     //Потеря точности?
-    X := (APoint.x + CanvasOffset.X) / scale;
-    Y := (APoint.y + CanvasOffset.Y) / scale;
+    X := (APoint.x + CanvasOffset.X);
+    Y := (APoint.y + CanvasOffset.Y);
   end;
 end;
 
@@ -130,6 +131,10 @@ begin
     BottomRight := WorldToDisp(ADoubleRect.BottomRight);
   end;
 end;
+
+initialization
+CanvasOffset.X := 0;
+CanvasOffset.Y := 0;
 
 end.
 

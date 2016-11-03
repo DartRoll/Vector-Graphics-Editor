@@ -18,6 +18,10 @@ type
     ColorDialog: TColorDialog;
     Label1: TLabel;
     Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
     PaletteGrid: TDrawGrid;
     LineWidthLabel: TLabel;
     MainMenu: TMainMenu;
@@ -174,7 +178,7 @@ begin
   //Палитра
   FillPalette;
   //Сдвиг канваса
-  SetCanvasOffset(PaintBox.ClientWidth, PaintBox.ClientHeight);
+  //SetCanvasOffset(PaintBox.ClientWidth, PaintBox.ClientHeight);
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -194,6 +198,10 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   if isDrawing then
   begin
+    Label3.Caption := 'x: '+FloatToStr(DispToWorld(X, Y).x);
+    Label4.Caption := 'y:'+FloatToStr(DispToWorld(X,Y).y);
+    Label5.Caption := IntToStr(X);
+    Label6.Caption := IntToStr(Y);
     CurrentTool.MouseMove(DispToWorld(X, Y));
     PaintBox.Invalidate;
   end;
@@ -209,8 +217,8 @@ end;
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
 var i:integer;
 begin
-  Label1.Caption := FloatToStr(CanvasOffset.X);
-  Label2.Caption := FloatToStr(CanvasOffset.Y);
+  Label1.Caption := 'x: ' + FloatToStr(CanvasOffset.X);
+  Label2.Caption := 'y: ' + FloatToStr(CanvasOffset.Y);
   for i := 0 to High(Figures) do begin
     Figures[i].Draw(PaintBox.Canvas);
   end;

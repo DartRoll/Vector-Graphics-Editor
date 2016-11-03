@@ -20,7 +20,7 @@ type
   { THandTool }
 
   THandTool = class(TTool)
-    FFirstPoint, FSecondPoint: TPoint;
+    FFirstPoint: TDoublePoint;
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer); override;
@@ -78,15 +78,19 @@ end;
 procedure THandTool.MouseDown(ADoublePoint: TDoublePoint; APenColor,
   ABrushColor: TColor; ALineWidth: Integer);
 begin
-  FFirstPoint := WorldToDisp(ADoublePoint);
+  FFirstPoint := ADoublePoint;
 end;
 
 procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
   //добавить Scale
-  CanvasOffset.X  -= WorldToDisp(ADoublePoint).x - FFirstPoint.X;
-  CanvasOffset.Y -= WorldToDisp(ADoublePoint).y - FFirstPoint.Y;
-  FFirstPoint := WorldToDisp(ADoublePoint);
+  {TUT OCHIBKA}
+  with CanvasOffset do begin;
+    X := X - (ADoublePoint.x - FFirstPoint.X);
+    Y := Y - (ADoublePoint.y - FFirstPoint.Y);
+
+  end;
+  FFirstPoint := ADoublePoint;
 end;
 
 { TTool }
