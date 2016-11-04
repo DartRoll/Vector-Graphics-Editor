@@ -67,6 +67,8 @@ type
     procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
     procedure FillPalette;
     procedure ClearCanvas;
+    procedure SetScrollBarsPostions;
+    procedure SaveFigure(Figure: TFigure);
   private
     { private declarations }
 
@@ -93,11 +95,12 @@ implementation
 { TVectorEditor }
 
 
-procedure SaveFigure(Figure: TFigure);
+procedure TVectorEditor.SaveFigure(Figure: TFigure);
 begin
   if Figure <> nil then begin
     SetLength(Figures, Length(Figures) + 1);
     Figures[High(Figures)] := Figure;
+    SetScrollBarsPostions;
   end;
 end;
 
@@ -125,6 +128,12 @@ begin
     Figures[i].free;
   Figures := nil;
   PaintBox.Canvas.Clear;
+end;
+
+procedure TVectorEditor.SetScrollBarsPostions;
+begin
+  HorizontalScrollBar.Min := round(ImageBounds.Left);
+  HorizontalScrollBar.Max := round(ImageBounds.Right);
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
