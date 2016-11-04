@@ -17,6 +17,7 @@ type
     Button1: TButton;
     Button2: TButton;
     ColorDialog: TColorDialog;
+    ShowEverythingMenuItem: TMenuItem;
     ScaleFloatSpinEdit: TFloatSpinEdit;
     Label1: TLabel;
     Label2: TLabel;
@@ -61,7 +62,7 @@ type
     procedure PaletteGridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ScaleFloatSpinEditChange(Sender: TObject);
-    procedure ScaleSpinEditChange(Sender: TObject);
+    procedure ShowEverythingMenuItemClick(Sender: TObject);
     procedure ToolClick(Sender: TObject);
     procedure CreateToolsButtons(ABtnWidth, ABtnHeight, AColsCount: Integer);
     procedure FillPalette;
@@ -251,6 +252,9 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально !!!
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
 
+  label6.Caption := FloatTostr(GetScale);
+  PaintBox.Canvas.Pen.Color := clBlack;
+  PaintBox.Canvas.Pen.Width := 1;
   PaintBox.Canvas.MoveTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Top);
   PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Right, WorldToDispCoord(ImageBounds).Top);
   PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Right, WorldToDispCoord(ImageBounds).Bottom);
@@ -293,13 +297,27 @@ end;
 
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 begin
-  SetScale((Sender as TFloatSpinEdit).Value);
+  SetScalePercent((Sender as TFloatSpinEdit).Value);
   PaintBox.Invalidate;
 end;
 
-procedure TVectorEditor.ScaleSpinEditChange(Sender: TObject);
+procedure TVectorEditor.ShowEverythingMenuItemClick(Sender: TObject);
+const
+  BorderMargin = 5;//px
+var
+  XScale, YScale: Double;
 begin
-  SetScale((Sender as TSpinEdit).Value);
+  //x := Scale * ADoublePoint.X - CanvasOffset.X
+  //SetCanvasOffset((ImageBounds.Right - ImageBounds.Left) / 2 - ClientWidth, 0);
+  //{TODO: сделать постоянный отступ вне зависимости от масшатаб
+  XScale := Paintbox.ClientWidth  /
+    (ImageBounds.Right - ImageBounds.Left {+ 2 * BorderMargin});
+  YScale := PaintBox.ClientHeight /
+    (ImageBounds.Bottom - ImageBounds.Top {+ 2 * BorderMargin});
+  SetScale(Min(XScale, YScale));
+
+  SetCanvasOffset((ImageBounds.Left * GetScale - (PaintBox.ClientWidth - GetScale * (ImageBounds.Right - ImageBounds.Left )) / 2),
+    (ImageBounds.Top * GetScale - (PaintBox.ClientHeight - GetScale * (ImageBounds.Bottom - ImageBounds.Top )) / 2) );
   PaintBox.Invalidate;
 end;
 
@@ -310,14 +328,14 @@ end;
 
 procedure TVectorEditor.Button1Click(Sender: TObject);
 begin
-  CurrentTool.MouseDown(DispToWorldCoord(10, 10), PenColor, BrushColor, LineWidth);
-
+  //YScale := PaintBox.ClientWidth;
+  SetScale(Paintbox.ClientWidth / (ImageBounds.Right - ImageBounds.Left + 5));
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.Button2Click(Sender: TObject);
 begin
-  CurrentTool.MouseMove(DispToWorldCoord(20, 20));
-  CurrentTool.MouseMove(DispToWorldCoord(30, 30));
+  SetScale((Paintbox.ClientWidth - 1)/ (ImageBounds.Right - ImageBounds.Left + 5));
   PaintBox.Invalidate;
 end;
 

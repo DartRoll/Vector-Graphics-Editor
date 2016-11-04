@@ -36,11 +36,16 @@ function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
 procedure SetCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(AX, AY: Double);
 function GetCanvasOffset: TDoublePoint;
+function DispToWorldX(AX: Integer): Double;
+function DispToWorldY(AY: Integer): Double;
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
+function WorldToDispX(AX: Double): Integer;
+function WorldToDispY(AY: Double): Integer;
 function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
 function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
+procedure SetScalePercent(AScale: Double);
 procedure SetScale(AScale: Double);
 function GetScale:Double;
 //const
@@ -82,11 +87,16 @@ begin
     BottomRight := ABottomRight;
   end;
 end;
+
 { Scale }
+procedure SetScalePercent(AScale: Double);
+begin
+  Scale := AScale / 100;
+end;
 
 procedure SetScale(AScale: Double);
 begin
-  Scale := AScale / 100;
+  Scale := AScale;
 end;
 
 function GetScale:Double;
@@ -130,6 +140,16 @@ begin
   end;
 end;
 
+function WorldToDispX(AX: Double): Integer;
+begin
+  Result := round(Scale * AX - CanvasOffset.X);
+end;
+
+function WorldToDispY(AY: Double): Integer;
+begin
+  Result := round(Scale * AY - CanvasOffset.Y);
+end;
+
 function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
 var
@@ -151,6 +171,16 @@ begin
     X := (AX + CanvasOffset.X) / Scale;
     Y := (AY + CanvasOffset.Y) / Scale;
   end;
+end;
+
+function DispToWorldX(AX: Integer): Double;
+begin
+  Result := (AX + CanvasOffset.X) / Scale;
+end;
+
+function DispToWorldY(AY: Integer): Double;
+begin
+  Result := (AY + CanvasOffset.Y) / Scale;
 end;
 
 initialization

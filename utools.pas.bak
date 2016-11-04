@@ -83,7 +83,7 @@ end;
 procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
   AddCanvasOffset(FFirstPoint.X - ADoublePoint.x,
-                  FFirstPoint.Y - ADoublePoint.y);
+                   ADoublePoint.y -FFirstPoint.Y);
 end;
 
 { TTool }

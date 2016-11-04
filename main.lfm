@@ -1,24 +1,28 @@
 object VectorEditor: TVectorEditor
-  Left = 732
-  Height = 600
-  Top = 135
-  Width = 664
+  Left = 126
+  Height = 698
+  Top = 182
+  Width = 753
   Caption = 'VectorEditor'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 678
+  ClientWidth = 753
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
   OnCreate = FormCreate
   LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
+    AnchorSideLeft.Control = ToolPanel
+    AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
-    Left = 0
-    Height = 0
+    AnchorSideRight.Control = VerticalScrollBar
+    AnchorSideBottom.Control = HorizontalScrollBar
+    Left = 128
+    Height = 658
     Top = 0
-    Width = 0
-    Align = alClient
-    Anchors = [akTop]
+    Width = 605
+    Align = alCustom
+    Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
     OnMouseDown = PaintBoxMouseDown
     OnMouseMove = PaintBoxMouseMove
@@ -27,11 +31,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 0
+    Height = 678
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 0
+    ClientHeight = 678
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
@@ -195,15 +199,16 @@ object VectorEditor: TVectorEditor
     end
   end
   object HorizontalScrollBar: TScrollBar
-    AnchorSideLeft.Control = PaintBox
+    AnchorSideLeft.Control = ToolPanel
+    AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = VerticalScrollBar
-    AnchorSideBottom.Control = PaintBox
+    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = -555
+    Left = 128
     Height = 20
-    Top = -20
-    Width = 535
-    Anchors = [akRight, akBottom]
+    Top = 658
+    Width = 605
+    Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 10
     TabOrder = 1
@@ -212,12 +217,12 @@ object VectorEditor: TVectorEditor
   object VerticalScrollBar: TScrollBar
     AnchorSideLeft.Control = HorizontalScrollBar
     AnchorSideLeft.Side = asrCenter
-    AnchorSideTop.Control = PaintBox
-    AnchorSideRight.Control = PaintBox
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = -20
-    Height = 0
+    Left = 733
+    Height = 658
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
@@ -227,9 +232,14 @@ object VectorEditor: TVectorEditor
     TabOrder = 2
   end
   object MainMenu: TMainMenu
-    left = 832
+    left = 240
+    top = 8
     object FileMenuItem: TMenuItem
       Caption = 'Файл'
+      object ShowEverythingMenuItem: TMenuItem
+        Caption = 'Показать всё'
+        OnClick = ShowEverythingMenuItemClick
+      end
       object ClearMenuItem: TMenuItem
         Caption = 'Очистить'
         OnClick = ClearMenuItemClick
@@ -274,6 +284,7 @@ object VectorEditor: TVectorEditor
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 800
+    left = 200
+    top = 8
   end
 end

@@ -82,10 +82,10 @@ end;
 function TTwoPointFigure.GetBounds: TDoubleRect;
 begin
   with Result do begin
-    Top := Min(FigureBounds.Top, FigureBounds.Bottom);
-    Left := Min(FigureBounds.Left, FigureBounds.Right);
-    Bottom := Max(FigureBounds.Top, FigureBounds.Bottom);
-    Right := Max(FigureBounds.Left, FigureBounds.Right);
+    Top := Min(FigureBounds.Top, FigureBounds.Bottom) - Thickness;
+    Left := Min(FigureBounds.Left, FigureBounds.Right) - Thickness;
+    Bottom := Max(FigureBounds.Top, FigureBounds.Bottom) + Thickness;
+    Right := Max(FigureBounds.Left, FigureBounds.Right) + Thickness;
   end;
 end;
 
@@ -121,13 +121,14 @@ begin
   end;
   for i := 1 to High(Vertexes) do begin
     with Vertexes[i] do begin
+      TopY := Min(TopY, y);
       LeftX := Min(LeftX, X);
+      BottomY := Max(BottomY, Y);
       RightX := Max(RightX, X);
-      BottomY := Min(BottomY, Y);
-      TopY := Max(TopY, y);
     end;
   end;
-  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+  Result := DoubleRect(LeftX - Thickness, TopY - Thickness,
+    RightX + Thickness, BottomY + Thickness);
 end;
 
 { TRectangle }
