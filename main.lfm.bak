@@ -4,8 +4,8 @@ object VectorEditor: TVectorEditor
   Top = 41
   Width = 664
   Caption = 'VectorEditor'
-  ClientHeight = 534
-  ClientWidth = 664
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -13,10 +13,10 @@ object VectorEditor: TVectorEditor
   LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
     AnchorSideTop.Control = Owner
-    Left = 128
-    Height = 534
+    Left = 0
+    Height = 0
     Top = 0
-    Width = 536
+    Width = 0
     Align = alClient
     Anchors = [akTop]
     ParentColor = False
@@ -27,11 +27,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 534
+    Height = 0
     Top = 0
     Width = 128
     Align = alLeft
-    ClientHeight = 534
+    ClientHeight = 0
     ClientWidth = 128
     Color = 16119285
     ParentColor = False
@@ -197,8 +197,8 @@ object VectorEditor: TVectorEditor
   object HorizontalScrollBar: TScrollBar
     Left = 128
     Height = 20
-    Top = 514
-    Width = 516
+    Top = -20
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 10
@@ -211,8 +211,8 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = PaintBox
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = 644
-    Height = 514
+    Left = -20
+    Height = 0
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]

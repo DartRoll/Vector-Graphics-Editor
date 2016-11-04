@@ -25,15 +25,15 @@ type
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure AddPoint(ADoublePoint: TDoublePoint);
     procedure DrawFigure(Canvas: TCanvas); override;
-    function GetBounds: TDoubleRect;
+    function GetBounds: TDoubleRect; override;
   end;
 
   TTwoPointFigure = class(TFigure)
-    Bounds: TDoubleRect;
+    FigureBounds: TDoubleRect;
     constructor Create(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure SetSecondPoint(ADoublePoint: TDoublePoint);
-    function GetBounds: TDoubleRect;
+    function GetBounds: TDoubleRect; override;
   end;
 
   TRectangle = class(TTwoPointFigure)
@@ -71,12 +71,17 @@ constructor TTwoPointFigure.Create(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; AThickness: Integer);
 begin
   inherited Create(APenColor, ABrushColor, AThickness);
-  Bounds := DoubleRect(ADoublePoint, ADoublePoint);
+  FigureBounds := DoubleRect(ADoublePoint, ADoublePoint);
 end;
 
 procedure TTwoPointFigure.SetSecondPoint(ADoublePoint: TDoublePoint);
 begin
-  Bounds := DoubleRect(Bounds.TopLeft, ADoublePoint);
+  FigureBounds := DoubleRect(FigureBounds.TopLeft, ADoublePoint);
+end;
+
+function TTwoPointFigure.GetBounds: TDoubleRect;
+begin
+  Result := FigureBounds;
 end;
 
 { TPolyline }
@@ -123,19 +128,19 @@ end;
 { TRectangle }
 procedure TRectangle.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Rectangle(WorldToDispCoord(Bounds));
+  Canvas.Rectangle(WorldToDispCoord(FigureBounds));
 end;
 
 { TEllipse }
 procedure TEllipse.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Ellipse(WorldToDispCoord(Bounds));
+  Canvas.Ellipse(WorldToDispCoord(FigureBounds));
 end;
 
 { TLine }
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
-  Canvas.Line(WorldToDispCoord(Bounds));
+  Canvas.Line(WorldToDispCoord(FigureBounds));
 end;
 
 end.

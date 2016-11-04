@@ -78,6 +78,7 @@ var
   BrushColor: TColor = clWhite;
   LineWidth: Integer = 2;
   isDrawing: Boolean = False;
+  ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
   CurrentTool: TTool;
@@ -96,6 +97,11 @@ begin
     SetLength(Figures, Length(Figures) + 1);
     Figures[High(Figures)] := Figure;
   end;
+end;
+
+procedure RedefineImageBounds(TDoubleRect)
+begin
+
 end;
 
 procedure TVectorEditor.ClearCanvas;
@@ -200,8 +206,7 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   Label1.Caption := 'x:' + FloatToStr(GetCanvasOffset.X);
   Label2.Caption := 'y:' + FloatToStr(GetCanvasOffset.Y);
-  if isDrawing then
-  begin
+  if isDrawing then begin
     CurrentTool.MouseMove(DispToWorldCoord(X, Y));
     PaintBox.Invalidate;
   end;
@@ -211,9 +216,10 @@ procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := False;
-  CurrentTool.GetFigure.GetBounds;
   SaveFigure(CurrentTool.GetFigure);
-
+    if CurrentTool.GetFigure <> nil then begin //сделать нормально
+    CurrentTool.GetFigure.GetBounds;
+  end;
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
@@ -295,6 +301,10 @@ begin
   ClearCanvas;
   PaintBox.Invalidate;
 end;
+
+initialization
+
+ImageBounds.Right;
 
 end.
 
