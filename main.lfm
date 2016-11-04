@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 639
+  Left = 400
   Height = 690
-  Top = 168
+  Top = 97
   Width = 753
   Caption = 'VectorEditor'
   ClientHeight = 670
@@ -210,8 +210,9 @@ object VectorEditor: TVectorEditor
     Width = 605
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
-    PageSize = 1
+    PageSize = 0
     TabOrder = 1
+    TabStop = False
     OnChange = HorizontalScrollBarChange
   end
   object VerticalScrollBar: TScrollBar

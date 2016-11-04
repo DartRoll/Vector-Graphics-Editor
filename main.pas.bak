@@ -131,9 +131,15 @@ begin
 end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
+var
+  TempPosition: Integer;
 begin
-  HorizontalScrollBar.Min := round(ImageBounds.Left);
-  HorizontalScrollBar.Max := round(ImageBounds.Right);
+  TempPosition := HorizontalScrollBar.Position;
+  HorizontalScrollBar.Max := floor(ImageBounds.Right - ImageBounds.Left);
+  HorizontalScrollBar.Min := ceil(ImageBounds.Left);
+  HorizontalScrollBar.PageSize := round((ImageBounds.Right - ImageBounds.Left) / PaintBox.ClientWidth);
+  ShowMessage(FloatToStr((ImageBounds.Right - ImageBounds.Left) / PaintBox.ClientWidth));
+  HorizontalScrollBar.Position := HorizontalScrollBar.Min + TempPosition;
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -214,7 +220,8 @@ end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
 begin
-
+  SetCanvasOffset((Sender as TScrollBar).Position * GetScale, GetCanvasOffset.Y);
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -261,7 +268,8 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально !!!
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
 
-  label6.Caption := FloatTostr(GetScale);
+  label5.Caption := 'left: ' + FloatTostr(ImageBounds.Left);
+  Label6.Caption := 'right: ' + FloatToStr(ImageBounds.Right);
   PaintBox.Canvas.Pen.Color := clBlack;
   PaintBox.Canvas.Pen.Width := 1;
   PaintBox.Canvas.MoveTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Top);
