@@ -127,8 +127,8 @@ function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 begin
   with Result do begin
     //Проверить потерю точности
-    x := ceil(Scale * ADoublePoint.X - CanvasOffset.X);
-    y := ceil(Scale * ADoublePoint.Y - CanvasOffset.Y);
+    x := round(Scale * ADoublePoint.X - CanvasOffset.X);
+    y := round(Scale * ADoublePoint.Y - CanvasOffset.Y);
   end;
 end;
 
@@ -142,12 +142,12 @@ end;
 
 function WorldToDispX(AX: Double): Integer;
 begin
-  Result := ceil(Scale * AX - CanvasOffset.X);
+  Result := round(Scale * AX - CanvasOffset.X);
 end;
 
 function WorldToDispY(AY: Double): Integer;
 begin
-  Result := ceil(Scale * AY - CanvasOffset.Y);
+  Result := round(Scale * AY - CanvasOffset.Y);
 end;
 
 function WorldVertexesToDispCoord(

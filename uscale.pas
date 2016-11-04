@@ -9,12 +9,12 @@ uses
 
 type
 
-  TDoublePoint = packed record
+  TDoublePoint = record
     X: Double;
     Y: Double;
   end;
 
-  TDoubleRect = packed record
+  TDoubleRect = record
     case Integer of
       0: (
           Left: Double;

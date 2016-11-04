@@ -100,7 +100,6 @@ begin
   if Figure <> nil then begin
     SetLength(Figures, Length(Figures) + 1);
     Figures[High(Figures)] := Figure;
-    SetScrollBarsPostions;
   end;
 end;
 
@@ -131,14 +130,15 @@ begin
 end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
-var
-  TempPosition: Integer;
 begin
-  TempPosition := HorizontalScrollBar.Position;
-  HorizontalScrollBar.Max := floor(ImageBounds.Right - ImageBounds.Left);
-  HorizontalScrollBar.Min := ceil(ImageBounds.Left);
-  HorizontalScrollBar.PageSize := round((ImageBounds.Right - ImageBounds.Left) / PaintBox.ClientWidth);
-  HorizontalScrollBar.Position := HorizontalScrollBar.Min + TempPosition;
+    if (ImageBounds.Right * GetScale - PaintBox.ClientWidth) > ImageBounds.Left * GetScale then begin
+    HorizontalScrollBar.Max := floor(ImageBounds.Right * GetScale - PaintBox.ClientWidth);
+    HorizontalScrollBar.Min := ceil(ImageBounds.Left * GetScale);
+    end
+    else begin
+        HorizontalScrollBar.SetParams(ceil(ImageBounds.Left),ceil(ImageBounds.Left),ceil(ImageBounds.Left));
+    end;
+  HorizontalScrollBar.PageSize := round((ImageBounds.Right - ImageBounds.Left) / PaintBox.ClientWidth); //чому не робит?
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -255,6 +255,7 @@ begin
   SaveFigure(CurrentTool.GetFigure);
     if CurrentTool.GetFigure <> nil then begin //сделать нормально
       RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
+      SetScrollBarsPostions;
   end;
 end;
 
@@ -314,6 +315,7 @@ end;
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 begin
   SetScalePercent((Sender as TFloatSpinEdit).Value);
+  SetScrollBarsPostions;
   PaintBox.Invalidate;
 end;
 
