@@ -46,6 +46,7 @@ type
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure HorizontalScrollBarChange(Sender: TObject);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -99,9 +100,21 @@ begin
   end;
 end;
 
-procedure RedefineImageBounds(TDoubleRect)
+procedure RedefineImageBounds(ADoubleRect: TDoubleRect);
 begin
-
+  if Length(Figures) <= 1 then begin
+    ImageBounds.Left := ADoubleRect.Left;
+    ImageBounds.Top := ADoubleRect.Top;
+    ImageBounds.Right := ADoubleRect.Right;
+    ImageBounds.Bottom := ADoubleRect.Bottom;
+  end
+  else begin
+    ImageBounds.Left := Min(ImageBounds.left, ADoubleRect.Left);
+    ImageBounds.Top := Min(ImageBounds.Top, ADoubleRect.Top);
+    ImageBounds.Right := Max(ImageBounds.Right, ADoubleRect.Right);
+    ImageBounds.Bottom := Max(ImageBounds.Bottom, ADoubleRect.Bottom);
+  end;
+  VectorEditor.PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.ClearCanvas;
@@ -189,6 +202,11 @@ begin
   FillPalette;
 end;
 
+procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
+begin
+
+end;
+
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
 begin
   LineWidth := (Sender as TSpinEdit).Value;
@@ -206,6 +224,8 @@ procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
 begin
   Label1.Caption := 'x:' + FloatToStr(GetCanvasOffset.X);
   Label2.Caption := 'y:' + FloatToStr(GetCanvasOffset.Y);
+  Label3.Caption := 'x:' + FloatToStr(DispToWorldCoord(X, Y).X);
+  Label4.Caption := 'Y:' + FloatToStr(DispToWorldCoord(X, Y).Y);
   if isDrawing then begin
     CurrentTool.MouseMove(DispToWorldCoord(X, Y));
     PaintBox.Invalidate;
@@ -218,7 +238,7 @@ begin
   isDrawing := False;
   SaveFigure(CurrentTool.GetFigure);
     if CurrentTool.GetFigure <> nil then begin //сделать нормально
-    CurrentTool.GetFigure.GetBounds;
+      RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
   end;
 end;
 
@@ -231,6 +251,11 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально !!!
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
 
+  PaintBox.Canvas.MoveTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Top);
+  PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Right, WorldToDispCoord(ImageBounds).Top);
+  PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Right, WorldToDispCoord(ImageBounds).Bottom);
+  PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Bottom);
+  PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Top);
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -303,8 +328,11 @@ begin
 end;
 
 initialization
-
-ImageBounds.Right;
-
+{
+ImageBounds.Right := 0;
+ImageBounds.Left := 0;
+ImageBounds.Top := 0;
+ImageBounds.Bottom := 0;
+ }
 end.
 

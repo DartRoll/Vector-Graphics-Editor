@@ -25,7 +25,7 @@ type
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure AddPoint(ADoublePoint: TDoublePoint);
     procedure DrawFigure(Canvas: TCanvas); override;
-    function GetBounds: TDoubleRect;
+    function GetBounds: TDoubleRect; override;
   end;
 
   TTwoPointFigure = class(TFigure)
@@ -33,7 +33,7 @@ type
     constructor Create(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; AThickness: Integer);
     procedure SetSecondPoint(ADoublePoint: TDoublePoint);
-    function GetBounds: TDoubleRect;
+    function GetBounds: TDoubleRect; override;
   end;
 
   TRectangle = class(TTwoPointFigure)
@@ -81,7 +81,12 @@ end;
 
 function TTwoPointFigure.GetBounds: TDoubleRect;
 begin
-  Result := FigureBounds;
+  with Result do begin
+    Top := Min(FigureBounds.Top, FigureBounds.Bottom);
+    Left := Min(FigureBounds.Left, FigureBounds.Right);
+    Bottom := Max(FigureBounds.Top, FigureBounds.Bottom);
+    Right := Max(FigureBounds.Left, FigureBounds.Right);
+  end;
 end;
 
 { TPolyline }

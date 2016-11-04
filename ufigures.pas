@@ -81,7 +81,12 @@ end;
 
 function TTwoPointFigure.GetBounds: TDoubleRect;
 begin
-  Result := FigureBounds;
+  with Result do begin
+    Top := Min(FigureBounds.Top, FigureBounds.Bottom);
+    Left := Min(FigureBounds.Left, FigureBounds.Right);
+    Bottom := Max(FigureBounds.Top, FigureBounds.Bottom);
+    Right := Max(FigureBounds.Left, FigureBounds.Right);
+  end;
 end;
 
 { TPolyline }
@@ -116,10 +121,10 @@ begin
   end;
   for i := 1 to High(Vertexes) do begin
     with Vertexes[i] do begin
+      TopY := Min(TopY, y);
       LeftX := Min(LeftX, X);
+      BottomY := Max(BottomY, Y);
       RightX := Max(RightX, X);
-      BottomY := Min(BottomY, Y);
-      TopY := Max(TopY, y);
     end;
   end;
   Result := DoubleRect(LeftX, TopY, RightX, BottomY);

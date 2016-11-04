@@ -91,7 +91,7 @@ end;
 
 function GetScale:Double;
 begin
-  Return := Scale;
+  Result := Scale;
 end;
 
 { Canvas Offset }

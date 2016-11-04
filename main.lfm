@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 430
-  Height = 554
-  Top = 41
+  Left = 732
+  Height = 600
+  Top = 135
   Width = 664
   Caption = 'VectorEditor'
   ClientHeight = 0
@@ -195,14 +195,19 @@ object VectorEditor: TVectorEditor
     end
   end
   object HorizontalScrollBar: TScrollBar
-    Left = 128
+    AnchorSideLeft.Control = PaintBox
+    AnchorSideRight.Control = VerticalScrollBar
+    AnchorSideBottom.Control = PaintBox
+    AnchorSideBottom.Side = asrBottom
+    Left = -555
     Height = 20
     Top = -20
-    Width = 0
-    Anchors = [akLeft, akRight, akBottom]
+    Width = 535
+    Anchors = [akRight, akBottom]
     Max = 0
     PageSize = 10
     TabOrder = 1
+    OnChange = HorizontalScrollBarChange
   end
   object VerticalScrollBar: TScrollBar
     AnchorSideLeft.Control = HorizontalScrollBar
