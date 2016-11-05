@@ -17,6 +17,9 @@ type
     Button1: TButton;
     Button2: TButton;
     ColorDialog: TColorDialog;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
     ShowEverythingMenuItem: TMenuItem;
     ScaleFloatSpinEdit: TFloatSpinEdit;
     Label1: TLabel;
@@ -85,6 +88,7 @@ var
   ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
+  HorizontalPostions: array of Double;
   CurrentTool: TTool;
   VectorEditor: TVectorEditor;
 
@@ -130,16 +134,25 @@ begin
 end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
+var
+  i: Integer;
+  rate: Double;
 begin
   if (ImageBounds.Right - PaintBox.ClientWidth / GetScale > ImageBounds.Left) then begin
-    {HorizontalScrollBar.Max := WorldToDispX(ImageBounds.Right)- PaintBox.ClientWidth;
-    HorizontalScrollBar.Min := WorldToDispX(ImageBounds.Left);}
-    HorizontalScrollBar.SetParams(WorldToDispX(ImageBounds.Left), WorldToDispX(ImageBounds.Left), WorldToDispX(ImageBounds.Right - (PaintBox.ClientWidth - 1) / GetScale));
-  end
-  else begin
-    HorizontalScrollBar.SetParams(floor(GetCanvasOffset.X), floor(GetCanvasOffset.X), floor(GetCanvasOffset.X));
+    rate := (ImageBounds.Right - ImageBounds.Left) / (PaintBox.ClientWidth - 1) / GetScale ;
+    HorizontalPostions := nil;
+    i := -1;
+    repeat
+      i += 1;
+      SetLength(HorizontalPostions, Length(HorizontalPostions) + 1);
+      HorizontalPostions[i] := ImageBounds.Left + i * rate;
+    until HorizontalPostions[i] > ImageBounds.Right;
+
+    //HorizontalScrollBar.SetParams(0, ImageBounds.Left, WorldToDispX(ImageBounds.Right - (PaintBox.ClientWidth - 1) / GetScale));
+    HorizontalScrollBar.SetParams(0, Low(HorizontalPostions), High(HorizontalPostions));
   end;
-  HorizontalScrollBar.PageSize := round((ImageBounds.Right - ImageBounds.Left) / (PaintBox.ClientWidth - 1) / GetScale); //чому не робит?
+  HorizontalScrollBar.PageSize := ceil(Length(HorizontalPostions) / GetScale / rate);//ceil((ImageBounds.Right - ImageBounds.Left) / (PaintBox.ClientWidth - 1) / GetScale); //чому не робит?
+
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -220,8 +233,8 @@ end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
 begin
-  SetCanvasOffset((Sender as TScrollBar).Position + GetCanvasOffset.X, GetCanvasOffset.Y);
-  PaintBox.Invalidate;
+  //SetCanvasOffset(HorizontalPostions[(Sender as TScrollBar).Position] * getScale, GetCanvasOffset.Y);
+  //PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -233,7 +246,8 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := True;
-  CurrentTool.MouseDown(DispToWorldCoord(X, Y), PenColor, BrushColor, LineWidth);
+  CurrentTool.MouseDown(DispToWorldCoord(X, Y), PenColor, BrushColor, LineWidth,
+    Button, PaintBox.BoundsRect);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -243,6 +257,8 @@ begin
   Label2.Caption := 'y:' + FloatToStr(GetCanvasOffset.Y);
   Label3.Caption := 'x:' + FloatToStr(DispToWorldCoord(X, Y).X);
   Label4.Caption := 'Y:' + FloatToStr(DispToWorldCoord(X, Y).Y);
+  Label8.Caption := 'Dspx: ' + IntToStr(X);
+  Label9.Caption := 'DspY: ' + IntToStr(Y);
   if isDrawing then begin
     CurrentTool.MouseMove(DispToWorldCoord(X, Y));
     PaintBox.Invalidate;
@@ -253,11 +269,13 @@ procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := False;
+  CurrentTool.MouseUp;
   SaveFigure(CurrentTool.GetFigure);
     if CurrentTool.GetFigure <> nil then begin //сделать нормально
       RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
-      SetScrollBarsPostions;
+      //SetScrollBarsPostions;
   end;
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.PaintBoxPaint(Sender: TObject);
@@ -271,6 +289,7 @@ begin
 
   label5.Caption := 'left: ' + FloatTostr(ImageBounds.Left);
   Label6.Caption := 'right: ' + FloatToStr(ImageBounds.Right);
+  Label7.Caption := 'scale: ' + FloatToStr(GetScale);
   PaintBox.Canvas.Pen.Color := clBlack;
   PaintBox.Canvas.Pen.Width := 1;
   PaintBox.Canvas.MoveTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Top);
@@ -316,7 +335,7 @@ end;
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 begin
   SetScalePercent((Sender as TFloatSpinEdit).Value);
-  SetScrollBarsPostions;
+  //SetScrollBarsPostions;
   PaintBox.Invalidate;
 end;
 

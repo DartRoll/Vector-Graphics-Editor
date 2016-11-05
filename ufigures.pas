@@ -48,6 +48,11 @@ type
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
+  { TRectangleLine }
+  TRectangleLine = class(TTwoPointFigure)
+    procedure DrawFigure(Canvas: TCanvas); override;
+  end;
+
 implementation
 
 { TFigure }
@@ -146,6 +151,23 @@ end;
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Line(WorldToDispCoord(FigureBounds));
+end;
+
+{ TRectangleLine }
+procedure TRectangleLine.DrawFigure(Canvas: TCanvas);
+var
+  DispBounds: TRect;
+begin
+  DispBounds := WorldToDispCoord(FigureBounds);
+  with Canvas do begin
+    MoveTo(DispBounds.Left, DispBounds.Top);
+    LineTo(DispBounds.Right, DispBounds.Top);
+    LineTo(DispBounds.Right, DispBounds.Bottom);
+    LineTo(DispBounds.Left, DispBounds.Bottom);
+    LineTo(DispBounds.Left, DispBounds.Top);
+  end;
+
+
 end;
 
 end.

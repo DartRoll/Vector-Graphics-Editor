@@ -48,6 +48,12 @@ type
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
+  { TRectangleLine }
+
+  TRectangleLine = class(TTwoPointFigure)
+    procedure DrawFigure(Canvas: TCanvas); override;
+  end;
+
 implementation
 
 { TFigure }
@@ -82,10 +88,10 @@ end;
 function TTwoPointFigure.GetBounds: TDoubleRect;
 begin
   with Result do begin
-    Top := Min(FigureBounds.Top, FigureBounds.Bottom) - Thickness;
-    Left := Min(FigureBounds.Left, FigureBounds.Right) - Thickness;
-    Bottom := Max(FigureBounds.Top, FigureBounds.Bottom) + Thickness;
-    Right := Max(FigureBounds.Left, FigureBounds.Right) + Thickness;
+    Top := Min(FigureBounds.Top, FigureBounds.Bottom);
+    Left := Min(FigureBounds.Left, FigureBounds.Right);
+    Bottom := Max(FigureBounds.Top, FigureBounds.Bottom);
+    Right := Max(FigureBounds.Left, FigureBounds.Right);
   end;
 end;
 
@@ -127,8 +133,7 @@ begin
       RightX := Max(RightX, X);
     end;
   end;
-  Result := DoubleRect(LeftX - Thickness, TopY - Thickness,
-    RightX + Thickness, BottomY + Thickness);
+  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
 end;
 
 { TRectangle }
@@ -147,6 +152,23 @@ end;
 procedure TLine.DrawFigure(Canvas: TCanvas);
 begin
   Canvas.Line(WorldToDispCoord(FigureBounds));
+end;
+
+{ TRectangleLine }
+procedure TRectangleLine.DrawFigure(Canvas: TCanvas);
+var
+  DispBounds: TRect;
+begin
+  DispBounds := WorldToDispCoord(FigureBounds);
+  with Canvas do begin
+    MoveTo(DispBounds.Left, DispBounds.Top);
+    LineTo(DispBounds.Right, DispBounds.Top);
+    LineTo(DispBounds.Right, DispBounds.Bottom);
+    LineTo(DispBounds.Left, DispBounds.Bottom);
+    LineTo(DispBounds.Left, DispBounds.Top);
+  end;
+
+
 end;
 
 end.

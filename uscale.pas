@@ -47,6 +47,8 @@ function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
 procedure SetScalePercent(AScale: Double);
 procedure SetScale(AScale: Double);
+procedure IncreaseScale;
+procedure DecreaseScale;
 function GetScale:Double;
 //const
   //999999999999999
@@ -54,6 +56,9 @@ function GetScale:Double;
   //WMaxY: Double = 999999999999999;
 
 implementation
+const
+  MaxScale = 8;
+  MinScale = 0.125;
 
 var
   Scale: Double = 1.0;
@@ -99,6 +104,18 @@ begin
   Scale := AScale;
 end;
 
+procedure IncreaseScale;
+begin
+  if 2 * Scale < MaxScale then Scale *= 2
+  else if Scale < MaxScale then Scale := MaxScale;
+end;
+
+procedure DecreaseScale;
+begin
+  if Scale / 2 > MinScale then Scale /= 2
+  else if Scale > MinScale then Scale := MinScale;
+end;
+
 function GetScale:Double;
 begin
   Result := Scale;
@@ -126,7 +143,6 @@ end;
 function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 begin
   with Result do begin
-    //Проверить потерю точности
     x := round(Scale * ADoublePoint.X - CanvasOffset.X);
     y := round(Scale * ADoublePoint.Y - CanvasOffset.Y);
   end;

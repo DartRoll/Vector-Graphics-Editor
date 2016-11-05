@@ -197,6 +197,30 @@ object VectorEditor: TVectorEditor
       TabOrder = 6
       Value = 100
     end
+    object Label7: TLabel
+      Left = 2
+      Height = 15
+      Top = 601
+      Width = 34
+      Caption = 'Label7'
+      ParentColor = False
+    end
+    object Label8: TLabel
+      Left = 5
+      Height = 15
+      Top = 620
+      Width = 34
+      Caption = 'Label8'
+      ParentColor = False
+    end
+    object Label9: TLabel
+      Left = 5
+      Height = 15
+      Top = 632
+      Width = 34
+      Caption = 'Label9'
+      ParentColor = False
+    end
   end
   object HorizontalScrollBar: TScrollBar
     AnchorSideLeft.Control = ToolPanel
