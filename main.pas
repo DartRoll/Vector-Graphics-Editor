@@ -126,19 +126,20 @@ begin
   for i := 0 to High(Figures) do
     Figures[i].free;
   Figures := nil;
-  PaintBox.Canvas.Clear;
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
 begin
-    if (ImageBounds.Right * GetScale - PaintBox.ClientWidth) > ImageBounds.Left * GetScale then begin
-    HorizontalScrollBar.Max := floor(ImageBounds.Right * GetScale - PaintBox.ClientWidth);
-    HorizontalScrollBar.Min := ceil(ImageBounds.Left * GetScale);
-    end
-    else begin
-        HorizontalScrollBar.SetParams(ceil(ImageBounds.Left),ceil(ImageBounds.Left),ceil(ImageBounds.Left));
-    end;
-  HorizontalScrollBar.PageSize := round((ImageBounds.Right - ImageBounds.Left) / PaintBox.ClientWidth); //чому не робит?
+  if (ImageBounds.Right - PaintBox.ClientWidth / GetScale > ImageBounds.Left) then begin
+    {HorizontalScrollBar.Max := WorldToDispX(ImageBounds.Right)- PaintBox.ClientWidth;
+    HorizontalScrollBar.Min := WorldToDispX(ImageBounds.Left);}
+    HorizontalScrollBar.SetParams(WorldToDispX(ImageBounds.Left), WorldToDispX(ImageBounds.Left), WorldToDispX(ImageBounds.Right - (PaintBox.ClientWidth - 1) / GetScale));
+  end
+  else begin
+    HorizontalScrollBar.SetParams(floor(GetCanvasOffset.X), floor(GetCanvasOffset.X), floor(GetCanvasOffset.X));
+  end;
+  HorizontalScrollBar.PageSize := round((ImageBounds.Right - ImageBounds.Left) / (PaintBox.ClientWidth - 1) / GetScale); //чому не робит?
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -219,7 +220,7 @@ end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
 begin
-  SetCanvasOffset((Sender as TScrollBar).Position * GetScale, GetCanvasOffset.Y);
+  SetCanvasOffset((Sender as TScrollBar).Position + GetCanvasOffset.X, GetCanvasOffset.Y);
   PaintBox.Invalidate;
 end;
 
@@ -328,9 +329,9 @@ begin
   //x := Scale * ADoublePoint.X - CanvasOffset.X
   //SetCanvasOffset((ImageBounds.Right - ImageBounds.Left) / 2 - ClientWidth, 0);
   //{TODO: сделать постоянный отступ вне зависимости от масшатаб
-  XScale := Paintbox.ClientWidth  /
+  XScale := (Paintbox.ClientWidth - 1)  /
     (ImageBounds.Right - ImageBounds.Left {+ 2 * BorderMargin});
-  YScale := PaintBox.ClientHeight /
+  YScale := (PaintBox.ClientHeight - 1) /
     (ImageBounds.Bottom - ImageBounds.Top {+ 2 * BorderMargin});
   SetScale(Min(XScale, YScale));
 
