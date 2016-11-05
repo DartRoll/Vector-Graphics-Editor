@@ -255,6 +255,8 @@ object VectorEditor: TVectorEditor
     Max = 0
     PageSize = 1
     TabOrder = 2
+    TabStop = False
+    OnChange = VerticalScrollBarChange
   end
   object MainMenu: TMainMenu
     left = 240
