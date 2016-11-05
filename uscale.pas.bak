@@ -47,8 +47,8 @@ function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
 procedure SetScalePercent(AScale: Double);
 procedure SetScale(AScale: Double);
-procedure IncreaseScale;
-procedure DecreaseScale;
+function IncreaseScale: Boolean;
+function DecreaseScale: Boolean;
 function GetScale:Double;
 //const
   //999999999999999
@@ -104,16 +104,28 @@ begin
   Scale := AScale;
 end;
 
-procedure IncreaseScale;
+function IncreaseScale: Boolean;
 begin
-  if 2 * Scale < MaxScale then Scale *= 2
-  else if Scale < MaxScale then Scale := MaxScale;
+  if 2 * Scale < MaxScale then begin
+    Scale *= 2;
+    Result := true
+  end
+  else if Scale < MaxScale then begin
+    Scale := MaxScale;
+    Result := False
+  end;
 end;
 
-procedure DecreaseScale;
+function DecreaseScale: Boolean;
 begin
-  if Scale / 2 > MinScale then Scale /= 2
-  else if Scale > MinScale then Scale := MinScale;
+  if Scale / 2 > MinScale then begin
+    Scale /= 2;
+    Result := True;
+  end
+  else if Scale > MinScale then begin
+    Scale := MinScale;
+    Result := False;
+  end;
 end;
 
 function GetScale:Double;
@@ -124,8 +136,8 @@ end;
 { Canvas Offset }
 procedure SetCanvasOffset(AX, AY: Double);
 begin
-  CanvasOffset.X := AX * Scale;
-  CanvasOffset.Y := AY * Scale;
+  CanvasOffset.X := AX;
+  CanvasOffset.Y := AY;
 end;
 
 procedure AddCanvasOffset(AX, AY: Double);

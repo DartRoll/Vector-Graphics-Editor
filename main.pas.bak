@@ -72,6 +72,7 @@ type
     procedure ClearCanvas;
     procedure SetScrollBarsPostions;
     procedure SaveFigure(Figure: TFigure);
+    procedure VerticalScrollBarChange(Sender: TObject);
   private
     { private declarations }
 
@@ -88,7 +89,7 @@ var
   ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
-  HorizontalPostions: array of Double;
+  ScrollOffset: TDoublePoint;
   CurrentTool: TTool;
   VectorEditor: TVectorEditor;
 
@@ -135,24 +136,44 @@ end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
 var
-  i: Integer;
-  rate: Double;
+  WidthInPixels, HeightInPixels: Integer;
 begin
-  if (ImageBounds.Right - PaintBox.ClientWidth / GetScale > ImageBounds.Left) then begin
-    rate := (ImageBounds.Right - ImageBounds.Left) / (PaintBox.ClientWidth - 1) / GetScale ;
-    HorizontalPostions := nil;
-    i := -1;
-    repeat
-      i += 1;
-      SetLength(HorizontalPostions, Length(HorizontalPostions) + 1);
-      HorizontalPostions[i] := ImageBounds.Left + i * rate;
-    until HorizontalPostions[i] > ImageBounds.Right;
+  WidthInPixels := ceil((ImageBounds.Right - ImageBounds.Left) * GetScale);
+  HeightInPixels := ceil((ImageBounds.Bottom - ImageBounds.Top) * GetScale);
 
-    //HorizontalScrollBar.SetParams(0, ImageBounds.Left, WorldToDispX(ImageBounds.Right - (PaintBox.ClientWidth - 1) / GetScale));
-    HorizontalScrollBar.SetParams(0, Low(HorizontalPostions), High(HorizontalPostions));
+  HorizontalScrollBar.Max := WidthInPixels;
+  HorizontalScrollBar.PageSize := PaintBox.ClientWidth;
+  ScrollOffset.X := ImageBounds.Left;
+
+  VerticalScrollBar.Max := HeightInPixels;
+  VerticalScrollBar.PageSize := PaintBox.ClientHeight;
+  ScrollOffset.Y := ImageBounds.Top;
+end;
+
+
+procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
+begin
+  with Sender as TScrollBar do begin
+    if Position > Max - PageSize then begin
+      Position := Max - PageSize ;
+      Exit;
+    end;
   end;
-  HorizontalScrollBar.PageSize := ceil(Length(HorizontalPostions) / GetScale / rate);//ceil((ImageBounds.Right - ImageBounds.Left) / (PaintBox.ClientWidth - 1) / GetScale); //чому не робит?
+  SetCanvasOffset(ScrollOffset.X * GetScale + (Sender as TScrollBar).Position, GetCanvasOffset.Y);
+  PaintBox.Invalidate;
+end;
 
+
+procedure TVectorEditor.VerticalScrollBarChange(Sender: TObject);
+begin
+  with Sender as TScrollBar do begin
+    if Position > Max - PageSize then begin
+      Position := Max - PageSize ;
+      Exit;
+    end;
+  end;
+  SetCanvasOffset(GetCanvasOffset.X, ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -231,12 +252,6 @@ begin
   FillPalette;
 end;
 
-procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
-begin
-  //SetCanvasOffset(HorizontalPostions[(Sender as TScrollBar).Position] * getScale, GetCanvasOffset.Y);
-  //PaintBox.Invalidate;
-end;
-
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
 begin
   LineWidth := (Sender as TSpinEdit).Value;
@@ -273,7 +288,7 @@ begin
   SaveFigure(CurrentTool.GetFigure);
     if CurrentTool.GetFigure <> nil then begin //сделать нормально
       RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
-      //SetScrollBarsPostions;
+      SetScrollBarsPostions;
   end;
   PaintBox.Invalidate;
 end;
@@ -335,7 +350,7 @@ end;
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 begin
   SetScalePercent((Sender as TFloatSpinEdit).Value);
-  //SetScrollBarsPostions;
+  SetScrollBarsPostions;
   PaintBox.Invalidate;
 end;
 
@@ -383,12 +398,5 @@ begin
   PaintBox.Invalidate;
 end;
 
-initialization
-{
-ImageBounds.Right := 0;
-ImageBounds.Left := 0;
-ImageBounds.Top := 0;
-ImageBounds.Bottom := 0;
- }
 end.
 
