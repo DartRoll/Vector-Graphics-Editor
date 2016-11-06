@@ -126,7 +126,7 @@ begin
   FIsSelectingArea := True;
   (FFigure as TTwoPointFigure).SetSecondPoint(ADoublePoint);
 end;
-// ДОБАВИТЬ ПОГРЕШНОСТЬ
+// ДОБАВИТЬ ПОГРЕШНОСТЬ - Готово
 //Перемещение в центр
 procedure TMagnifierTool.MouseUp;
 const
@@ -159,7 +159,7 @@ begin
     end;
     if FMouseButton = mbRight then begin
       if DecreaseScale then
-        SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X,FStartingPoint.Y * GetScale -  FStartingPoint.Y);
+        SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
     end;
   end;
   FIsSelectingArea := False;

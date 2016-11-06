@@ -355,7 +355,7 @@ end;
 
 procedure TVectorEditor.ShowEverythingMenuItemClick(Sender: TObject);
 const
-  BorderMargin = 5;//px (на самом деле нет)
+  BorderMargin = 5;//px
 var
   XScale, YScale: Double;
   WorldWidth, WorldHeight: Double;

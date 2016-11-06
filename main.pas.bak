@@ -362,7 +362,7 @@ var
 begin
   WorldWidth := ImageBounds.Right - ImageBounds.Left;
   WorldHeight := ImageBounds.Bottom - ImageBounds.Top;
-  //TODO: сделать постоянный отступ вне зависимости от масшатаба СДЕЛАНО
+  //TODO: сделать постоянный отступ вне зависимости от масшатаба - СДЕЛАНО!
   //TODO: Упростить расчёты
   XScale := (Paintbox.ClientWidth - 1)  / (WorldWidth + 2 * BorderMargin / GetScale);
   YScale := (PaintBox.ClientHeight - 1) / (WorldHeight + 2 * BorderMargin / GetScale);
