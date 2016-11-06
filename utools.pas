@@ -22,6 +22,8 @@ type
     procedure MouseUp; virtual;
   end;
 
+  { THandTool }
+
   THandTool = class(TTool)
     FStartingPoint: TDoublePoint;
     constructor Create;
@@ -30,6 +32,8 @@ type
       Button: TMouseButton; AClientBounds: TRect); override;
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
+
+  { TMagnifierTool }
 
   TMagnifierTool = class(TTool)
     FStartingPoint: TDoublePoint;
@@ -44,9 +48,13 @@ type
     procedure MouseUp; override;
   end;
 
+  { TTwoPointFigureTool }
+
   TTwoPointFigureTool = class(TTool)
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
+
+  { TPolylineTool }
 
   TPolylineTool = class(TTool)
     constructor Create;
@@ -56,6 +64,8 @@ type
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
+  { TRectangleTool }
+
   TRectangleTool = class(TTwoPointFigureTool)
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
@@ -63,12 +73,16 @@ type
       Button: TMouseButton; AClientBounds: TRect); override;
   end;
 
+  { TLineTool }
+
   TLineTool = class(TTwoPointFigureTool)
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
       Button: TMouseButton; AClientBounds: TRect); override;
   end;
+
+  { TEllipseTool }
 
   TEllipseTool = class(TTwoPointFigureTool)
     constructor Create;

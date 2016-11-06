@@ -50,10 +50,6 @@ procedure SetScale(AScale: Double);
 function IncreaseScale: Boolean;
 function DecreaseScale: Boolean;
 function GetScale:Double;
-//const
-  //999999999999999
-  //WMaxX: Double = 999999999999999;
-  //WMaxY: Double = 999999999999999;
 
 implementation
 const
@@ -62,7 +58,7 @@ const
 
 var
   Scale: Double = 1.0;
-  CanvasOffset: TDoublePoint;//X:=0, Y:=0
+  CanvasOffset: TDoublePoint;//инициализируется X:=0, Y:=0
 
 { TDoublePoint }
 function DoublePoint(AX, AY: Double): TDoublePoint;
@@ -151,7 +147,7 @@ begin
   Result := CanvasOffset;
 end;
 
-{ World -> Display}
+{ World -> Display }
 function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 begin
   with Result do begin
@@ -191,8 +187,7 @@ begin
   Result := PointVertexes;
 end;
 
-{Display -> World}
-
+{ Display -> World }
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 begin
   with Result do begin

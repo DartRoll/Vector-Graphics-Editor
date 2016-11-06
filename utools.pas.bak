@@ -141,7 +141,7 @@ begin
   else begin
     if FMouseButton = mbLeft then begin
       if IncreaseScale then
-      SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale - FStartingPoint.Y);
+        SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale - FStartingPoint.Y);
     end;
     if FMouseButton = mbRight then begin
       if DecreaseScale then

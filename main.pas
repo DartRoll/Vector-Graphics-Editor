@@ -12,7 +12,6 @@ uses
 type
 
   { TVectorEditor }
-
   TVectorEditor = class(TForm)
     Button1: TButton;
     Button2: TButton;
@@ -73,6 +72,7 @@ type
     procedure SetScrollBarsPostions;
     procedure SaveFigure(Figure: TFigure);
     procedure VerticalScrollBarChange(Sender: TObject);
+    procedure RedefineImageBounds(ADoubleRect: TDoubleRect);
   private
     { private declarations }
 
@@ -99,16 +99,16 @@ implementation
 
 { TVectorEditor }
 
-
 procedure TVectorEditor.SaveFigure(Figure: TFigure);
 begin
   if Figure <> nil then begin
     SetLength(Figures, Length(Figures) + 1);
     Figures[High(Figures)] := Figure;
+    RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
   end;
 end;
 
-procedure RedefineImageBounds(ADoubleRect: TDoubleRect);
+procedure TVectorEditor.RedefineImageBounds(ADoubleRect: TDoubleRect);
 begin
   if Length(Figures) <= 1 then begin
     ImageBounds.Left := ADoubleRect.Left;
@@ -122,14 +122,14 @@ begin
     ImageBounds.Right := Max(ImageBounds.Right, ADoubleRect.Right);
     ImageBounds.Bottom := Max(ImageBounds.Bottom, ADoubleRect.Bottom);
   end;
-  VectorEditor.PaintBox.Invalidate;
+  //PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.ClearCanvas;
 var i: Integer;
 begin
   for i := 0 to High(Figures) do
-    Figures[i].free;
+    Figures[i].Free;
   Figures := nil;
   PaintBox.Invalidate;
 end;
@@ -150,7 +150,6 @@ begin
   ScrollOffset.Y := ImageBounds.Top;
 end;
 
-
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
 begin
   with Sender as TScrollBar do begin
@@ -159,10 +158,10 @@ begin
       Exit;
     end;
   end;
-  SetCanvasOffset(ScrollOffset.X * GetScale + (Sender as TScrollBar).Position, GetCanvasOffset.Y);
+  SetCanvasOffset(ScrollOffset.X * GetScale + (Sender as TScrollBar).Position,
+    GetCanvasOffset.Y);
   PaintBox.Invalidate;
 end;
-
 
 procedure TVectorEditor.VerticalScrollBarChange(Sender: TObject);
 begin
@@ -172,7 +171,8 @@ begin
       Exit;
     end;
   end;
-  SetCanvasOffset(GetCanvasOffset.X, ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
+  SetCanvasOffset(GetCanvasOffset.X,
+    ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
   PaintBox.Invalidate;
 end;
 
@@ -268,12 +268,14 @@ end;
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
+  //DEBUG START
   Label1.Caption := 'x:' + FloatToStr(GetCanvasOffset.X);
   Label2.Caption := 'y:' + FloatToStr(GetCanvasOffset.Y);
   Label3.Caption := 'x:' + FloatToStr(DispToWorldCoord(X, Y).X);
   Label4.Caption := 'Y:' + FloatToStr(DispToWorldCoord(X, Y).Y);
   Label8.Caption := 'Dspx: ' + IntToStr(X);
   Label9.Caption := 'DspY: ' + IntToStr(Y);
+  //DEBUG END
   if isDrawing then begin
     CurrentTool.MouseMove(DispToWorldCoord(X, Y));
     PaintBox.Invalidate;
@@ -286,10 +288,6 @@ begin
   isDrawing := False;
   CurrentTool.MouseUp;
   SaveFigure(CurrentTool.GetFigure);
-    if CurrentTool.GetFigure <> nil then begin //сделать нормально
-      RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
-      SetScrollBarsPostions;
-  end;
   PaintBox.Invalidate;
 end;
 
@@ -299,9 +297,10 @@ begin
   for i := 0 to High(Figures) do begin
     Figures[i].Draw(PaintBox.Canvas);
   end;
-  if isDrawing and (CurrentTool.GetFigure <> nil) then //сделать нормально !!!
+  if isDrawing and (CurrentTool.GetFigure <> nil) then //и так сойдёт?
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   SetScrollBarsPostions;
+  //DEBUG START
   label5.Caption := 'left: ' + FloatTostr(ImageBounds.Left);
   Label6.Caption := 'right: ' + FloatToStr(ImageBounds.Right);
   Label7.Caption := 'scale: ' + FloatToStr(GetScale);
@@ -312,6 +311,7 @@ begin
   PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Right, WorldToDispCoord(ImageBounds).Bottom);
   PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Bottom);
   PaintBox.Canvas.LineTo(WorldToDispCoord(ImageBounds).Left, WorldToDispCoord(ImageBounds).Top);
+  //DEBUG END
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -350,27 +350,28 @@ end;
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 begin
   SetScalePercent((Sender as TFloatSpinEdit).Value);
-  SetScrollBarsPostions;
   PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.ShowEverythingMenuItemClick(Sender: TObject);
 const
-  BorderMargin = 5;//px
+  BorderMargin = 5;//px (на самом деле нет)
 var
   XScale, YScale: Double;
+  WorldWidth, WorldHeight: Double;
 begin
-  //x := Scale * ADoublePoint.X - CanvasOffset.X
-  //SetCanvasOffset((ImageBounds.Right - ImageBounds.Left) / 2 - ClientWidth, 0);
-  //{TODO: сделать постоянный отступ вне зависимости от масшатаб
-  XScale := (Paintbox.ClientWidth - 1)  /
-    (ImageBounds.Right - ImageBounds.Left {+ 2 * BorderMargin});
-  YScale := (PaintBox.ClientHeight - 1) /
-    (ImageBounds.Bottom - ImageBounds.Top {+ 2 * BorderMargin});
+  WorldWidth := ImageBounds.Right - ImageBounds.Left;
+  WorldHeight := ImageBounds.Bottom - ImageBounds.Top;
+  //TODO: сделать постоянный отступ вне зависимости от масшатаба - СДЕЛАНО!
+  //TODO: Упростить расчёты
+  XScale := (Paintbox.ClientWidth - 1)  / (WorldWidth + 2 * BorderMargin / GetScale);
+  YScale := (PaintBox.ClientHeight - 1) / (WorldHeight + 2 * BorderMargin / GetScale);
   SetScale(Min(XScale, YScale));
-
-  SetCanvasOffset((ImageBounds.Left * GetScale - (PaintBox.ClientWidth - GetScale * (ImageBounds.Right - ImageBounds.Left )) / 2),
-    (ImageBounds.Top * GetScale - (PaintBox.ClientHeight - GetScale * (ImageBounds.Bottom - ImageBounds.Top )) / 2) );
+  { ВНИМАНИЕ! ВПЕРЕДИ МАГИЯ! РУКАМИ НЕ ТРОГАТЬ! }
+  //TODO: привести к человеческому виду
+  //TODO: понять как я это сделал
+  SetCanvasOffset(ImageBounds.Left * GetScale - (PaintBox.ClientWidth - GetScale * WorldWidth) / 2,
+    ImageBounds.Top * GetScale - (PaintBox.ClientHeight - GetScale * WorldHeight) / 2);
   PaintBox.Invalidate;
 end;
 
