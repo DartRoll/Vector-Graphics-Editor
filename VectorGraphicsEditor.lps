@@ -24,7 +24,6 @@
         <WindowIndex Value="1"/>
         <TopLine Value="200"/>
         <CursorPos X="33" Y="206"/>
-        <ComponentState Value="1"/>
         <UsageCount Value="162"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -56,8 +55,8 @@
         <UnitName Value="UTools"/>
         <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="113"/>
-        <CursorPos X="9" Y="158"/>
+        <TopLine Value="116"/>
+        <CursorPos X="111" Y="163"/>
         <UsageCount Value="152"/>
         <Loaded Value="True"/>
       </Unit4>

@@ -149,17 +149,18 @@ begin
       (ImageBounds.Bottom - ImageBounds.Top {+ 2 * BorderMargin});
     SetScale(Min(XScale, YScale));
 
-    SetCanvasOffset((ImageBounds.Left * GetScale - (ClientWidth - GetScale * (ImageBounds.Right - ImageBounds.Left )) / 2),
+    SetCanvasOffset((ImageBounds.Left / GetScale - (ClientWidth - GetScale * (ImageBounds.Right - ImageBounds.Left )) / 2),
       (ImageBounds.Top * GetScale - (ClientHeight - GetScale * (ImageBounds.Bottom - ImageBounds.Top )) / 2) );
   end
   else begin
     if FMouseButton = mbLeft then begin
       if IncreaseScale then
-        SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale - FStartingPoint.Y);
+        SetCanvasOffset(ClientWidth / 2 * GetScale - ClientWidth, ClientHeight / 2 * GetScale - ClientHeight);
     end;
     if FMouseButton = mbRight then begin
       if DecreaseScale then
-        SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
+        //SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
+        SetCanvasOffset(ClientWidth / 2 * GetScale - ClientWidth, ClientHeight / 2 * GetScale - ClientHeight);
     end;
   end;
   FIsSelectingArea := False;
