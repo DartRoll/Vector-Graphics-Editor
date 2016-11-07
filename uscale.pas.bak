@@ -35,6 +35,7 @@ function DoubleRect(ATopLeft, ABottomRight: TDoublePoint): TDoubleRect;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
 procedure SetCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(AX, AY: Double);
+procedure DeductCanvasOffset(AX, AY: Double);
 function GetCanvasOffset: TDoublePoint;
 function DispToWorldX(AX: Integer): Double;
 function DispToWorldY(AY: Integer): Double;
@@ -58,7 +59,7 @@ const
 
 var
   Scale: Double = 1.0;
-  CanvasOffset: TDoublePoint;//инициализируются X:=0, Y:=0
+  CanvasOffset: TDoublePoint;//инициализируется X:=0, Y:=0
 
 { TDoublePoint }
 function DoublePoint(AX, AY: Double): TDoublePoint;
@@ -140,6 +141,12 @@ procedure AddCanvasOffset(AX, AY: Double);
 begin
   CanvasOffset.X += Scale * AX;
   CanvasOffset.Y += Scale * AY;
+end;
+
+procedure DeductCanvasOffset(AX, AY:  Double)
+begin
+  CanvasOffset.X -= Scale * AX;
+  CanvasOffset.Y -= Scale * AY;
 end;
 
 function GetCanvasOffset: TDoublePoint;
