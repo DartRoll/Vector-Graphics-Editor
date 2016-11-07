@@ -154,19 +154,17 @@ begin
       (ImageBounds.Top * GetScale - (ClientHeight - GetScale * (ImageBounds.Bottom - ImageBounds.Top )) / 2) );
   end
   else begin
+    TempChrds := DispToWorldCoord(round(ClientWidth /2), round(ClientHeight / 2));
     if FMouseButton = mbLeft then begin
-      TempChrds := DispToWorldCoord(round(ClientWidth /2), round(ClientHeight / 2));
       IncreaseScale;
-      AddCanvasOffset(TempChrds.X - DispToWorldX(round(ClientWidth / 2)), TempChrds.Y - DispToWorldY(round(ClientHeight / 2)));
         //AddCanvasOffset(ClientWidth / 2,  ClientHeight / 2);
     end;
     if FMouseButton = mbRight then begin
-      TempChrds := DispToWorldCoord(round(ClientWidth /2), round(ClientHeight / 2));
       DecreaseScale;
-      AddCanvasOffset(TempChrds.X - DispToWorldX(round(ClientWidth / 2)), TempChrds.Y - DispToWorldY(round(ClientHeight / 2)));
       //SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
         //DeductCanvasOffset(ClientWidth / 2, ClientHeight / 2);
     end;
+    AddCanvasOffset(TempChrds.X - DispToWorldX(round(ClientWidth / 2)), TempChrds.Y - DispToWorldY(round(ClientHeight / 2)));
   end;
   FIsSelectingArea := False;
   FFigure.Free;

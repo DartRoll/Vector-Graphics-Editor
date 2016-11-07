@@ -53,6 +53,7 @@ function DecreaseScale: Boolean;
 function GetScale:Double;
 
 implementation
+
 const
   MaxScale = 8;
   MinScale = 0.125;
