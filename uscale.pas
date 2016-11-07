@@ -35,6 +35,7 @@ function DoubleRect(ATopLeft, ABottomRight: TDoublePoint): TDoubleRect;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
 procedure SetCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(AX, AY: Double);
+procedure AddCanvasOffsetWorld(AX, AY: Double);
 function GetCanvasOffset: TDoublePoint;
 function DispToWorldX(AX: Integer): Double;
 function DispToWorldY(AY: Integer): Double;
@@ -140,6 +141,12 @@ procedure AddCanvasOffset(AX, AY: Double);
 begin
   CanvasOffset.X += Scale * AX;
   CanvasOffset.Y += Scale * AY;
+end;
+
+procedure AddCanvasOffsetWorld(AX, AY: Double);
+begin
+  CanvasOffset.X += AX;
+  CanvasOffset.Y += AY;
 end;
 
 function GetCanvasOffset: TDoublePoint;

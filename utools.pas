@@ -155,12 +155,13 @@ begin
   else begin
     if FMouseButton = mbLeft then begin
       if IncreaseScale then
-        SetCanvasOffset(ClientWidth / 2 * GetScale - ClientWidth, ClientHeight / 2 * GetScale - ClientHeight);
+        //SetCanvasOffset(ClientWidth / 2 * GetScale - ClientWidth, ClientHeight / 2 * GetScale - ClientHeight);
+        AddCanvasOffsetWorld(GetCanvasOffset.X * GetScale, GetCanvasOffset.Y * GetScale);
     end;
     if FMouseButton = mbRight then begin
       if DecreaseScale then
-        //SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
-        SetCanvasOffset(ClientWidth / 2 * GetScale - ClientWidth, ClientHeight / 2 * GetScale - ClientHeight);
+        SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
+        //AddCanvasOffsetWorld(ClientWidth / 2, ClientHeight / 2);
     end;
   end;
   FIsSelectingArea := False;
