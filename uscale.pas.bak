@@ -40,10 +40,14 @@ function GetCanvasOffset: TDoublePoint;
 function DispToWorldX(AX: Integer): Double;
 function DispToWorldY(AY: Integer): Double;
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
+function DispToWorldCoord(ARect: TRect): TDoubleRect;
+function DispToWorldDimension(ADimension: Integer): Double;
+function DispToWorldCoord(APoint: TPoint): TDoublePoint;
 function WorldToDispX(AX: Double): Integer;
 function WorldToDispY(AY: Double): Integer;
 function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
 function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
+function WorldToDispDimension(ADimension: Double): Integer;
 function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
 procedure SetScalePercent(AScale: Double);
@@ -53,6 +57,7 @@ function DecreaseScale: Boolean;
 function GetScale:Double;
 
 implementation
+
 const
   MaxScale = 8;
   MinScale = 0.125;
@@ -181,6 +186,11 @@ begin
   Result := round(Scale * AY - CanvasOffset.Y);
 end;
 
+function WorldToDispDimension(ADimension: Double): Integer;
+begin
+  Result := round(ADimension * Scale);
+end;
+
 function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
 var
@@ -211,6 +221,27 @@ end;
 function DispToWorldY(AY: Integer): Double;
 begin
   Result := (AY + CanvasOffset.Y) / Scale;
+end;
+
+function DispToWorldCoord(APoint: TPoint): TDoublePoint;
+begin
+  with Result do begin
+    X := (AX + CanvasOffset.X) / Scale;
+    Y := (AY + CanvasOffset.Y) / Scale;
+  end;
+end;
+
+function DispToWorldCoord(ARect: TRect): TDoubleRect;
+begin
+  with Result do begin
+    TopLeft := DispToWorldCoord(ARect.TopLeft);
+    BottomRight := DispToWorldCoord(ARect.BottomRight);
+  end;
+end;
+
+function DispToWorldDimension(ADimension: Integer): Double;
+begin
+  Result := ADimension / Scale;
 end;
 
 initialization

@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 400
+  Left = -7
   Height = 690
-  Top = 6
+  Top = 122
   Width = 753
   Caption = 'VectorEditor'
   ClientHeight = 670
@@ -17,33 +17,35 @@ object VectorEditor: TVectorEditor
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = 128
+    Left = 144
     Height = 650
     Top = 0
-    Width = 605
+    Width = 589
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
     OnMouseDown = PaintBoxMouseDown
     OnMouseMove = PaintBoxMouseMove
     OnMouseUp = PaintBoxMouseUp
+    OnMouseWheelDown = PaintBoxMouseWheelDown
+    OnMouseWheelUp = PaintBoxMouseWheelUp
     OnPaint = PaintBoxPaint
   end
   object ToolPanel: TPanel
     Left = 0
     Height = 670
     Top = 0
-    Width = 128
+    Width = 144
     Align = alLeft
     ClientHeight = 670
-    ClientWidth = 128
+    ClientWidth = 144
     Color = 16119285
     ParentColor = False
     TabOrder = 0
     object LineWidthSpinEdit: TSpinEdit
       Left = 64
       Height = 28
-      Top = 448
+      Top = 440
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -60,7 +62,7 @@ object VectorEditor: TVectorEditor
       AnchorSideRight.Control = LineWidthSpinEdit
       Left = 0
       Height = 20
-      Top = 448
+      Top = 440
       Width = 64
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
@@ -179,18 +181,17 @@ object VectorEditor: TVectorEditor
       TabOrder = 5
     end
     object ScaleFloatSpinEdit: TFloatSpinEdit
-      Left = 71
-      Height = 23
-      Top = 480
-      Width = 57
+      Left = 64
+      Height = 28
+      Top = 472
+      Width = 64
       Alignment = taRightJustify
       AutoSelect = False
       AutoSize = False
-      DecimalPlaces = 0
-      Font.Height = -15
+      Font.Height = -13
       Increment = 10
-      MaxValue = 1000
-      MinValue = 10
+      MaxValue = 800
+      MinValue = 12.5
       OnChange = ScaleFloatSpinEditChange
       ParentFont = False
       TabStop = False
@@ -214,12 +215,39 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
     object Label9: TLabel
-      Left = 5
+      Left = 2
       Height = 15
-      Top = 632
+      Top = 640
       Width = 34
       Caption = 'Label9'
       ParentColor = False
+    end
+    object ScaleLabel: TLabel
+      AnchorSideRight.Control = ScaleFloatSpinEdit
+      Left = 2
+      Height = 20
+      Top = 472
+      Width = 62
+      Alignment = taRightJustify
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Масштаб'
+      Font.Height = -15
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label10: TLabel
+      AnchorSideLeft.Control = ScaleFloatSpinEdit
+      AnchorSideLeft.Side = asrBottom
+      Left = 128
+      Height = 16
+      Top = 476
+      Width = 18
+      AutoSize = False
+      Caption = '%'
+      Font.Height = -15
+      ParentColor = False
+      ParentFont = False
     end
   end
   object HorizontalScrollBar: TScrollBar
@@ -228,10 +256,10 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 128
+    Left = 144
     Height = 20
     Top = 650
-    Width = 605
+    Width = 589
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 1

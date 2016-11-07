@@ -39,7 +39,7 @@ type
     FStartingPoint: TDoublePoint;
     FIsSelectingArea: Boolean;
     FMouseButton: TMouseButton;
-    FClientBounds: TRect;
+    FPaintBoxBounds: TRect;
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
@@ -114,59 +114,56 @@ procedure TMagnifierTool.MouseDown(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
   Button: TMouseButton; AClientBounds: TRect);
 begin
-  FClientBounds := AClientBounds;
+  FPaintBoxBounds := AClientBounds;
   FIsSelectingArea := False;
   FMouseButton := Button;
-  FFigure := TRectangleLine.Create(ADoublePoint, APenColor, ABrushColor, 1);
+  FFigure := TRectangleLine.Create(ADoublePoint, clBlack, ABrushColor, 1);
   FStartingPoint := ADoublePoint;
 end;
 
 procedure TMagnifierTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
   FIsSelectingArea := True;
-  (FFigure as TTwoPointFigure).SetSecondPoint(ADoublePoint);
+  (FFigure as TRectangleLine).SetSecondPoint(ADoublePoint);
 end;
-// ДОБАВИТЬ ПОГРЕШНОСТЬ - Готово
-//Перемещение в центр
+
 procedure TMagnifierTool.MouseUp;
 const
-  Delta = 10;
+  Delta = 10;//px
 var
   XScale, YScale: Double;
-  ImageBounds: TDoubleRect;
-  ClientWidth, ClientHeight: Double;
-  TempChrds: TDoublePoint;
+  SelectionBounds: TDoubleRect;
+  SelectionWidth, SelectionHeight: Double;
+  PaintBoxWidth, PaintBoxHeight: Double;
+  StartingCenterCrds: TDoublePoint;
 begin
-  ImageBounds := FFigure.GetBounds;
-  ClientWidth := FClientBounds.Right - FClientBounds.Left;
-  ClientHeight := FClientBounds.Bottom - FClientBounds.Top;
+  SelectionBounds := FFigure.GetBounds;
+  PaintBoxWidth := FPaintBoxBounds.Right - FPaintBoxBounds.Left;
+  PaintBoxHeight := FPaintBoxBounds.Bottom - FPaintBoxBounds.Top;
+  SelectionWidth := SelectionBounds.Right - SelectionBounds.Left;
+  SelectionHeight := SelectionBounds.Bottom - SelectionBounds.Top;
 
   if FIsSelectingArea and
-    ((ImageBounds.Right - ImageBounds.Left) > Delta / getScale) and
-    ((ImageBounds.Bottom - ImageBounds.Top) > Delta / getScale) then begin
-    XScale := (ClientWidth - 1)  /
-      (ImageBounds.Right - ImageBounds.Left {+ 2 * BorderMargin});
-    YScale := (ClientHeight - 1) /
-      (ImageBounds.Bottom - ImageBounds.Top {+ 2 * BorderMargin});
+    (SelectionWidth >  WorldToDispDimension(Delta)) and
+    (SelectionHeight > WorldToDispDimension(Delta)) then begin
+    //КАКОЙ ОТСТУП В ДАННОЙ СИТУАЦИИ?
+    XScale := (PaintBoxWidth - 1)  / SelectionWidth;
+    YScale := (PaintBoxHeight - 1) / SelectionHeight;
     SetScale(Min(XScale, YScale));
-
-    SetCanvasOffset((ImageBounds.Left * GetScale - (ClientWidth - GetScale * (ImageBounds.Right - ImageBounds.Left )) / 2),
-      (ImageBounds.Top * GetScale - (ClientHeight - GetScale * (ImageBounds.Bottom - ImageBounds.Top )) / 2) );
+    //Размещение по центру
+    SetCanvasOffset(SelectionBounds.Left * GetScale - (PaintBoxWidth - GetScale *
+      (SelectionWidth )) / 2,
+      SelectionBounds.Top * GetScale - (PaintBoxHeight - GetScale *
+      (SelectionHeight)) / 2);
   end
   else begin
-    if FMouseButton = mbLeft then begin
-      TempChrds := DispToWorldCoord(round(ClientWidth /2), round(ClientHeight / 2));
-      IncreaseScale;
-      AddCanvasOffset(TempChrds.X - DispToWorldX(round(ClientWidth / 2)), TempChrds.Y - DispToWorldY(round(ClientHeight / 2)));
-        //AddCanvasOffset(ClientWidth / 2,  ClientHeight / 2);
-    end;
-    if FMouseButton = mbRight then begin
-      TempChrds := DispToWorldCoord(round(ClientWidth /2), round(ClientHeight / 2));
-      DecreaseScale;
-      AddCanvasOffset(TempChrds.X - DispToWorldX(round(ClientWidth / 2)), TempChrds.Y - DispToWorldY(round(ClientHeight / 2)));
-      //SetCanvasOffset(FStartingPoint.X * GetScale - FStartingPoint.X, FStartingPoint.Y * GetScale -  FStartingPoint.Y);
-        //DeductCanvasOffset(ClientWidth / 2, ClientHeight / 2);
-    end;
+    StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2), round(PaintBoxHeight / 2));
+    if FMouseButton = mbLeft then IncreaseScale;
+    if FMouseButton = mbRight then DecreaseScale;
+    AddCanvasOffset(StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),
+      StartingCenterCrds.Y - DispToWorldY(round(PaintBoxHeight / 2)));
+    {AddCanvasOffset(FStartingPoint.X - (FStartingPoint.X + GetCanvasOffset.X) / GetScale,
+      FStartingPoint.Y - (FStartingPoint.Y + GetCanvasOffset.Y) / GetScale);}
   end;
   FIsSelectingArea := False;
   FFigure.Free;
