@@ -148,6 +148,7 @@ end;
 procedure TVectorEditor.SetScrollBarsPostions;
 var
   WidthInPixels, HeightInPixels: Integer;
+  Temp: Integer;
 begin
   //WidthInPixels := ceil((ImageBounds.Right - ImageBounds.Left) * GetScale);
   //HeightInPixels := ceil((ImageBounds.Bottom - ImageBounds.Top) * GetScale);
@@ -159,21 +160,26 @@ begin
   VerticalScrollBar.Max := HeightInPixels;
   VerticalScrollBar.PageSize := PaintBox.ClientHeight;
   ScrollOffset.Y := ImageBounds.Top;
-  HorizontalScrollBar.Position := ;
-  Label3.Caption := 'Cvs:' + FloatToStr(GetCanvasOffset.x);
-  Label4.Caption := 'Scr:' + FloatToStr(ScrollOffset.X);
+  HorizontalScrollBar.Position :=  WorldToDispDimension(GetCanvasOffset.X) - WorldToDispDimension(ScrollOffset.X);
+  Temp:= WorldToDispDimension(GetCanvasOffset.X) - WorldToDispDimension(ScrollOffset.X);
+  Label3.Caption := 'Set:' + FloatToStr(HorizontalScrollBar.Position);
+
 end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
+var ccc: Double;
 begin
-  with Sender as TScrollBar do begin
+  Label4.Caption := 'Chng:' + FloatToStr(HorizontalScrollBar.Position);
+  {with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
-      Position := Max - PageSize ;
+      Position := Max - PageSize;
       Exit;
     end;
-  end;
+  end;}
+ ccc := WorldToDispDimension(ScrollOffset.X) + HorizontalScrollBar.Position;
   with Sender as TScrollBar do
-    SetCanvasOffset(ScrollOffset.X + Position,
+
+    SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
       GetCanvasOffset.Y);
   PaintBox.Invalidate;
 end;
