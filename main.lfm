@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = -7
+  Left = 273
   Height = 690
-  Top = 122
+  Top = 124
   Width = 753
   Caption = 'VectorEditor'
   ClientHeight = 670

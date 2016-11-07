@@ -159,6 +159,9 @@ begin
   VerticalScrollBar.Max := HeightInPixels;
   VerticalScrollBar.PageSize := PaintBox.ClientHeight;
   ScrollOffset.Y := ImageBounds.Top;
+  HorizontalScrollBar.Position := ;
+  Label3.Caption := 'Cvs:' + FloatToStr(GetCanvasOffset.x);
+  Label4.Caption := 'Scr:' + FloatToStr(ScrollOffset.X);
 end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
@@ -170,7 +173,7 @@ begin
     end;
   end;
   with Sender as TScrollBar do
-    SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
+    SetCanvasOffset(ScrollOffset.X + Position,
       GetCanvasOffset.Y);
   PaintBox.Invalidate;
 end;
@@ -285,8 +288,6 @@ begin
   //DEBUG START
   Label1.Caption := 'x:' + FloatToStr(GetCanvasOffset.X);
   Label2.Caption := 'y:' + FloatToStr(GetCanvasOffset.Y);
-  Label3.Caption := 'x:' + FloatToStr(DispToWorldCoord(X, Y).X);
-  Label4.Caption := 'Y:' + FloatToStr(DispToWorldCoord(X, Y).Y);
   Label8.Caption := 'Dspx: ' + IntToStr(X);
   Label9.Caption := 'DspY: ' + IntToStr(Y);
   //DEBUG END
