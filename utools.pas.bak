@@ -162,8 +162,6 @@ begin
     if FMouseButton = mbRight then DecreaseScale;
     AddCanvasOffset(StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),
       StartingCenterCrds.Y - DispToWorldY(round(PaintBoxHeight / 2)));
-    {AddCanvasOffset(FStartingPoint.X - (FStartingPoint.X + GetCanvasOffset.X) / GetScale,
-      FStartingPoint.Y - (FStartingPoint.Y + GetCanvasOffset.Y) / GetScale);}
   end;
   FIsSelectingArea := False;
   FFigure.Free;

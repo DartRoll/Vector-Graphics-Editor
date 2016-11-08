@@ -157,7 +157,8 @@ begin
       (SelectionHeight)) / 2);
   end
   else begin
-    StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2), round(PaintBoxHeight / 2));
+    StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
+      round(PaintBoxHeight / 2));
     if FMouseButton = mbLeft then IncreaseScale;
     if FMouseButton = mbRight then DecreaseScale;
     AddCanvasOffset(StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),

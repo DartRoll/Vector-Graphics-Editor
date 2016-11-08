@@ -1,11 +1,11 @@
 object VectorEditor: TVectorEditor
-  Left = 273
+  Left = 334
   Height = 690
-  Top = 124
+  Top = 6
   Width = 753
   Caption = 'VectorEditor'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 670
+  ClientWidth = 753
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -18,9 +18,9 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = HorizontalScrollBar
     Left = 144
-    Height = 0
+    Height = 650
     Top = 0
-    Width = 0
+    Width = 589
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
@@ -33,11 +33,11 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 0
+    Height = 670
     Top = 0
     Width = 144
     Align = alLeft
-    ClientHeight = 0
+    ClientHeight = 670
     ClientWidth = 144
     Color = 16119285
     ParentColor = False
@@ -114,72 +114,6 @@ object VectorEditor: TVectorEditor
       ParentColor = False
       TabOrder = 3
     end
-    object Button1: TButton
-      Left = 80
-      Height = 42
-      Top = 512
-      Width = 47
-      Caption = 'Button1'
-      OnClick = Button1Click
-      TabOrder = 4
-    end
-    object Label1: TLabel
-      Left = 0
-      Height = 15
-      Top = 496
-      Width = 34
-      Caption = 'Label1'
-      ParentColor = False
-    end
-    object Label2: TLabel
-      Left = 0
-      Height = 15
-      Top = 512
-      Width = 34
-      Caption = 'Label2'
-      ParentColor = False
-    end
-    object Label3: TLabel
-      Left = 0
-      Height = 15
-      Top = 528
-      Width = 34
-      Caption = 'Label3'
-      ParentColor = False
-    end
-    object Label4: TLabel
-      Left = 0
-      Height = 15
-      Top = 539
-      Width = 34
-      Caption = 'Label4'
-      ParentColor = False
-    end
-    object Label5: TLabel
-      Left = 0
-      Height = 15
-      Top = 560
-      Width = 34
-      Caption = 'Label5'
-      ParentColor = False
-    end
-    object Label6: TLabel
-      Left = 0
-      Height = 15
-      Top = 576
-      Width = 34
-      Caption = 'Label6'
-      ParentColor = False
-    end
-    object Button2: TButton
-      Left = 80
-      Height = 37
-      Top = 552
-      Width = 44
-      Caption = 'Button2'
-      OnClick = Button2Click
-      TabOrder = 5
-    end
     object ScaleFloatSpinEdit: TFloatSpinEdit
       Left = 64
       Height = 28
@@ -195,32 +129,8 @@ object VectorEditor: TVectorEditor
       OnChange = ScaleFloatSpinEditChange
       ParentFont = False
       TabStop = False
-      TabOrder = 6
+      TabOrder = 4
       Value = 100
-    end
-    object Label7: TLabel
-      Left = 2
-      Height = 15
-      Top = 601
-      Width = 34
-      Caption = 'Label7'
-      ParentColor = False
-    end
-    object Label8: TLabel
-      Left = 5
-      Height = 15
-      Top = 620
-      Width = 34
-      Caption = 'Label8'
-      ParentColor = False
-    end
-    object Label9: TLabel
-      Left = 2
-      Height = 15
-      Top = 640
-      Width = 34
-      Caption = 'Label9'
-      ParentColor = False
     end
     object ScaleLabel: TLabel
       AnchorSideRight.Control = ScaleFloatSpinEdit
@@ -258,8 +168,8 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Side = asrBottom
     Left = 144
     Height = 20
-    Top = -20
-    Width = 0
+    Top = 650
+    Width = 589
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 1
@@ -274,8 +184,8 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = -20
-    Height = 0
+    Left = 733
+    Height = 650
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
