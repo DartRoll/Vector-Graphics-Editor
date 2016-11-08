@@ -42,6 +42,7 @@ object VectorEditor: TVectorEditor
     Color = 16119285
     ParentColor = False
     TabOrder = 0
+    OnClick = ToolPanelClick
     object LineWidthSpinEdit: TSpinEdit
       Left = 64
       Height = 28
@@ -175,7 +176,7 @@ object VectorEditor: TVectorEditor
     PageSize = 1
     TabOrder = 1
     TabStop = False
-    OnChange = HorizontalScrollBarChange
+    OnScroll = HorizontalScrollBarScroll
   end
   object VerticalScrollBar: TScrollBar
     AnchorSideLeft.Control = HorizontalScrollBar
@@ -194,7 +195,7 @@ object VectorEditor: TVectorEditor
     PageSize = 1
     TabOrder = 2
     TabStop = False
-    OnChange = VerticalScrollBarChange
+    OnScroll = VerticalScrollBarScroll
   end
   object MainMenu: TMainMenu
     left = 240

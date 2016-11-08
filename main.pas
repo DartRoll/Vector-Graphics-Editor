@@ -39,6 +39,8 @@ type
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure HorizontalScrollBarChange(Sender: TObject);
+    procedure HorizontalScrollBarScroll(Sender: TObject;
+      ScrollCode: TScrollCode; var ScrollPos: Integer);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -64,9 +66,11 @@ type
     procedure ClearCanvas;
     procedure SetScrollBarsPostions;
     procedure SaveFigure(Figure: TFigure);
-    procedure VerticalScrollBarChange(Sender: TObject);
+    procedure ToolPanelClick(Sender: TObject);
     procedure RedefineImageBounds(ADoubleRect: TDoubleRect);
     procedure UpdateScale;
+    procedure VerticalScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
+      var ScrollPos: Integer);
   private
     { private declarations }
 
@@ -106,6 +110,11 @@ begin
     Figures[High(Figures)] := Figure;
     RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
   end;
+end;
+
+procedure TVectorEditor.ToolPanelClick(Sender: TObject);
+begin
+
 end;
 
 procedure TVectorEditor.RedefineImageBounds(ADoubleRect: TDoubleRect);
@@ -155,19 +164,10 @@ end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
 begin
-  with Sender as TScrollBar do begin
-    if Position > Max - PageSize then begin
-      Position := Max - PageSize;
-      Exit;
-    end;
-  end;
-  with Sender as TScrollBar do
-    SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
-      GetCanvasOffset.Y);
-  PaintBox.Invalidate;
 end;
 
-procedure TVectorEditor.VerticalScrollBarChange(Sender: TObject);
+procedure TVectorEditor.VerticalScrollBarScroll(Sender: TObject;
+  ScrollCode: TScrollCode; var ScrollPos: Integer);
 begin
   with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
@@ -177,6 +177,21 @@ begin
   end;
   SetCanvasOffset(GetCanvasOffset.X,
     ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
+  PaintBox.Invalidate;
+end;
+
+procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
+  ScrollCode: TScrollCode; var ScrollPos: Integer);
+begin
+  with Sender as TScrollBar do begin
+    if Position > Max - PageSize then begin
+      Position := Max - PageSize;
+      Exit;
+    end;
+  end;
+  with Sender as TScrollBar do
+    SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
+      GetCanvasOffset.Y);
   PaintBox.Invalidate;
 end;
 
@@ -255,6 +270,8 @@ begin
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
+  //Размеры паэнтибокса
+  //RedefineImageBounds(DoubleRect(DispToWorldCoord(DoubleRect(0, 0, PaintBox.ClientWidth, PaintBox.ClientHeight))));
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
