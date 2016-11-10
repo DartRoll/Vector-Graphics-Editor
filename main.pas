@@ -38,7 +38,6 @@ type
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure HorizontalScrollBarChange(Sender: TObject);
     procedure HorizontalScrollBarScroll(Sender: TObject;
       ScrollCode: TScrollCode; var ScrollPos: Integer);
     procedure LineWidthSpinEditChange(Sender: TObject);
@@ -89,7 +88,8 @@ var
   PaletteColors: array of array of TColor;
   ScrollOffset: TDoublePoint;
   CurrentTool: TTool;
-  ChangeScrBar: Boolean = False;
+  ChangeHor: Boolean = False;
+  ChangeVert: Boolean = False;
   VectorEditor: TVectorEditor;
 
 implementation
@@ -157,13 +157,8 @@ begin
   VerticalScrollBar.PageSize := PaintBox.ClientHeight;
   ScrollOffset.Y := ImageBounds.Top;
   //Бесконечный вызов
-  //if HorizontalScrollBar.Position <> WorldToDispDimension(GetCanvasOffset.X) - WorldToDispDimension(ScrollOffset.X) then
-  HorizontalScrollBar.Position :=  WorldToDispDimension(GetCanvasOffset.X) - WorldToDispDimension(ScrollOffset.X);
-  VerticalScrollBar.Position :=  WorldToDispDimension(GetCanvasOffset.Y) - WorldToDispDimension(ScrollOffset.Y);
-end;
-
-procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
-begin
+  HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X) - WorldToDispDimension(ScrollOffset.X);
+  VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y) - WorldToDispDimension(ScrollOffset.Y);
 end;
 
 procedure TVectorEditor.VerticalScrollBarScroll(Sender: TObject;
@@ -177,6 +172,7 @@ begin
   end;
   SetCanvasOffset(GetCanvasOffset.X,
     ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
+  ChangeHor := False;
   PaintBox.Invalidate;
 end;
 
@@ -192,6 +188,7 @@ begin
   with Sender as TScrollBar do
     SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
       GetCanvasOffset.Y);
+  ChangeHor := False;
   PaintBox.Invalidate;
 end;
 
@@ -342,7 +339,10 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then begin//----и так сойдёт?
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
-  SetScrollBarsPostions;
+  if ChangeHor then begin
+    SetScrollBarsPostions;
+  end
+  else ChangeHor := True;
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
