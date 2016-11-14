@@ -59,8 +59,8 @@ function GetScale:Double;
 implementation
 
 const
-  MaxScale = 8;
-  MinScale = 0.125;
+  MaxScale = 16;
+  MinScale = 0.0625;
 
 var
   Scale: Double = 1.0;
@@ -98,12 +98,17 @@ end;
 { Scale }
 procedure SetScalePercent(AScale: Double);
 begin
-  Scale := AScale / 100;
+  AScale := AScale / 100;
+  if AScale > MaxScale then Scale := MaxScale
+  else if AScale < MinScale then Scale := MinScale
+  else Scale := AScale;
 end;
 
 procedure SetScale(AScale: Double);
 begin
-  Scale := AScale;
+  if AScale > MaxScale then Scale := MaxScale
+  else if AScale < MinScale then Scale := MinScale
+  else Scale := AScale;
 end;
 
 function IncreaseScale: Boolean;

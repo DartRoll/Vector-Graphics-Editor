@@ -129,7 +129,7 @@ end;
 
 procedure TMagnifierTool.MouseUp;
 const
-  Delta = 10;//px
+  Delta = 5;//px
 var
   XScale, YScale: Double;
   SelectionBounds: TDoubleRect;
@@ -144,8 +144,8 @@ begin
   SelectionHeight := SelectionBounds.Bottom - SelectionBounds.Top;
 
   if FIsSelectingArea and
-    (SelectionWidth >  WorldToDispDimension(Delta)) and
-    (SelectionHeight > WorldToDispDimension(Delta)) then begin
+    (SelectionWidth >  DispToWorldDimension(Delta)) and
+    (SelectionHeight > DispToWorldDimension(Delta)) then begin
     //КАКОЙ ОТСТУП В ДАННОЙ СИТУАЦИИ?
     XScale := (PaintBoxWidth - 1)  / SelectionWidth;
     YScale := (PaintBoxHeight - 1) / SelectionHeight;

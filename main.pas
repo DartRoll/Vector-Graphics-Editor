@@ -80,7 +80,7 @@ type
 
 var
   PenColor: TColor = clBlack;
-  BrushColor: TColor = clWhite;
+  BrushColor: TColor = clBlue;
   LineWidth: Integer = 2;
   isDrawing: Boolean = False;
   ImageBounds: TDoubleRect;
@@ -88,8 +88,7 @@ var
   PaletteColors: array of array of TColor;
   ScrollOffset: TDoublePoint;
   CurrentTool: TTool;
-  ChangeHor: Boolean = False;
-  ChangeVert: Boolean = False;
+  ChangeBars: Boolean = True;
   VectorEditor: TVectorEditor;
 
 implementation
@@ -119,7 +118,7 @@ end;
 
 procedure TVectorEditor.RedefineImageBounds(ADoubleRect: TDoubleRect);
 begin
-  if Length(Figures) < 1 then begin
+  if Length(Figures) = 0 then begin
     ImageBounds.Left := ADoubleRect.Left;
     ImageBounds.Top := ADoubleRect.Top;
     ImageBounds.Right := ADoubleRect.Right;
@@ -139,26 +138,31 @@ begin
   for i := 0 to High(Figures) do
     Figures[i].Free;
   Figures := nil;
+  SetCanvasOffset(0, 0);
+  RedefineImageBounds(DoubleRect(DoublePoint(0, 0),
+    DoublePoint(PaintBox.ClientWidth - 1, PaintBox.ClientHeight -1)));
   PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
 var
-  WidthInPixels, HeightInPixels: Integer;
+  ImgWidthInPixels, ImgHeightInPixels: Integer;
 begin
-  //WidthInPixels := ceil((ImageBounds.Right - ImageBounds.Left) * GetScale);
-  //HeightInPixels := ceil((ImageBounds.Bottom - ImageBounds.Top) * GetScale);
-  WidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
-  HeightInPixels := WorldToDispDimension(ImageBounds.Bottom - ImageBounds.Top);
-  HorizontalScrollBar.Max := WidthInPixels;
+  //ImgWidthInPixels := ceil((ImageBounds.Right - ImageBounds.Left) * GetScale);
+  //ImgHeightInPixels := ceil((ImageBounds.Bottom - ImageBounds.Top) * GetScale);
+  ImgWidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
+  ImgHeightInPixels := WorldToDispDimension(ImageBounds.Bottom - ImageBounds.Top);
+
+  HorizontalScrollBar.Max := ImgWidthInPixels;
   HorizontalScrollBar.PageSize := PaintBox.ClientWidth;
   ScrollOffset.X := ImageBounds.Left;
-  VerticalScrollBar.Max := HeightInPixels;
+
+  VerticalScrollBar.Max := ImgHeightInPixels;
   VerticalScrollBar.PageSize := PaintBox.ClientHeight;
   ScrollOffset.Y := ImageBounds.Top;
-  //Бесконечный вызов
-  HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X) - WorldToDispDimension(ScrollOffset.X);
-  VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y) - WorldToDispDimension(ScrollOffset.Y);
+
+  HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X - ScrollOffset.X);
+  VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y - ScrollOffset.Y);
 end;
 
 procedure TVectorEditor.VerticalScrollBarScroll(Sender: TObject;
@@ -172,7 +176,7 @@ begin
   end;
   SetCanvasOffset(GetCanvasOffset.X,
     ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
-  ChangeHor := False;
+  ChangeBars := False;
   PaintBox.Invalidate;
 end;
 
@@ -188,7 +192,7 @@ begin
   with Sender as TScrollBar do
     SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
       GetCanvasOffset.Y);
-  ChangeHor := False;
+  ChangeBars := False;
   PaintBox.Invalidate;
 end;
 
@@ -268,7 +272,8 @@ begin
   //Палитра
   FillPalette;
   //Размеры паэнтибокса
-  //RedefineImageBounds(DoubleRect(DispToWorldCoord(DoubleRect(0, 0, PaintBox.ClientWidth, PaintBox.ClientHeight))));
+  RedefineImageBounds(DoubleRect(DoublePoint(0, 0),
+    DoublePoint(PaintBox.ClientWidth - 1, PaintBox.ClientHeight -1)));
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -302,7 +307,6 @@ begin
   isDrawing := False;
   CurrentTool.MouseUp;
   SaveFigure(CurrentTool.GetFigure);
-  UpdateScale;
   PaintBox.Invalidate;
 end;
 
@@ -339,10 +343,11 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then begin//----и так сойдёт?
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
-  if ChangeHor then begin
+  if ChangeBars then begin
     SetScrollBarsPostions;
   end
-  else ChangeHor := True;
+  else ChangeBars := True;
+  UpdateScale;
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -380,13 +385,13 @@ end;
 
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 var
-  StartingCenterCrds: TDoublePoint;
+  StartingCntrCrds: TDoublePoint;
 begin
-  StartingCenterCrds := DispToWorldCoord(round(PaintBox.ClientWidth/2),
+  StartingCntrCrds := DispToWorldCoord(round(PaintBox.ClientWidth / 2),
     round(PaintBox.ClientHeight / 2));
   SetScalePercent((Sender as TFloatSpinEdit).Value);
-  AddCanvasOffset(StartingCenterCrds.X - DispToWorldX(round(PaintBox.ClientWidth / 2)),
-    StartingCenterCrds.Y - DispToWorldY(round(PaintBox.ClientHeight / 2)));
+  AddCanvasOffset(StartingCntrCrds.X - DispToWorldX(round(PaintBox.ClientWidth / 2)),
+    StartingCntrCrds.Y - DispToWorldY(round(PaintBox.ClientHeight / 2)));
   PaintBox.Invalidate;
 end;
 
@@ -412,7 +417,6 @@ begin
       (PaintBox.ClientWidth - WorldToDispDimension(ImageWorldWidth)) / 2,
     WorldToDispDimension(ImageBounds.Top) -
       (PaintBox.ClientHeight - WorldToDispDimension(WorldHeight)) / 2);
-  UpdateScale;
   PaintBox.Invalidate;
 end;
 

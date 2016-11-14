@@ -41,8 +41,8 @@ function DispToWorldX(AX: Integer): Double;
 function DispToWorldY(AY: Integer): Double;
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 function DispToWorldCoord(ARect: TRect): TDoubleRect;
-function DispToWorldDimension(ADimension: Integer): Double;
 function DispToWorldCoord(APoint: TPoint): TDoublePoint;
+function DispToWorldDimension(ADimension: Integer): Double;
 function WorldToDispX(AX: Double): Integer;
 function WorldToDispY(AY: Double): Integer;
 function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
@@ -59,8 +59,8 @@ function GetScale:Double;
 implementation
 
 const
-  MaxScale = 8;
-  MinScale = 0.125;
+  MaxScale = 16;
+  MinScale = 0.0625;
 
 var
   Scale: Double = 1.0;
@@ -98,12 +98,17 @@ end;
 { Scale }
 procedure SetScalePercent(AScale: Double);
 begin
-  Scale := AScale / 100;
+  AScale := AScale / 100;
+  if AScale > MaxScale then Scale := MaxScale
+  else if AScale < MinScale then Scale := MinScale
+  else Scale := AScale;
 end;
 
 procedure SetScale(AScale: Double);
 begin
-  Scale := AScale;
+  if AScale > MaxScale then Scale := MaxScale
+  else if AScale < MinScale then Scale := MinScale
+  else Scale := AScale;
 end;
 
 function IncreaseScale: Boolean;
@@ -188,7 +193,8 @@ end;
 
 function WorldToDispDimension(ADimension: Double): Integer;
 begin
-  Result := round(ADimension * Scale);
+  //round
+  Result := floor(ADimension * Scale);
 end;
 
 function WorldVertexesToDispCoord(
@@ -226,8 +232,8 @@ end;
 function DispToWorldCoord(APoint: TPoint): TDoublePoint;
 begin
   with Result do begin
-    X := (AX + CanvasOffset.X) / Scale;
-    Y := (AY + CanvasOffset.Y) / Scale;
+    X := (APoint.x + CanvasOffset.X) / Scale;
+    Y := (APoint.y + CanvasOffset.Y) / Scale;
   end;
 end;
 

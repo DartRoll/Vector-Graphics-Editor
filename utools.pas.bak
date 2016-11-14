@@ -144,8 +144,8 @@ begin
   SelectionHeight := SelectionBounds.Bottom - SelectionBounds.Top;
 
   if FIsSelectingArea and
-    (SelectionWidth >  WorldToDispDimension(Delta)) and
-    (SelectionHeight > WorldToDispDimension(Delta)) then begin
+    (SelectionWidth >  DispToWorldDimension(Delta)) and
+    (SelectionHeight > DispToWorldDimension(Delta)) then begin
     //КАКОЙ ОТСТУП В ДАННОЙ СИТУАЦИИ?
     XScale := (PaintBoxWidth - 1)  / SelectionWidth;
     YScale := (PaintBoxHeight - 1) / SelectionHeight;
@@ -157,7 +157,8 @@ begin
       (SelectionHeight)) / 2);
   end
   else begin
-    StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2), round(PaintBoxHeight / 2));
+    StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
+      round(PaintBoxHeight / 2));
     if FMouseButton = mbLeft then IncreaseScale;
     if FMouseButton = mbRight then DecreaseScale;
     AddCanvasOffset(StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),

@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 334
+  Left = 276
   Height = 690
-  Top = 6
+  Top = 24
   Width = 753
   Caption = 'VectorEditor'
   ClientHeight = 670
@@ -125,8 +125,8 @@ object VectorEditor: TVectorEditor
       AutoSize = False
       Font.Height = -13
       Increment = 10
-      MaxValue = 800
-      MinValue = 12.5
+      MaxValue = 1600
+      MinValue = 6.25
       OnChange = ScaleFloatSpinEditChange
       ParentFont = False
       TabStop = False
