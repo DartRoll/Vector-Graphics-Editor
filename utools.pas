@@ -145,28 +145,30 @@ begin
 
   if FIsSelectingArea and
     (SelectionWidth >  DispToWorldDimension(Delta)) and
-    (SelectionHeight > DispToWorldDimension(Delta)) then begin
+    (SelectionHeight > DispToWorldDimension(Delta))
+  then begin
     //КАКОЙ ОТСТУП В ДАННОЙ СИТУАЦИИ?
-    XScale := (PaintBoxWidth - 1)  / SelectionWidth;
+    XScale := (PaintBoxWidth - 1) / SelectionWidth;
     YScale := (PaintBoxHeight - 1) / SelectionHeight;
     SetScale(Min(XScale, YScale));
     //Размещение по центру
-    SetCanvasOffset(SelectionBounds.Left * GetScale - (PaintBoxWidth - GetScale *
-      (SelectionWidth )) / 2,
-      SelectionBounds.Top * GetScale - (PaintBoxHeight - GetScale *
-      (SelectionHeight)) / 2);
+    SetCanvasOffset(
+      SelectionBounds.Left * GetScale -
+        (PaintBoxWidth  - GetScale * SelectionWidth ) / 2,
+      SelectionBounds.Top  * GetScale -
+        (PaintBoxHeight - GetScale * SelectionHeight) / 2);
   end
   else begin
     StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
       round(PaintBoxHeight / 2));
     if FMouseButton = mbLeft then IncreaseScale;
     if FMouseButton = mbRight then DecreaseScale;
-    AddCanvasOffset(StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),
+    AddCanvasOffset(
+      StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),
       StartingCenterCrds.Y - DispToWorldY(round(PaintBoxHeight / 2)));
   end;
   FIsSelectingArea := False;
-  FFigure.Free;
-  FFigure := nil; //Так можно делать?
+  FreeAndNil(FFigure);
 end;
 
 { THandTool }
@@ -185,8 +187,9 @@ end;
 
 procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
-  AddCanvasOffset(FStartingPoint.X - ADoublePoint.x,
-                  FStartingPoint.Y - ADoublePoint.y);
+  AddCanvasOffset(
+    FStartingPoint.X - ADoublePoint.x,
+    FStartingPoint.Y - ADoublePoint.y);
 end;
 
 { TTool }

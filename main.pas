@@ -141,6 +141,7 @@ begin
   SetCanvasOffset(0, 0);
   RedefineImageBounds(DoubleRect(DoublePoint(0, 0),
     DoublePoint(PaintBox.ClientWidth - 1, PaintBox.ClientHeight -1)));
+  SetScale(1);
   PaintBox.Invalidate;
 end;
 
@@ -148,8 +149,6 @@ procedure TVectorEditor.SetScrollBarsPostions;
 var
   ImgWidthInPixels, ImgHeightInPixels: Integer;
 begin
-  //ImgWidthInPixels := ceil((ImageBounds.Right - ImageBounds.Left) * GetScale);
-  //ImgHeightInPixels := ceil((ImageBounds.Bottom - ImageBounds.Top) * GetScale);
   ImgWidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
   ImgHeightInPixels := WorldToDispDimension(ImageBounds.Bottom - ImageBounds.Top);
 
@@ -174,8 +173,9 @@ begin
       Exit;
     end;
   end;
-  SetCanvasOffset(GetCanvasOffset.X,
-    ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
+  with Sender as TScrollBar do
+    SetCanvasOffset(GetCanvasOffset.X,
+      WorldToDispDimension(ScrollOffset.Y) + Position);
   ChangeBars := False;
   PaintBox.Invalidate;
 end;

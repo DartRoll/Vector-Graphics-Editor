@@ -1,45 +1,52 @@
 object VectorEditor: TVectorEditor
-  Left = 418
-  Height = 583
-  Top = 140
-  Width = 1023
+  Left = 276
+  Height = 690
+  Top = 24
+  Width = 753
   Caption = 'VectorEditor'
-  ClientHeight = 563
-  ClientWidth = 1023
+  ClientHeight = 670
+  ClientWidth = 753
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
   OnCreate = FormCreate
   LCLVersion = '1.2.6.0'
   object PaintBox: TPaintBox
+    AnchorSideLeft.Control = ToolPanel
+    AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
-    Left = 128
-    Height = 563
+    AnchorSideRight.Control = VerticalScrollBar
+    AnchorSideBottom.Control = HorizontalScrollBar
+    Left = 144
+    Height = 650
     Top = 0
-    Width = 895
-    Align = alClient
-    Anchors = [akTop]
+    Width = 589
+    Align = alCustom
+    Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
     OnMouseDown = PaintBoxMouseDown
     OnMouseMove = PaintBoxMouseMove
     OnMouseUp = PaintBoxMouseUp
+    OnMouseWheelDown = PaintBoxMouseWheelDown
+    OnMouseWheelUp = PaintBoxMouseWheelUp
     OnPaint = PaintBoxPaint
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 563
+    Height = 670
     Top = 0
-    Width = 128
+    Width = 144
     Align = alLeft
-    ClientHeight = 563
-    ClientWidth = 128
+    ClientHeight = 670
+    ClientWidth = 144
     Color = 16119285
     ParentColor = False
     TabOrder = 0
+    OnClick = ToolPanelClick
     object LineWidthSpinEdit: TSpinEdit
       Left = 64
       Height = 28
-      Top = 472
+      Top = 440
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -56,7 +63,7 @@ object VectorEditor: TVectorEditor
       AnchorSideRight.Control = LineWidthSpinEdit
       Left = 0
       Height = 20
-      Top = 472
+      Top = 440
       Width = 64
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
@@ -93,7 +100,7 @@ object VectorEditor: TVectorEditor
     object BrushColorPanel: TPanel
       Left = 48
       Height = 50
-      Top = 392
+      Top = 384
       Width = 50
       Color = clWhite
       ParentColor = False
@@ -102,17 +109,103 @@ object VectorEditor: TVectorEditor
     object PenColorPanel: TPanel
       Left = 22
       Height = 50
-      Top = 368
+      Top = 360
       Width = 50
       Color = clBlack
       ParentColor = False
       TabOrder = 3
     end
+    object ScaleFloatSpinEdit: TFloatSpinEdit
+      Left = 64
+      Height = 28
+      Top = 472
+      Width = 64
+      Alignment = taRightJustify
+      AutoSelect = False
+      AutoSize = False
+      Font.Height = -13
+      Increment = 10
+      MaxValue = 1600
+      MinValue = 6.25
+      OnChange = ScaleFloatSpinEditChange
+      ParentFont = False
+      TabStop = False
+      TabOrder = 4
+      Value = 100
+    end
+    object ScaleLabel: TLabel
+      AnchorSideRight.Control = ScaleFloatSpinEdit
+      Left = 2
+      Height = 20
+      Top = 472
+      Width = 62
+      Alignment = taRightJustify
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      Caption = 'Масштаб'
+      Font.Height = -15
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label10: TLabel
+      AnchorSideLeft.Control = ScaleFloatSpinEdit
+      AnchorSideLeft.Side = asrBottom
+      Left = 128
+      Height = 16
+      Top = 476
+      Width = 18
+      AutoSize = False
+      Caption = '%'
+      Font.Height = -15
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object HorizontalScrollBar: TScrollBar
+    AnchorSideLeft.Control = ToolPanel
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideRight.Control = VerticalScrollBar
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 144
+    Height = 20
+    Top = 650
+    Width = 589
+    Anchors = [akLeft, akRight, akBottom]
+    Max = 0
+    PageSize = 1
+    TabOrder = 1
+    TabStop = False
+    OnScroll = HorizontalScrollBarScroll
+  end
+  object VerticalScrollBar: TScrollBar
+    AnchorSideLeft.Control = HorizontalScrollBar
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = HorizontalScrollBar
+    Left = 733
+    Height = 650
+    Top = 0
+    Width = 20
+    Anchors = [akTop, akRight, akBottom]
+    Kind = sbVertical
+    Max = 0
+    PageSize = 1
+    TabOrder = 2
+    TabStop = False
+    OnScroll = VerticalScrollBarScroll
   end
   object MainMenu: TMainMenu
-    left = 832
+    left = 240
+    top = 8
     object FileMenuItem: TMenuItem
       Caption = 'Файл'
+      object ShowEverythingMenuItem: TMenuItem
+        Caption = 'Показать всё'
+        OnClick = ShowEverythingMenuItemClick
+      end
       object ClearMenuItem: TMenuItem
         Caption = 'Очистить'
         OnClick = ClearMenuItemClick
@@ -157,6 +250,7 @@ object VectorEditor: TVectorEditor
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 800
+    left = 200
+    top = 8
   end
 end
