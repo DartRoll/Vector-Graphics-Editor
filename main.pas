@@ -7,7 +7,7 @@ interface
 uses
   Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics, Math,
   Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
-  Buttons, ActnList, Grids, UFigures, UTools, UScale, Types;
+  Buttons, ActnList, Grids, UFigures, UTools, UTransform, Types;
 
 type
 
@@ -65,7 +65,6 @@ type
     procedure ClearCanvas;
     procedure SetScrollBarsPostions;
     procedure SaveFigure(Figure: TFigure);
-    procedure ToolPanelClick(Sender: TObject);
     procedure RedefineImageBounds(ADoubleRect: TDoubleRect);
     procedure UpdateScale;
     procedure VerticalScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
@@ -109,11 +108,6 @@ begin
     Figures[High(Figures)] := Figure;
     RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
   end;
-end;
-
-procedure TVectorEditor.ToolPanelClick(Sender: TObject);
-begin
-
 end;
 
 procedure TVectorEditor.RedefineImageBounds(ADoubleRect: TDoubleRect);

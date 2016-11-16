@@ -131,9 +131,9 @@
         <UnitName Value="UTools"/>
       </Unit4>
       <Unit5>
-        <Filename Value="uscale.pas"/>
+        <Filename Value="utransform.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="UScale"/>
+        <UnitName Value="UTransform"/>
       </Unit5>
     </Units>
   </ProjectOptions>

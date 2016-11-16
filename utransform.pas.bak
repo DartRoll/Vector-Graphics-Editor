@@ -1,4 +1,4 @@
-unit UScale;
+unit UTransform;
 
 {$mode objfpc}{$H+}
 
@@ -30,12 +30,16 @@ type
 
   TArrayOfTpoint = array of TPoint;
 
+operator + (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
+operator - (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
+
 function DoublePoint(AX, AY: Double): TDoublePoint;
+function DoublePoint(APoint: TPoint): TDoublePoint;
 function DoubleRect(ATopLeft, ABottomRight: TDoublePoint): TDoubleRect;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
 procedure SetCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(AX, AY: Double);
-procedure DeductCanvasOffset(AX, AY: Double);
+procedure AddCanvasOffset(ACanvasOffset: TDoublePoint);
 function GetCanvasOffset: TDoublePoint;
 function DispToWorldX(AX: Integer): Double;
 function DispToWorldY(AY: Integer): Double;
@@ -66,6 +70,18 @@ var
   Scale: Double = 1.0;
   CanvasOffset: TDoublePoint;//инициализируется X:=0, Y:=0
 
+operator + (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
+begin
+  RPoint.x := APoint.X + BPoint.X;
+  RPOint.y := APoint.Y + BPoint.Y;
+end;
+
+operator - (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
+begin
+  RPoint.x := APoint.X - BPoint.X;
+  RPOint.y := APoint.Y - BPoint.Y;
+end;
+
 { TDoublePoint }
 function DoublePoint(AX, AY: Double): TDoublePoint;
 begin
@@ -73,6 +89,15 @@ begin
   begin
     X := AX;
     Y := AY;
+  end;
+end;
+
+function DoublePoint(APoint: TPoint): TDoublePoint;
+begin
+  with Result do;
+  begin
+    X := APoint.x;
+    Y := APoint.y;
   end;
 end;
 
@@ -153,10 +178,9 @@ begin
   CanvasOffset.Y += Scale * AY;
 end;
 
-procedure DeductCanvasOffset(AX, AY:  Double);
+procedure AddCanvasOffset(ACanvasOffset: TDoublePoint);
 begin
-  CanvasOffset.X -= Scale * AX;
-  CanvasOffset.Y -= Scale * AY;
+  CanvasOffset += ACanvasOffset;
 end;
 
 function GetCanvasOffset: TDoublePoint;

@@ -166,8 +166,6 @@ begin
     LineTo(DispBounds.Left, DispBounds.Bottom);
     LineTo(DispBounds.Left, DispBounds.Top);
   end;
-
-
 end;
 
 end.

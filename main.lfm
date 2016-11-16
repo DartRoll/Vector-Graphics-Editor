@@ -10,7 +10,7 @@ object VectorEditor: TVectorEditor
   KeyPreview = True
   Menu = MainMenu
   OnCreate = FormCreate
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.6.0.4'
   object PaintBox: TPaintBox
     AnchorSideLeft.Control = ToolPanel
     AnchorSideLeft.Side = asrBottom
@@ -42,7 +42,6 @@ object VectorEditor: TVectorEditor
     Color = 16119285
     ParentColor = False
     TabOrder = 0
-    OnClick = ToolPanelClick
     object LineWidthSpinEdit: TSpinEdit
       Left = 64
       Height = 28

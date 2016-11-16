@@ -7,7 +7,7 @@ interface
 uses
   Classes, Contnrs, SysUtils, FileUtil, Forms, Controls, Graphics, Math,
   Dialogs, Menus, ExtCtrls, StdCtrls, aboutprogram, LCLType, Spin, ComCtrls,
-  Buttons, ActnList, Grids, UFigures, UTools, UScale, Types;
+  Buttons, ActnList, Grids, UFigures, UTools, UTransform, Types;
 
 type
 
@@ -111,11 +111,6 @@ begin
   end;
 end;
 
-procedure TVectorEditor.ToolPanelClick(Sender: TObject);
-begin
-
-end;
-
 procedure TVectorEditor.RedefineImageBounds(ADoubleRect: TDoubleRect);
 begin
   if Length(Figures) = 0 then begin
@@ -141,6 +136,7 @@ begin
   SetCanvasOffset(0, 0);
   RedefineImageBounds(DoubleRect(DoublePoint(0, 0),
     DoublePoint(PaintBox.ClientWidth - 1, PaintBox.ClientHeight -1)));
+  SetScale(1);
   PaintBox.Invalidate;
 end;
 
@@ -148,8 +144,6 @@ procedure TVectorEditor.SetScrollBarsPostions;
 var
   ImgWidthInPixels, ImgHeightInPixels: Integer;
 begin
-  //ImgWidthInPixels := ceil((ImageBounds.Right - ImageBounds.Left) * GetScale);
-  //ImgHeightInPixels := ceil((ImageBounds.Bottom - ImageBounds.Top) * GetScale);
   ImgWidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
   ImgHeightInPixels := WorldToDispDimension(ImageBounds.Bottom - ImageBounds.Top);
 
@@ -161,7 +155,7 @@ begin
   VerticalScrollBar.PageSize := PaintBox.ClientHeight;
   ScrollOffset.Y := ImageBounds.Top;
 
-  HorizontalScrollBar.Position := DispToWorldDimension(GetCanvasOffset.X - ScrollOffset.X);
+  HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X - ScrollOffset.X);
   VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y - ScrollOffset.Y);
 end;
 
@@ -174,8 +168,9 @@ begin
       Exit;
     end;
   end;
-  SetCanvasOffset(GetCanvasOffset.X,
-    ScrollOffset.Y * GetScale + (Sender as TScrollBar).Position);
+  with Sender as TScrollBar do
+    SetCanvasOffset(GetCanvasOffset.X,
+      WorldToDispDimension(ScrollOffset.Y) + Position);
   ChangeBars := False;
   PaintBox.Invalidate;
 end;

@@ -5,7 +5,7 @@ unit UTools;
 interface
 
 uses
-  Classes, math, Controls, SysUtils, UFigures, Graphics, UScale;
+  Classes, math, Controls, SysUtils, UFigures, Graphics, UTransform;
 
 type
 
@@ -27,7 +27,7 @@ type
   THandTool = class(TTool)
     FStartingPoint: TDoublePoint;
     constructor Create;
-    procedure MouseDown(ADoublePoint: TDoublePoint;
+    procedure MouseDown(AMousePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
       Button: TMouseButton; AClientBounds: TRect); override;
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
@@ -178,18 +178,20 @@ begin
   FIcon := 'img/hand.bmp';
 end;
 
-procedure THandTool.MouseDown(ADoublePoint: TDoublePoint;
+procedure THandTool.MouseDown(AMousePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
   Button: TMouseButton; AClientBounds: TRect);
 begin
-  FStartingPoint := ADoublePoint;
+  FStartingPoint := AMousePoint;
 end;
 
 procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
-  AddCanvasOffset(
+   { TODO : Выяснить почему это работает}
+  {AddCanvasOffset(
     FStartingPoint.X - ADoublePoint.x,
-    FStartingPoint.Y - ADoublePoint.y);
+    FStartingPoint.Y - ADoublePoint.y);}
+  AddCanvasOffset(FStartingPoint - ADoublePoint);
 end;
 
 { TTool }
