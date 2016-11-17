@@ -78,6 +78,13 @@ type
   end;
 
 var
+  VectorEditor: TVectorEditor;
+
+implementation
+
+{$R *.lfm}
+
+var
   PenColor: TColor = clBlack;
   BrushColor: TColor = clBlue;
   LineWidth: Integer = 2;
@@ -88,11 +95,6 @@ var
   ScrollOffset: TDoublePoint;
   CurrentTool: TTool;
   ChangeBars: Boolean = True;
-  VectorEditor: TVectorEditor;
-
-implementation
-
-{$R *.lfm}
 
 { TVectorEditor }
 
@@ -143,7 +145,7 @@ procedure TVectorEditor.SetScrollBarsPostions;
 var
   ImgWidthInPixels, ImgHeightInPixels: Integer;
 begin
-  ImgWidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
+  {ImgWidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
   ImgHeightInPixels := WorldToDispDimension(ImageBounds.Bottom - ImageBounds.Top);
 
   HorizontalScrollBar.Max := ImgWidthInPixels;
@@ -155,13 +157,13 @@ begin
   ScrollOffset.Y := ImageBounds.Top;
 
   HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X - ScrollOffset.X);
-  VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y - ScrollOffset.Y);
+  VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y - ScrollOffset.Y);}
 end;
 
 procedure TVectorEditor.VerticalScrollBarScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: Integer);
 begin
-  with Sender as TScrollBar do begin
+{  with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
       Position := Max - PageSize ;
       Exit;
@@ -171,13 +173,13 @@ begin
     SetCanvasOffset(GetCanvasOffset.X,
       WorldToDispDimension(ScrollOffset.Y) + Position);
   ChangeBars := False;
-  PaintBox.Invalidate;
+  PaintBox.Invalidate;}
 end;
 
 procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: Integer);
 begin
-  with Sender as TScrollBar do begin
+  {with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
       Position := Max - PageSize;
       Exit;
@@ -187,7 +189,7 @@ begin
     SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
       GetCanvasOffset.Y);
   ChangeBars := False;
-  PaintBox.Invalidate;
+  PaintBox.Invalidate;}
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -383,7 +385,7 @@ var
 begin
   StartingCntrCrds := DispToWorldCoord(round(PaintBox.ClientWidth / 2),
     round(PaintBox.ClientHeight / 2));
-  SetScalePercent((Sender as TFloatSpinEdit).Value);
+  SetScale((Sender as TFloatSpinEdit).Value / 100);
   AddCanvasOffset(StartingCntrCrds.X - DispToWorldX(round(PaintBox.ClientWidth / 2)),
     StartingCntrCrds.Y - DispToWorldY(round(PaintBox.ClientHeight / 2)));
   PaintBox.Invalidate;

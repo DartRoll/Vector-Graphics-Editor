@@ -68,7 +68,7 @@ type
 
   TRectangleTool = class(TTwoPointFigureTool)
     constructor Create;
-    procedure MouseDown(ADoublePoint: TDoublePoint;
+    procedure MouseDown(AMousePos: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
       Button: TMouseButton; AClientBounds: TRect); override;
   end;
@@ -147,16 +147,15 @@ begin
     (SelectionWidth >  DispToWorldDimension(Delta)) and
     (SelectionHeight > DispToWorldDimension(Delta))
   then begin
-    //КАКОЙ ОТСТУП В ДАННОЙ СИТУАЦИИ?
     XScale := (PaintBoxWidth - 1) / SelectionWidth;
     YScale := (PaintBoxHeight - 1) / SelectionHeight;
     SetScale(Min(XScale, YScale));
     //Размещение по центру
     SetCanvasOffset(
-      SelectionBounds.Left * GetScale -
-        (PaintBoxWidth  - GetScale * SelectionWidth ) / 2,
-      SelectionBounds.Top  * GetScale -
-        (PaintBoxHeight - GetScale * SelectionHeight) / 2);
+      SelectionBounds.Left * Scale -
+        (PaintBoxWidth  - Scale * SelectionWidth ) / 2,
+      SelectionBounds.Top * GetScale -
+        (PaintBoxHeight - Scale * SelectionHeight) / 2);
   end
   else begin
     StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
@@ -237,11 +236,11 @@ begin
   FIcon := 'img/rectangle.bmp';
 end;
 
-procedure TRectangleTool.MouseDown(ADoublePoint: TDoublePoint;
+procedure TRectangleTool.MouseDown(AMousePos: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
   Button: TMouseButton; AClientBounds: TRect);
 begin
-  FFigure := TRectangle.Create(ADoublePoint, APenColor, ABrushColor, ALineWidth);
+  FFigure := TRectangle.Create(AMousePos, APenColor, ABrushColor, ALineWidth);
 end;
 
 { TEllipseTool }

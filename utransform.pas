@@ -32,12 +32,12 @@ type
 
 operator + (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
 operator - (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
-
+operator * (AFactor: Double; BPoint: TDoublePoint) RPoint: TDoublePoint;
 function DoublePoint(AX, AY: Double): TDoublePoint;
 function DoublePoint(APoint: TPoint): TDoublePoint;
 function DoubleRect(ATopLeft, ABottomRight: TDoublePoint): TDoubleRect;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
-procedure SetCanvasOffset(AX, AY: Double);
+procedure SetCanvasOffset(ACanvasOffset: TDoublePoint);
 procedure AddCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(ACanvasOffset: TDoublePoint);
 function GetCanvasOffset: TDoublePoint;
@@ -54,11 +54,12 @@ function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 function WorldToDispDimension(ADimension: Double): Integer;
 function WorldVertexesToDispCoord(
   AVertexes: array of TDoublePoint): TArrayOfTpoint;
-procedure SetScalePercent(AScale: Double);
 procedure SetScale(AScale: Double);
-function IncreaseScale: Boolean;
-function DecreaseScale: Boolean;
-function GetScale:Double;
+function GetScale: Double;
+procedure IncreaseScale;
+procedure DecreaseScale;
+
+property Scale: Double read GetScale write SetScale;
 
 implementation
 
@@ -67,19 +68,25 @@ const
   MinScale = 0.0625;
 
 var
-  Scale: Double = 1.0;
+  FScale: Double = 1.0;
   CanvasOffset: TDoublePoint;//инициализируется X:=0, Y:=0
 
 operator + (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
 begin
-  RPoint.x := APoint.X + BPoint.X;
-  RPOint.y := APoint.Y + BPoint.Y;
+  RPoint.X := APoint.X + BPoint.X;
+  RPOint.Y := APoint.Y + BPoint.Y;
 end;
 
 operator - (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
 begin
-  RPoint.x := APoint.X - BPoint.X;
-  RPOint.y := APoint.Y - BPoint.Y;
+  RPoint.X := APoint.X - BPoint.X;
+  RPOint.Y := APoint.Y - BPoint.Y;
+end;
+
+operator * (AFactor: Double; BPoint: TDoublePoint) RPoint: TDoublePoint;
+begin
+  RPoint.X *= AFactor;
+  Rpoint.Y *= AFactor;
 end;
 
 { TDoublePoint }
@@ -117,55 +124,32 @@ begin
 end;
 
 { Scale }
-procedure SetScalePercent(AScale: Double);
-begin
-  AScale := AScale / 100;
-  if AScale > MaxScale then Scale := MaxScale
-  else if AScale < MinScale then Scale := MinScale
-  else Scale := AScale;
-end;
-
 procedure SetScale(AScale: Double);
 begin
-  if AScale > MaxScale then Scale := MaxScale
-  else if AScale < MinScale then Scale := MinScale
-  else Scale := AScale;
+  FScale := EnsureRange(AScale, MinScale, MaxScale);
 end;
 
-function IncreaseScale: Boolean;
+function GetScale: Double;
 begin
-  if 2 * Scale < MaxScale then begin
-    Scale *= 2;
-    Exit(True);
-  end
-  else if Scale < MaxScale then begin
-    Scale := MaxScale;
-  end;
-  Result := False
+  Result := FScale;
 end;
 
-function DecreaseScale: Boolean;
+procedure IncreaseScale;
 begin
-  if Scale / 2 > MinScale then begin
-    Scale /= 2;
-    Exit(True);
-  end
-  else if Scale > MinScale then begin
-    Scale := MinScale;
-  end;
-  Result := False;
+    Scale := Scale * 2;
 end;
 
-function GetScale:Double;
+procedure DecreaseScale;
 begin
-  Result := Scale;
+    Scale := Scale / 2;
 end;
 
 { Canvas Offset }
-procedure SetCanvasOffset(AX, AY: Double);
+procedure SetCanvasOffset(ACanvasOffset: TDoublePoint);
 begin
-  CanvasOffset.X := AX;
-  CanvasOffset.Y := AY;
+  //оператор присвоения CanvasOffset := ACanvasOffset
+  CanvasOffset.X := ACanvasOffset.X;
+  CanvasOffset.Y := ACanvasOffset.Y;
 end;
 
 procedure AddCanvasOffset(AX, AY: Double);

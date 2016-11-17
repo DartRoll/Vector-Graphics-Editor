@@ -147,16 +147,15 @@ begin
     (SelectionWidth >  DispToWorldDimension(Delta)) and
     (SelectionHeight > DispToWorldDimension(Delta))
   then begin
-    //КАКОЙ ОТСТУП В ДАННОЙ СИТУАЦИИ?
     XScale := (PaintBoxWidth - 1) / SelectionWidth;
     YScale := (PaintBoxHeight - 1) / SelectionHeight;
     SetScale(Min(XScale, YScale));
     //Размещение по центру
     SetCanvasOffset(
-      SelectionBounds.Left * GetScale -
-        (PaintBoxWidth  - GetScale * SelectionWidth ) / 2,
-      SelectionBounds.Top  * GetScale -
-        (PaintBoxHeight - GetScale * SelectionHeight) / 2);
+      SelectionBounds.Left * Scale -
+        (PaintBoxWidth  - Scale * SelectionWidth ) / 2,
+      SelectionBounds.Top * GetScale -
+        (PaintBoxHeight - Scale * SelectionHeight) / 2);
   end
   else begin
     StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
@@ -187,6 +186,7 @@ end;
 
 procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
 begin
+   { TODO : Выяснить почему это работает}
   {AddCanvasOffset(
     FStartingPoint.X - ADoublePoint.x,
     FStartingPoint.Y - ADoublePoint.y);}
