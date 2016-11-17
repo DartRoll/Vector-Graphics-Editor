@@ -30,7 +30,7 @@ type
     procedure MouseDown(AMousePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
       Button: TMouseButton); override;
-    procedure MouseMove(ADoublePoint: TDoublePoint); override;
+    procedure MouseMove(AMousePoint: TDoublePoint); override;
   end;
 
   { TMagnifierTool }
@@ -177,13 +177,13 @@ begin
   FStartingPoint := AMousePoint;
 end;
 
-procedure THandTool.MouseMove(ADoublePoint: TDoublePoint);
+procedure THandTool.MouseMove(AMousePoint: TDoublePoint);
 begin
    { TODO : Выяснить почему это работает}
   {AddCanvasOffset(
-    FStartingPoint.X - ADoublePoint.x,
-    FStartingPoint.Y - ADoublePoint.y);}
-  AddCanvasOffset(FStartingPoint - ADoublePoint);
+    FStartingPoint.X - AMousePoint.x,
+    FStartingPoint.Y - AMousePoint.y);}
+  AddCanvasOffset(FStartingPoint - AMousePoint);
 end;
 
 { TTool }

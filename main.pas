@@ -14,7 +14,17 @@ type
   { TVectorEditor }
   TVectorEditor = class(TForm)
     ColorDialog: TColorDialog;
+    MouseWrldLabel: TLabel;
+    MouseXWrldLabel: TLabel;
+    MouseYWrldLabel: TLabel;
+    MouseYDspLabel: TLabel;
+    MouseXDspLabel: TLabel;
+    MouseDspLabel: TLabel;
+    OffsetLabel: TLabel;
+    OffsetYLabel: TLabel;
+    OffsetXLabel: TLabel;
     Label10: TLabel;
+    DebugPanel: TPanel;
     ScaleLabel: TLabel;
     ShowEverythingMenuItem: TMenuItem;
     ScaleFloatSpinEdit: TFloatSpinEdit;
@@ -289,6 +299,12 @@ begin
       PaintBox.ClientWidth, PaintBox.ClientHeight)));
     PaintBox.Invalidate;
   end;
+  {DEBUG}
+  MouseXDspLabel.Caption := 'x: ' + FloatToStr(X);
+  MouseYDspLabel.Caption := 'y: ' + FloatToStr(Y);
+
+  MouseXWrldLabel.Caption := 'x: ' + FloatToStr(DispToWorldX(X));
+  MouseYWrldLabel.Caption := 'y: ' + FloatToStr(DispToWorldY(Y));
 end;
 
 procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
@@ -338,6 +354,11 @@ begin
   end
   else ChangeBars := True;}
   UpdateScale;
+
+  {DEBUG}
+  OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
+  OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
+
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);

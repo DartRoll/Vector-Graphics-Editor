@@ -259,7 +259,7 @@ end;
 
 procedure TLineTool.MouseDown(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
   FFigure := TLine.Create(ADoublePoint, APenColor,ABrushColor, ALineWidth);
 end;
