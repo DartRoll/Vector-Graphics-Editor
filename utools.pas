@@ -17,7 +17,7 @@ type
     function GetFigure: TFigure;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); virtual; abstract;
+      Button: TMouseButton); virtual; abstract;
     procedure MouseMove(ADoublePoint: TDoublePoint); virtual; abstract;
     procedure MouseUp; virtual;
   end;
@@ -29,7 +29,7 @@ type
     constructor Create;
     procedure MouseDown(AMousePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); override;
+      Button: TMouseButton); override;
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
@@ -43,7 +43,7 @@ type
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); override;
+      Button: TMouseButton); override;
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
     procedure MouseUp; override;
   end;
@@ -60,7 +60,7 @@ type
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); override;
+      Button: TMouseButton); override;
     procedure MouseMove(ADoublePoint: TDoublePoint); override;
   end;
 
@@ -70,7 +70,7 @@ type
     constructor Create;
     procedure MouseDown(AMousePos: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); override;
+      Button: TMouseButton); override;
   end;
 
   { TLineTool }
@@ -79,7 +79,7 @@ type
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); override;
+      Button: TMouseButton); override;
   end;
 
   { TEllipseTool }
@@ -88,7 +88,7 @@ type
     constructor Create;
     procedure MouseDown(ADoublePoint: TDoublePoint;
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
-      Button: TMouseButton; AClientBounds: TRect); override;
+      Button: TMouseButton); override;
   end;
 
 var
@@ -112,9 +112,8 @@ end;
 
 procedure TMagnifierTool.MouseDown(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
-  FPaintBoxBounds := AClientBounds;
   FIsSelectingArea := False;
   FMouseButton := Button;
   FFigure := TRectangleLine.Create(ADoublePoint, clBlack, ABrushColor, 1);
@@ -150,12 +149,6 @@ begin
     XScale := (PaintBoxWidth - 1) / SelectionWidth;
     YScale := (PaintBoxHeight - 1) / SelectionHeight;
     SetScale(Min(XScale, YScale));
-    //Размещение по центру
-    SetCanvasOffset(
-      SelectionBounds.Left * Scale -
-        (PaintBoxWidth  - Scale * SelectionWidth ) / 2,
-      SelectionBounds.Top * GetScale -
-        (PaintBoxHeight - Scale * SelectionHeight) / 2);
   end
   else begin
     StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
@@ -179,7 +172,7 @@ end;
 
 procedure THandTool.MouseDown(AMousePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
   FStartingPoint := AMousePoint;
 end;
@@ -219,7 +212,7 @@ end;
 
 procedure TPolylineTool.MouseDown(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
   FFigure := TPolyline.Create(ADoublePoint, APenColor, ABrushColor, ALineWidth);
 end;
@@ -238,7 +231,7 @@ end;
 
 procedure TRectangleTool.MouseDown(AMousePos: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
   FFigure := TRectangle.Create(AMousePos, APenColor, ABrushColor, ALineWidth);
 end;
@@ -252,7 +245,7 @@ end;
 
 procedure TEllipseTool.MouseDown(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
   FFigure := TEllipse.Create(ADoublePoint, APenColor, ABrushColor, ALineWidth);
 end;
@@ -266,7 +259,7 @@ end;
 
 procedure TLineTool.MouseDown(ADoublePoint: TDoublePoint;
   APenColor, ABrushColor: TColor; ALineWidth: Integer;
-  Button: TMouseButton; AClientBounds: TRect);
+  Button: TMouseButton);
 begin
   FFigure := TLine.Create(ADoublePoint, APenColor,ABrushColor, ALineWidth);
 end;

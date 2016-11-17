@@ -30,14 +30,21 @@ type
 
   TArrayOfTpoint = array of TPoint;
 
-operator + (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
-operator - (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
-operator * (AFactor: Double; BPoint: TDoublePoint) RPoint: TDoublePoint;
+operator + (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
+operator + (APoint: TPoint; ADblPoint: TDoublePoint): TDoublePoint;
+
+operator - (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
+
+operator * (ANumber: Double; ADblPoint: TDoublePoint): TDoublePoint;
+
+operator / (ADblPoint: TDoublePoint; ANumber: Double): TDoublePoint;
+
 function DoublePoint(AX, AY: Double): TDoublePoint;
 function DoublePoint(APoint: TPoint): TDoublePoint;
 function DoubleRect(ATopLeft, ABottomRight: TDoublePoint): TDoubleRect;
 function DoubleRect(ALeft, ATop, ARight, ABottom: Double): TDoubleRect;
 procedure SetCanvasOffset(ACanvasOffset: TDoublePoint);
+procedure SetCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(ACanvasOffset: TDoublePoint);
 function GetCanvasOffset: TDoublePoint;
@@ -71,22 +78,34 @@ var
   FScale: Double = 1.0;
   CanvasOffset: TDoublePoint;//инициализируется X:=0, Y:=0
 
-operator + (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
+operator + (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
 begin
-  RPoint.X := APoint.X + BPoint.X;
-  RPOint.Y := APoint.Y + BPoint.Y;
+  Result.X := ADblPointA.X + ADblPointB.X;
+  Result.Y := ADblPointA.Y + ADblPointB.Y;
 end;
 
-operator - (APoint, BPoint: TDoublePoint) RPoint: TDoublePoint;
+operator + (APoint: TPoint; ADblPoint: TDoublePoint): TDoublePoint;
 begin
-  RPoint.X := APoint.X - BPoint.X;
-  RPOint.Y := APoint.Y - BPoint.Y;
+  Result.X := APoint.x + ADblPoint.X;
+  Result.Y := APoint.y + ADblPoint.Y;
 end;
 
-operator * (AFactor: Double; BPoint: TDoublePoint) RPoint: TDoublePoint;
+operator - (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
 begin
-  RPoint.X *= AFactor;
-  Rpoint.Y *= AFactor;
+  Result.X := ADblPointA.X - ADblPointB.X;
+  Result.Y := ADblPointA.Y - ADblPointB.Y;
+end;
+
+operator * (ANumber: Double; ADblPoint: TDoublePoint): TDoublePoint;
+begin
+  Result.X *= ANumber;
+  Result.Y *= ANumber;
+end;
+
+operator / (ADblPoint: TDoublePoint; ANumber: Double): TDoublePoint;
+begin
+  Result.X := ADblPoint.X / ANumber;
+  Result.Y := ADblPoint.Y / ANumber;
 end;
 
 { TDoublePoint }
@@ -147,15 +166,20 @@ end;
 { Canvas Offset }
 procedure SetCanvasOffset(ACanvasOffset: TDoublePoint);
 begin
-  //оператор присвоения
+  //можно ли сделать оператор присвоения CanvasOffset := ACanvasOffset
   CanvasOffset.X := ACanvasOffset.X;
   CanvasOffset.Y := ACanvasOffset.Y;
 end;
 
+procedure SetCanvasOffset(AX, AY: Double);
+begin
+  CanvasOffset := DoublePoint(AX, AY);
+end;
+
 procedure AddCanvasOffset(AX, AY: Double);
 begin
-  CanvasOffset.X += Scale * AX;
-  CanvasOffset.Y += Scale * AY;
+  CanvasOffset.X += AX;
+  CanvasOffset.Y += AY;
 end;
 
 procedure AddCanvasOffset(ACanvasOffset: TDoublePoint);
@@ -234,10 +258,7 @@ end;
 
 function DispToWorldCoord(APoint: TPoint): TDoublePoint;
 begin
-  with Result do begin
-    X := (APoint.x + CanvasOffset.X) / Scale;
-    Y := (APoint.y + CanvasOffset.Y) / Scale;
-  end;
+  Result := (APoint + CanvasOffset) / Scale;
 end;
 
 function DispToWorldCoord(ARect: TRect): TDoubleRect;

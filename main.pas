@@ -135,8 +135,6 @@ begin
     Figures[i].Free;
   Figures := nil;
   SetCanvasOffset(0, 0);
-  RedefineImageBounds(DoubleRect(DoublePoint(0, 0),
-    DoublePoint(PaintBox.ClientWidth - 1, PaintBox.ClientHeight -1)));
   SetScale(1);
   PaintBox.Invalidate;
 end;
@@ -267,9 +265,6 @@ begin
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
-  //Размеры паэнтибокса
-  RedefineImageBounds(DoubleRect(DoublePoint(0, 0),
-    DoublePoint(PaintBox.ClientWidth - 1, PaintBox.ClientHeight -1)));
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -281,9 +276,8 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := True;
-  //----Насколько плохо передавать много аргументов?
   CurrentTool.MouseDown(DispToWorldCoord(X, Y), PenColor, BrushColor, LineWidth,
-    Button, PaintBox.BoundsRect);
+    Button);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -339,10 +333,10 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then begin//----и так сойдёт?
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
-  if ChangeBars then begin
+  {if ChangeBars then begin
     SetScrollBarsPostions;
   end
-  else ChangeBars := True;
+  else ChangeBars := True;}
   UpdateScale;
 end;
 
