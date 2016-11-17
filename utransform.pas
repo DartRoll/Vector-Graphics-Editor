@@ -241,10 +241,12 @@ end;
 { Display -> World }
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 begin
-  with Result do begin
-    X := (AX + CanvasOffset.X) / Scale;
-    Y := (AY + CanvasOffset.Y) / Scale;
-  end;
+  Result := DispToWorldCoord(Point(AX, AY));
+end;
+
+function DispToWorldCoord(APoint: TPoint): TDoublePoint;
+begin
+  Result := (APoint + CanvasOffset) / Scale;
 end;
 
 function DispToWorldX(AX: Integer): Double;
@@ -255,11 +257,6 @@ end;
 function DispToWorldY(AY: Integer): Double;
 begin
   Result := (AY + CanvasOffset.Y) / Scale;
-end;
-
-function DispToWorldCoord(APoint: TPoint): TDoublePoint;
-begin
-  Result := (APoint + CanvasOffset) / Scale;
 end;
 
 function DispToWorldCoord(ARect: TRect): TDoubleRect;

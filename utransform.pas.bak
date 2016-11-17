@@ -173,7 +173,8 @@ end;
 
 procedure SetCanvasOffset(AX, AY: Double);
 begin
-  CanvasOffset := DoublePoint(AX, AY);
+  CanvasOffset.X := AX;
+  CanvasOffset.Y := AY;
 end;
 
 procedure AddCanvasOffset(AX, AY: Double);
@@ -240,10 +241,16 @@ end;
 { Display -> World }
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 begin
+  Result := DispToWorldCoord(Point(AX, AY));
   with Result do begin
     X := (AX + CanvasOffset.X) / Scale;
     Y := (AY + CanvasOffset.Y) / Scale;
   end;
+end;
+
+function DispToWorldCoord(APoint: TPoint): TDoublePoint;
+begin
+  Result := (APoint + CanvasOffset) / Scale;
 end;
 
 function DispToWorldX(AX: Integer): Double;
@@ -254,11 +261,6 @@ end;
 function DispToWorldY(AY: Integer): Double;
 begin
   Result := (AY + CanvasOffset.Y) / Scale;
-end;
-
-function DispToWorldCoord(APoint: TPoint): TDoublePoint;
-begin
-  Result := (APoint + CanvasOffset) / Scale;
 end;
 
 function DispToWorldCoord(ARect: TRect): TDoubleRect;
