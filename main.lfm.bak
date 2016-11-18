@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = -9
+  Left = 504
   Height = 544
-  Top = 581
+  Top = 240
   Width = 743
   Caption = 'VectorEditor'
   ClientHeight = 524
@@ -176,7 +176,7 @@ object VectorEditor: TVectorEditor
     PageSize = 1
     TabOrder = 1
     TabStop = False
-    OnScroll = HorizontalScrollBarScroll
+    OnChange = HorizontalScrollBarChange
   end
   object VerticalScrollBar: TScrollBar
     AnchorSideLeft.Control = HorizontalScrollBar
@@ -195,7 +195,7 @@ object VectorEditor: TVectorEditor
     PageSize = 1
     TabOrder = 2
     TabStop = False
-    OnScroll = VerticalScrollBarScroll
+    OnChange = VerticalScrollBarChange
   end
   object DebugPanel: TPanel
     AnchorSideLeft.Control = ToolPanel

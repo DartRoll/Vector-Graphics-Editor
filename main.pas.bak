@@ -55,8 +55,7 @@ type
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure HorizontalScrollBarScroll(Sender: TObject;
-      ScrollCode: TScrollCode; var ScrollPos: Integer);
+    procedure HorizontalScrollBarChange(Sender: TObject);
     procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -85,8 +84,7 @@ type
     procedure SaveFigure(Figure: TFigure);
     procedure RedefineImageBounds(ADoubleRect: TDoubleRect);
     procedure UpdateScale;
-    procedure VerticalScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
-      var ScrollPos: Integer);
+    procedure VerticalScrollBarChange(Sender: TObject);
     procedure UpdateDimensions;
   private
     { private declarations }
@@ -111,6 +109,7 @@ var
   ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
+  ChangeBars: Boolean = True;
   CurrentTool: TTool;
 
 { TVectorEditor }
@@ -157,36 +156,6 @@ begin
   PaintBox.Invalidate;
 end;
 
-procedure TVectorEditor.SetScrollBarsPostions;
-begin
-  HorizontalScrollBar.SetParams(round(GetCanvasOffset.X),
-  WorldToDispDimension(ImageBounds.Left), WorldToDispDimension(ImageBounds.Right));
-
-  HorizontalScrollBar.PageSize := round(DispDimensions.Width);
-  {
-  VerticalScrollBar.Max := ImgHeightInPixels;
-  VerticalScrollBar.PageSize := PaintBox.ClientHeight;
-  ScrollOffset.Y := ImageBounds.Top;
-  HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X - ScrollOffset.X);
-  VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y - ScrollOffset.Y);}
-end;
-
-procedure TVectorEditor.VerticalScrollBarScroll(Sender: TObject;
-  ScrollCode: TScrollCode; var ScrollPos: Integer);
-begin
-{  with Sender as TScrollBar do begin
-    if Position > Max - PageSize then begin
-      Position := Max - PageSize ;
-      Exit;
-    end;
-  end;
-  with Sender as TScrollBar do
-    SetCanvasOffset(GetCanvasOffset.X,
-      WorldToDispDimension(ScrollOffset.Y) + Position);
-  ChangeBars := False;
-  PaintBox.Invalidate;}
-end;
-
 procedure TVectorEditor.UpdateDimensions;
 begin
   DispDimensions := Dimensions(
@@ -194,20 +163,43 @@ begin
     PaintBox.ClientHeight - 1);
 end;
 
-procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
-  ScrollCode: TScrollCode; var ScrollPos: Integer);
+procedure TVectorEditor.SetScrollBarsPostions;
 begin
-  {with Sender as TScrollBar do begin
+  HorizontalScrollBar.SetParams(round(GetCanvasOffset.X),
+  WorldToDispDimension(ImageBounds.Left), WorldToDispDimension(ImageBounds.Right));
+  HorizontalScrollBar.PageSize := round(DispDimensions.Width);
+
+  VerticalScrollBar.SetParams(round(GetCanvasOffset.Y),
+  WorldToDispDimension(ImageBounds.Top), WorldToDispDimension(ImageBounds.Bottom));
+  VerticalScrollBar.PageSize := round(DispDimensions.Height);
+ end;
+
+procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
+begin
+  with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
       Position := Max - PageSize;
       Exit;
     end;
   end;
   with Sender as TScrollBar do
-    SetCanvasOffset(WorldToDispDimension(ScrollOffset.X) + Position,
-      GetCanvasOffset.Y);
+    SetCanvasOffset(Position, GetCanvasOffset.Y);
   ChangeBars := False;
-  PaintBox.Invalidate;}
+  PaintBox.Invalidate;
+end;
+
+procedure TVectorEditor.VerticalScrollBarChange(Sender: TObject);
+begin
+  with Sender as TScrollBar do begin
+    if Position > Max - PageSize then begin
+      Position := Max - PageSize;
+      Exit;
+    end;
+  end;
+  with Sender as TScrollBar do
+    SetCanvasOffset(GetCanvasOffset.X, Position);
+  ChangeBars := False;
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
@@ -356,7 +348,8 @@ begin
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
   UpdateScale;
-  SetScrollBarsPostions;
+  if ChangeBars then SetScrollBarsPostions
+  else ChangeBars := True;
   {DEBUG}
   OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
