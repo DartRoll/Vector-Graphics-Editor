@@ -187,8 +187,9 @@ end;
 
 procedure TVectorEditor.UpdateDimensions;
 begin
-  DispDimensions.Width := PaintBox.ClientWidth - 1;
-  DispDimensions.Height := PaintBox.ClientHeight - 1;
+  DispDimensions := Dimensions(
+    PaintBox.ClientWidth - 1,
+    PaintBox.ClientWidth - 1);
 end;
 
 procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
@@ -319,7 +320,7 @@ procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := False;
-  CurrentTool.MouseUp;
+  CurrentTool.MouseUp(Point(X, Y));
   SaveFigure(CurrentTool.GetFigure);
   PaintBox.Invalidate;
 end;
@@ -422,7 +423,7 @@ var
   XScale, YScale: Double;
   ImageWorldWidth, WorldHeight: Double;
 begin
-  ImageWorldWidth := ImageBounds.Right - ImageBounds.Left;
+  {ImageWorldWidth := ImageBounds.Right - ImageBounds.Left;
   WorldHeight := ImageBounds.Bottom - ImageBounds.Top;
   //TODO: сделать постоянный отступ вне зависимости от масшатаба - СДЕЛАНО!
   //TODO: Упростить расчёты
@@ -437,7 +438,7 @@ begin
       (PaintBox.ClientWidth - WorldToDispDimension(ImageWorldWidth)) / 2,
     WorldToDispDimension(ImageBounds.Top) -
       (PaintBox.ClientHeight - WorldToDispDimension(WorldHeight)) / 2);
-  PaintBox.Invalidate;
+  PaintBox.Invalidate;}
 end;
 
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);

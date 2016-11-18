@@ -79,6 +79,7 @@ type
     procedure UpdateScale;
     procedure VerticalScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: Integer);
+    procedure UpdateDimensions;
   private
     { private declarations }
 
@@ -184,6 +185,13 @@ begin
   PaintBox.Invalidate;}
 end;
 
+procedure TVectorEditor.UpdateDimensions;
+begin
+  DispDimensions := Dimensions(
+    PaintBox.ClientWidth - 1,
+    PaintBox.ClientWidth - 1);
+end;
+
 procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: Integer);
 begin
@@ -275,6 +283,7 @@ begin
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
+  UpdateDimensions;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -311,7 +320,7 @@ procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := False;
-  CurrentTool.MouseUp;
+  CurrentTool.MouseUp(DispToWorldCoord(X, Y));
   SaveFigure(CurrentTool.GetFigure);
   PaintBox.Invalidate;
 end;
@@ -353,8 +362,9 @@ begin
     SetScrollBarsPostions;
   end
   else ChangeBars := True;}
+  { TODO : Можно объеденить в одну процедуру }
   UpdateScale;
-
+  UpdateDimensions;
   {DEBUG}
   OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
@@ -413,7 +423,7 @@ var
   XScale, YScale: Double;
   ImageWorldWidth, WorldHeight: Double;
 begin
-  ImageWorldWidth := ImageBounds.Right - ImageBounds.Left;
+  {ImageWorldWidth := ImageBounds.Right - ImageBounds.Left;
   WorldHeight := ImageBounds.Bottom - ImageBounds.Top;
   //TODO: сделать постоянный отступ вне зависимости от масшатаба - СДЕЛАНО!
   //TODO: Упростить расчёты
@@ -428,7 +438,7 @@ begin
       (PaintBox.ClientWidth - WorldToDispDimension(ImageWorldWidth)) / 2,
     WorldToDispDimension(ImageBounds.Top) -
       (PaintBox.ClientHeight - WorldToDispDimension(WorldHeight)) / 2);
-  PaintBox.Invalidate;
+  PaintBox.Invalidate;}
 end;
 
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);

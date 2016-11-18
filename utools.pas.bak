@@ -19,7 +19,7 @@ type
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
       AButton: TMouseButton); virtual; abstract;
     procedure MouseMove(AMousePos: TDoublePoint); virtual; abstract;
-    procedure MouseUp; virtual;
+    procedure MouseUp(AMousePos: TPoint); virtual;
   end;
 
   { THandTool }
@@ -44,7 +44,7 @@ type
       APenColor, ABrushColor: TColor; ALineWidth: Integer;
       AButton: TMouseButton); override;
     procedure MouseMove(AMousePos: TDoublePoint); override;
-    procedure MouseUp; override;
+    procedure MouseUp(AMousePos: TPoint); override;
   end;
 
   { TTwoPointFigureTool }
@@ -125,7 +125,7 @@ begin
   (FFigure as TRectangleLine).SetSecondPoint(AMousePos);
 end;
 
-procedure TMagnifierTool.MouseUp;
+procedure TMagnifierTool.MouseUp(AMousePos: TPoint);
 const
   Delta = 5;//px
 var
@@ -133,7 +133,6 @@ var
   SelectionBounds: TDoubleRect;
   SelectionWidth, SelectionHeight: Double;
   PaintBoxWidth, PaintBoxHeight: Double;
-  StartingCenterCrds: TDoublePoint;
 begin
   SelectionBounds := FFigure.GetBounds;
   SelectionWidth := SelectionBounds.Right - SelectionBounds.Left;
@@ -143,18 +142,15 @@ begin
     (SelectionWidth > Delta / Scale) and
     (SelectionHeight > Delta / Scale)
   then begin
-    XScale := (PaintBoxWidth - 1) / SelectionWidth;
-    YScale := (PaintBoxHeight - 1) / SelectionHeight;
+    XScale := (DispDimensions.Width) / SelectionWidth;
+    YScale := (DispDimensions.Height) / SelectionHeight;
     SetScale(Min(XScale, YScale));
   end
   else begin
-    StartingCenterCrds := DispToWorldCoord(round(PaintBoxWidth /2),
-      round(PaintBoxHeight / 2));
     if FMouseButton = mbLeft then IncreaseScale;
     if FMouseButton = mbRight then DecreaseScale;
     AddCanvasOffset(
-      StartingCenterCrds.X - DispToWorldX(round(PaintBoxWidth / 2)),
-      StartingCenterCrds.Y - DispToWorldY(round(PaintBoxHeight / 2)));
+      (FStartingPoint - DispToWorldCoord(AMousePos)) * Scale);
   end;
   FIsSelectingArea := False;
   FreeAndNil(FFigure);
@@ -185,7 +181,7 @@ begin
   Result := FFigure;
 end;
 
-procedure TTool.MouseUp;
+procedure TTool.MouseUp(AMousePos: TDoublePoint);
 begin
   //Ничего не делать
 end;

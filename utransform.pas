@@ -59,7 +59,6 @@ function DispToWorldY(AY: Integer): Double;
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 function DispToWorldCoord(ARect: TRect): TDoubleRect;
 function DispToWorldCoord(APoint: TPoint): TDoublePoint;
-function DispToWorldDimension(ADimension: Integer): Double;
 function WorldToDispX(AX: Double): Integer;
 function WorldToDispY(AY: Double): Integer;
 function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
@@ -73,6 +72,7 @@ procedure IncreaseScale;
 procedure DecreaseScale;
 function GetDispDimensions: TDimensions;
 procedure SetDispDimensions(ADispDimensions: TDimensions);
+function Dimensions(AWidth, AHeight: Double): TDimensions;
 
 property Scale: Double read GetScale write SetScale;
 property DispDimensions: TDimensions
@@ -188,6 +188,14 @@ end;
 procedure SetDispDimensions(ADispDimensions: TDimensions);
 begin
   FDispDimensions := ADispDimensions;
+end;
+
+function Dimensions(AWidth, AHeight: Double): TDimensions;
+begin
+  with Result do begin
+    Width := AWidth;
+    Height := AHeight;
+  end;
 end;
 
 { Canvas Offset }
