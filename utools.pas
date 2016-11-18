@@ -138,13 +138,16 @@ begin
   then begin
     XScale := (DispDimensions.Width) / SelectionWidth;
     YScale := (DispDimensions.Height) / SelectionHeight;
-    SetScale(Max(XScale, YScale));
+    Scale := Min(XScale, YScale);
+    //Размещение по центру
+    SetCanvasOffset(
+      SelectionBounds.Left * Scale - (DispDimensions.Width - (SelectionWidth ) * Scale) / 2,
+      SelectionBounds.Top * Scale - (DispDimensions.Height - (SelectionHeight) * Scale) / 2);
   end
   else begin
     if FMouseButton = mbLeft then IncreaseScale;
     if FMouseButton = mbRight then DecreaseScale;
-    AddCanvasOffset(
-      (FStartingPoint - DispToWorldCoord(AMousePos)) * Scale);
+    AddCanvasOffset((FStartingPoint - DispToWorldCoord(AMousePos)) * Scale);
   end;
   FIsSelectingArea := False;
   FreeAndNil(FFigure);

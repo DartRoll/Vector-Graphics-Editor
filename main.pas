@@ -65,6 +65,7 @@ type
     procedure PaintBoxMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure PaintBoxPaint(Sender: TObject);
+    procedure PaintBoxResize(Sender: TObject);
     procedure PaletteGridDblClick(Sender: TObject);
     procedure PaletteGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -106,15 +107,13 @@ var
   ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
-  ScrollOffset: TDoublePoint;
   CurrentTool: TTool;
-  ChangeBars: Boolean = True;
 
 { TVectorEditor }
 
 procedure TVectorEditor.UpdateScale;
 begin
-  ScaleFloatSpinEdit.Value := GetScale * 100;
+  ScaleFloatSpinEdit.Value := Scale * 100;
 end;
 
 procedure TVectorEditor.SaveFigure(Figure: TFigure);
@@ -150,7 +149,7 @@ begin
   Figures := nil;
   RedefineImageBounds(DoubleRect(0, 0, 0, 0));
   SetCanvasOffset(0, 0);
-  SetScale(1);
+  Scale := 1.0;
   PaintBox.Invalidate;
 end;
 
@@ -313,8 +312,8 @@ begin
   MouseXDspLabel.Caption := 'x: ' + FloatToStr(X);
   MouseYDspLabel.Caption := 'y: ' + FloatToStr(Y);
 
-  MouseXWrldLabel.Caption := 'x: ' + FloatToStr(DispToWorldX(X));
-  MouseYWrldLabel.Caption := 'y: ' + FloatToStr(DispToWorldY(Y));
+  MouseXWrldLabel.Caption := 'x: ' + FloatToStr(DispToWorldCoord(X,Y).X);
+  MouseYWrldLabel.Caption := 'y: ' + FloatToStr(DispToWorldCoord(X,Y).Y);
 end;
 
 procedure TVectorEditor.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton;
@@ -357,18 +356,18 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then begin
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
-  {if ChangeBars then begin
-    SetScrollBarsPostions;
-  end
-  else ChangeBars := True;}
-  { TODO : Можно объеденить в одну процедуру }
   UpdateScale;
-  UpdateDimensions;
+  SetScrollBarsPostions;
   {DEBUG}
   OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
   ImageBoundsX.Caption := 'left: ' + FloatToStr(ImageBounds.Left);
   ImageBoundsY.Caption := 'top: ' + FloatToStr(ImageBounds.Top);
+end;
+
+procedure TVectorEditor.PaintBoxResize(Sender: TObject);
+begin
+  UpdateDimensions;
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -406,7 +405,7 @@ end;
 
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
 begin
-  SetScale((Sender as TFloatSpinEdit).Value / 100);
+  Scale := (Sender as TFloatSpinEdit).Value / 100;
   PaintBox.Invalidate;
 end;
 
@@ -419,20 +418,15 @@ var
 begin
   ImgWorldWidth := ImageBounds.Right - ImageBounds.Left;
   ImgWorldHeight := ImageBounds.Bottom - ImageBounds.Top;
-  //TODO: Упростить расчёты
   XScale := DispDimensions.Width / (ImgWorldWidth + 2 * BorderMargin / Scale);
   YScale := DispDimensions.Height / (ImgWorldHeight + 2 * BorderMargin / Scale);
-  SetScale(Min(XScale, YScale));
-  { ВНИМАНИЕ! ВПЕРЕДИ МАГИЯ! РУКАМИ НЕ ТРОГАТЬ! }
-  //TODO: понять как я это сделал
+  Scale := Min(XScale, YScale);
+  //Размещение по центру
   SetCanvasOffset(
     WorldToDispDimension(ImageBounds.Left) -
       (DispDimensions.Width - WorldToDispDimension(ImgWorldWidth)) / 2,
     WorldToDispDimension(ImageBounds.Top) -
       (DispDimensions.Height - WorldToDispDimension(ImgWorldHeight)) / 2);
-  {SetCanvasOffset(
-    ImageBounds.Left * Scale,
-    ImageBounds.Top * Scale);}
   PaintBox.Invalidate;
 end;
 

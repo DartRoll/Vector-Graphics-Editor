@@ -54,18 +54,13 @@ procedure SetCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(AX, AY: Double);
 procedure AddCanvasOffset(ACanvasOffset: TDoublePoint);
 function GetCanvasOffset: TDoublePoint;
-function DispToWorldX(AX: Integer): Double;
-function DispToWorldY(AY: Integer): Double;
 function DispToWorldCoord(AX, AY: Integer): TDoublePoint;
 function DispToWorldCoord(ARect: TRect): TDoubleRect;
 function DispToWorldCoord(APoint: TPoint): TDoublePoint;
-function WorldToDispX(AX: Double): Integer;
-function WorldToDispY(AY: Double): Integer;
 function WorldToDispCoord(ADoubleRect: TDoubleRect): TRect;
 function WorldToDispCoord(ADoublePoint: TDoublePoint): TPoint;
 function WorldToDispDimension(ADimension: Double): Integer;
-function WorldVertexesToDispCoord(
-  AVertexes: array of TDoublePoint): TArrayOfTpoint;
+function WorldVertexesToDispCoord(AVertexes: array of TDoublePoint): TArrayOfTpoint;
 procedure SetScale(AScale: Double);
 function GetScale: Double;
 procedure IncreaseScale;
@@ -245,16 +240,6 @@ begin
   end;
 end;
 
-function WorldToDispX(AX: Double): Integer;
-begin
-  Result := round(Scale * AX - CanvasOffset.X);
-end;
-
-function WorldToDispY(AY: Double): Integer;
-begin
-  Result := round(Scale * AY - CanvasOffset.Y);
-end;
-
 function WorldToDispDimension(ADimension: Double): Integer;
 begin
   Result := round(ADimension * Scale);
@@ -282,16 +267,6 @@ end;
 function DispToWorldCoord(APoint: TPoint): TDoublePoint;
 begin
   Result := (APoint + CanvasOffset) / Scale;
-end;
-
-function DispToWorldX(AX: Integer): Double;
-begin
-  Result := (AX + CanvasOffset.X) / Scale;
-end;
-
-function DispToWorldY(AY: Integer): Double;
-begin
-  Result := (AY + CanvasOffset.Y) / Scale;
 end;
 
 function DispToWorldCoord(ARect: TRect): TDoubleRect;

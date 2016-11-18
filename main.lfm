@@ -30,6 +30,7 @@ object VectorEditor: TVectorEditor
     OnMouseWheelDown = PaintBoxMouseWheelDown
     OnMouseWheelUp = PaintBoxMouseWheelUp
     OnPaint = PaintBoxPaint
+    OnResize = PaintBoxResize
   end
   object ToolPanel: TPanel
     Left = 0
@@ -210,6 +211,7 @@ object VectorEditor: TVectorEditor
     ClientWidth = 579
     ParentColor = False
     TabOrder = 3
+    Visible = False
     object OffsetXLabel: TLabel
       Left = 8
       Height = 15

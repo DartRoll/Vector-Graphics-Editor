@@ -72,6 +72,7 @@ procedure IncreaseScale;
 procedure DecreaseScale;
 function GetDispDimensions: TDimensions;
 procedure SetDispDimensions(ADispDimensions: TDimensions);
+function Dimensions(AWidth, AHeight: Double): TDimensions;
 
 property Scale: Double read GetScale write SetScale;
 property DispDimensions: TDimensions
@@ -187,6 +188,14 @@ end;
 procedure SetDispDimensions(ADispDimensions: TDimensions);
 begin
   FDispDimensions := ADispDimensions;
+end;
+
+function Dimensions(AWidth, AHeight: Double): TDimensions;
+begin
+  with Result do begin
+    Width := AWidth;
+    Height := AHeight;
+  end;
 end;
 
 { Canvas Offset }
