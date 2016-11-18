@@ -17,6 +17,10 @@ type
     ImageBoundsLabel: TLabel;
     ImageBoundsX: TLabel;
     ImageBoundsY: TLabel;
+    ScrollbarMinLabel: TLabel;
+    ScrollbarMaxLabel: TLabel;
+    ScrollbarPosLabel: TLabel;
+    ScrollbarsLabel: TLabel;
     MouseWrldLabel: TLabel;
     MouseXWrldLabel: TLabel;
     MouseYWrldLabel: TLabel;
@@ -153,21 +157,23 @@ begin
   PaintBox.Invalidate;
 end;
 
-procedure TVectorEditor.SetScrollBarsPostions;
-var
-  ImgWidthInPixels, ImgHeightInPixels: Integer;
+procedure TVectorEditor.UpdateDimensions;
 begin
-  {ImgWidthInPixels := WorldToDispDimension(ImageBounds.Right - ImageBounds.Left);
-  ImgHeightInPixels := WorldToDispDimension(ImageBounds.Bottom - ImageBounds.Top);
+  DispDimensions := Dimensions(
+    PaintBox.ClientWidth - 1,
+    PaintBox.ClientHeight - 1);
+end;
 
-  HorizontalScrollBar.Max := ImgWidthInPixels;
-  HorizontalScrollBar.PageSize := PaintBox.ClientWidth;
-  ScrollOffset.X := ImageBounds.Left;
+procedure TVectorEditor.SetScrollBarsPostions;
+begin
+  HorizontalScrollBar.SetParams(round(GetCanvasOffset.X),
+  WorldToDispDimension(ImageBounds.Left), WorldToDispDimension(ImageBounds.Right));
 
+  HorizontalScrollBar.PageSize := round(DispDimensions.Width);
+  {
   VerticalScrollBar.Max := ImgHeightInPixels;
   VerticalScrollBar.PageSize := PaintBox.ClientHeight;
   ScrollOffset.Y := ImageBounds.Top;
-
   HorizontalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.X - ScrollOffset.X);
   VerticalScrollBar.Position := WorldToDispDimension(GetCanvasOffset.Y - ScrollOffset.Y);}
 end;
@@ -186,13 +192,6 @@ begin
       WorldToDispDimension(ScrollOffset.Y) + Position);
   ChangeBars := False;
   PaintBox.Invalidate;}
-end;
-
-procedure TVectorEditor.UpdateDimensions;
-begin
-  DispDimensions := Dimensions(
-    PaintBox.ClientWidth - 1,
-    PaintBox.ClientHeight - 1);
 end;
 
 procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
@@ -363,6 +362,10 @@ begin
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
   ImageBoundsX.Caption := 'left: ' + FloatToStr(ImageBounds.Left);
   ImageBoundsY.Caption := 'top: ' + FloatToStr(ImageBounds.Top);
+
+  ScrollbarMinLabel.Caption := 'Min: ' + IntToStr(HorizontalScrollBar.Min);
+  ScrollbarMaxLabel.Caption := 'Max: ' + IntToStr(HorizontalScrollBar.Max);
+  ScrollbarPosLabel.Caption := 'Pos: ' + IntToStr(HorizontalScrollBar.Position);
 end;
 
 procedure TVectorEditor.PaintBoxResize(Sender: TObject);

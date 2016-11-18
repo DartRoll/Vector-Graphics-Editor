@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 1044
+  Left = -9
   Height = 544
-  Top = 206
+  Top = 581
   Width = 743
   Caption = 'VectorEditor'
   ClientHeight = 524
@@ -211,7 +211,6 @@ object VectorEditor: TVectorEditor
     ClientWidth = 579
     ParentColor = False
     TabOrder = 3
-    Visible = False
     object OffsetXLabel: TLabel
       Left = 8
       Height = 15
@@ -306,6 +305,38 @@ object VectorEditor: TVectorEditor
       Top = 32
       Width = 80
       Caption = 'ImageBoundsY'
+      ParentColor = False
+    end
+    object ScrollbarsLabel: TLabel
+      Left = 208
+      Height = 15
+      Top = 1
+      Width = 79
+      Caption = 'ScrollbarsLabel'
+      ParentColor = False
+    end
+    object ScrollbarMinLabel: TLabel
+      Left = 208
+      Height = 15
+      Top = 16
+      Width = 95
+      Caption = 'ScrollbarMinLabel'
+      ParentColor = False
+    end
+    object ScrollbarMaxLabel: TLabel
+      Left = 210
+      Height = 15
+      Top = 45
+      Width = 96
+      Caption = 'ScrollbarMaxLabel'
+      ParentColor = False
+    end
+    object ScrollbarPosLabel: TLabel
+      Left = 210
+      Height = 15
+      Top = 32
+      Width = 93
+      Caption = 'ScrollbarPosLabel'
       ParentColor = False
     end
   end
