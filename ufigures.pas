@@ -48,7 +48,6 @@ type
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
-  { TRectangleLine }
   TRectangleLine = class(TTwoPointFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;

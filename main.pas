@@ -79,6 +79,7 @@ type
     procedure UpdateScale;
     procedure VerticalScrollBarScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: Integer);
+    procedure UpdateDimensions;
   private
     { private declarations }
 
@@ -184,6 +185,12 @@ begin
   PaintBox.Invalidate;}
 end;
 
+procedure TVectorEditor.UpdateDimensions;
+begin
+  DispDimensions.Width := PaintBox.ClientWidth - 1;
+  DispDimensions.Height := PaintBox.ClientHeight - 1;
+end;
+
 procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: Integer);
 begin
@@ -275,6 +282,7 @@ begin
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
+  UpdateDimensions;
 end;
 
 procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
@@ -353,8 +361,9 @@ begin
     SetScrollBarsPostions;
   end
   else ChangeBars := True;}
+  { TODO : Можно объеденить в одну процедуру }
   UpdateScale;
-
+  UpdateDimensions;
   {DEBUG}
   OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);

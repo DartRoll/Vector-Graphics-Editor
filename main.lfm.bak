@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 968
+  Left = 309
   Height = 544
-  Top = 190
+  Top = 73
   Width = 743
   Caption = 'VectorEditor'
   ClientHeight = 524
@@ -235,9 +235,9 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
     object MouseDspLabel: TLabel
-      Left = 11
+      Left = 0
       Height = 15
-      Top = 56
+      Top = 53
       Width = 59
       Caption = 'MouseDsp:'
       ParentColor = False
@@ -245,7 +245,7 @@ object VectorEditor: TVectorEditor
     object MouseXDspLabel: TLabel
       Left = 0
       Height = 15
-      Top = 67
+      Top = 64
       Width = 91
       Caption = 'MouseXDspLabel'
       ParentColor = False
@@ -253,31 +253,31 @@ object VectorEditor: TVectorEditor
     object MouseYDspLabel: TLabel
       Left = 0
       Height = 15
-      Top = 80
+      Top = 77
       Width = 91
       Caption = 'MouseYDspLabel'
       ParentColor = False
     end
     object MouseWrldLabel: TLabel
-      Left = 144
+      Left = 88
       Height = 15
-      Top = 56
+      Top = 53
       Width = 89
       Caption = 'MouseWrldLabel'
       ParentColor = False
     end
     object MouseXWrldLabel: TLabel
-      Left = 144
+      Left = 88
       Height = 15
-      Top = 67
+      Top = 64
       Width = 96
       Caption = 'MouseXWrldLabel'
       ParentColor = False
     end
     object MouseYWrldLabel: TLabel
-      Left = 144
+      Left = 88
       Height = 15
-      Top = 80
+      Top = 77
       Width = 96
       Caption = 'MouseYWrldLabel'
       ParentColor = False

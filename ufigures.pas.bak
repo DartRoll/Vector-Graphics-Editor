@@ -5,7 +5,7 @@ unit UFigures;
 interface
 
 uses
-  UScale, Classes, SysUtils, Graphics, math;
+  UTransform, Classes, SysUtils, Graphics, math;
 
 type
 

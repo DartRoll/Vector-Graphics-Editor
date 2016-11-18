@@ -28,6 +28,11 @@ type
         );
   end;
 
+  TDimensions = record
+    Height: Double;
+    Width: Double;
+  end;
+
   TArrayOfTpoint = array of TPoint;
 
 operator + (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
@@ -36,6 +41,7 @@ operator + (APoint: TPoint; ADblPoint: TDoublePoint): TDoublePoint;
 operator - (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
 
 operator * (ANumber: Double; ADblPoint: TDoublePoint): TDoublePoint;
+operator * (ADblPoint: TDoublePoint; ANumber: Double): TDoublePoint;
 
 operator / (ADblPoint: TDoublePoint; ANumber: Double): TDoublePoint;
 
@@ -65,8 +71,12 @@ procedure SetScale(AScale: Double);
 function GetScale: Double;
 procedure IncreaseScale;
 procedure DecreaseScale;
+function GetDispDimensions: TDimensions;
+procedure SetDispDimensions(ADispDimensions: TDimensions);
 
 property Scale: Double read GetScale write SetScale;
+property DispDimensions: TDimensions
+  read GetDispDimensions write SetDispDimensions;
 
 implementation
 
@@ -77,6 +87,7 @@ const
 var
   FScale: Double = 1.0;
   CanvasOffset: TDoublePoint;//инициализируется X:=0, Y:=0
+  FDispDimensions:  TDimensions;
 
 operator + (ADblPointA, ADblPointB: TDoublePoint): TDoublePoint;
 begin
@@ -98,8 +109,14 @@ end;
 
 operator * (ANumber: Double; ADblPoint: TDoublePoint): TDoublePoint;
 begin
-  Result.X *= ANumber;
-  Result.Y *= ANumber;
+  Result.X := ADblPoint.X * ANumber;
+  Result.Y := ADblPoint.Y * ANumber;
+end;
+
+operator * (ADblPoint: TDoublePoint; ANumber: Double): TDoublePoint;
+begin
+  Result.X := ADblPoint.X * ANumber;
+  Result.Y := ADblPoint.Y * ANumber;
 end;
 
 operator / (ADblPoint: TDoublePoint; ANumber: Double): TDoublePoint;
@@ -161,6 +178,16 @@ end;
 procedure DecreaseScale;
 begin
     Scale := Scale / 2;
+end;
+
+function GetDispDimensions: TDimensions;
+begin
+  Result := FDispDimensions;
+end;
+
+procedure SetDispDimensions(ADispDimensions: TDimensions);
+begin
+  FDispDimensions := ADispDimensions;
 end;
 
 { Canvas Offset }
@@ -265,11 +292,6 @@ begin
     TopLeft := DispToWorldCoord(ARect.TopLeft);
     BottomRight := DispToWorldCoord(ARect.BottomRight);
   end;
-end;
-
-function DispToWorldDimension(ADimension: Integer): Double;
-begin
-  Result := ADimension / Scale;
 end;
 
 initialization
