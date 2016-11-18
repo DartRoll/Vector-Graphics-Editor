@@ -14,6 +14,9 @@ type
   { TVectorEditor }
   TVectorEditor = class(TForm)
     ColorDialog: TColorDialog;
+    ImageBoundsLabel: TLabel;
+    ImageBoundsX: TLabel;
+    ImageBoundsY: TLabel;
     MouseWrldLabel: TLabel;
     MouseXWrldLabel: TLabel;
     MouseYWrldLabel: TLabel;
@@ -119,13 +122,13 @@ begin
   if Figure <> nil then begin
     SetLength(Figures, Length(Figures) + 1);
     Figures[High(Figures)] := Figure;
-    RedefineImageBounds(CurrentTool.GetFigure.GetBounds);
+    RedefineImageBounds(Figure.GetBounds);
   end;
 end;
 
 procedure TVectorEditor.RedefineImageBounds(ADoubleRect: TDoubleRect);
 begin
-  if Length(Figures) = 0 then begin
+  if Length(Figures) = 1 then begin
     ImageBounds.Left := ADoubleRect.Left;
     ImageBounds.Top := ADoubleRect.Top;
     ImageBounds.Right := ADoubleRect.Right;
@@ -145,6 +148,7 @@ begin
   for i := 0 to High(Figures) do
     Figures[i].Free;
   Figures := nil;
+  RedefineImageBounds(DoubleRect(0, 0, 0, 0));
   SetCanvasOffset(0, 0);
   SetScale(1);
   PaintBox.Invalidate;
@@ -189,7 +193,7 @@ procedure TVectorEditor.UpdateDimensions;
 begin
   DispDimensions := Dimensions(
     PaintBox.ClientWidth - 1,
-    PaintBox.ClientWidth - 1);
+    PaintBox.ClientHeight - 1);
 end;
 
 procedure TVectorEditor.HorizontalScrollBarScroll(Sender: TObject;
@@ -210,7 +214,7 @@ end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
 begin
-  CurrentTool := UTools.Tools[(Sender as TSpeedButton).Tag];
+  CurrentTool := Tools[(Sender as TSpeedButton).Tag];
 end;
 
 procedure TVectorEditor.CreateToolsButtons(
@@ -295,17 +299,14 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := True;
-  CurrentTool.MouseDown(DispToWorldCoord(X, Y), PenColor, BrushColor, LineWidth,
-    Button);
+  CurrentTool.MouseDown(Point(X, Y), PenColor, BrushColor, LineWidth, Button);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   if isDrawing then begin
-    CurrentTool.MouseMove(DispToWorldCoord(X, Y));
-    RedefineImageBounds(DispToWorldCoord(Rect(0, 0,
-      PaintBox.ClientWidth, PaintBox.ClientHeight)));
+    CurrentTool.MouseMove(Point(X, Y));
     PaintBox.Invalidate;
   end;
   {DEBUG}
@@ -330,10 +331,9 @@ procedure TVectorEditor.PaintBoxMouseWheelDown(Sender: TObject;
 var
   StartingMouseCrds: TDoublePoint;
 begin
-  StartingMouseCrds := DispToWorldCoord(MousePos.x, MousePos.y);
+  StartingMouseCrds := DispToWorldCoord(MousePos);
   DecreaseScale;
-  AddCanvasOffset(StartingMouseCrds.X - DispToWorldX(MousePos.x),
-      StartingMouseCrds.Y - DispToWorldY(MousePos.Y));
+  AddCanvasOffset((StartingMouseCrds - DispToWorldCoord(MousePos)) * Scale);
   PaintBox.Invalidate;
 end;
 
@@ -342,10 +342,9 @@ procedure TVectorEditor.PaintBoxMouseWheelUp(Sender: TObject;
 var
   StartingMouseCrds: TDoublePoint;
 begin
-  StartingMouseCrds := DispToWorldCoord(MousePos.x, MousePos.y);
+  StartingMouseCrds := DispToWorldCoord(MousePos);
   IncreaseScale;
-  AddCanvasOffset(StartingMouseCrds.X - DispToWorldX(MousePos.x),
-      StartingMouseCrds.Y - DispToWorldY(MousePos.Y));
+  AddCanvasOffset((StartingMouseCrds - DispToWorldCoord(MousePos)) * Scale);
   PaintBox.Invalidate;
 end;
 
@@ -355,7 +354,7 @@ begin
   for i := 0 to High(Figures) do begin
     Figures[i].Draw(PaintBox.Canvas);
   end;
-  if isDrawing and (CurrentTool.GetFigure <> nil) then begin//----и так сойдёт?
+  if isDrawing and (CurrentTool.GetFigure <> nil) then begin
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
   {if ChangeBars then begin
@@ -368,7 +367,8 @@ begin
   {DEBUG}
   OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
-
+  ImageBoundsX.Caption := 'left: ' + FloatToStr(ImageBounds.Left);
+  ImageBoundsY.Caption := 'top: ' + FloatToStr(ImageBounds.Top);
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -405,14 +405,8 @@ begin
 end;
 
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
-var
-  StartingCntrCrds: TDoublePoint;
 begin
-  StartingCntrCrds := DispToWorldCoord(round(PaintBox.ClientWidth / 2),
-    round(PaintBox.ClientHeight / 2));
   SetScale((Sender as TFloatSpinEdit).Value / 100);
-  AddCanvasOffset(StartingCntrCrds.X - DispToWorldX(round(PaintBox.ClientWidth / 2)),
-    StartingCntrCrds.Y - DispToWorldY(round(PaintBox.ClientHeight / 2)));
   PaintBox.Invalidate;
 end;
 
@@ -421,24 +415,25 @@ const
   BorderMargin = 5;//px
 var
   XScale, YScale: Double;
-  ImageWorldWidth, WorldHeight: Double;
+  ImgWorldWidth, ImgWorldHeight: Double;
 begin
-  {ImageWorldWidth := ImageBounds.Right - ImageBounds.Left;
-  WorldHeight := ImageBounds.Bottom - ImageBounds.Top;
-  //TODO: сделать постоянный отступ вне зависимости от масшатаба - СДЕЛАНО!
+  ImgWorldWidth := ImageBounds.Right - ImageBounds.Left;
+  ImgWorldHeight := ImageBounds.Bottom - ImageBounds.Top;
   //TODO: Упростить расчёты
-  XScale := (Paintbox.ClientWidth - 1)  /
-    (ImageWorldWidth + DispToWorldDimension(2 * BorderMargin));
-  YScale := (PaintBox.ClientHeight - 1) /
-    (WorldHeight + DispToWorldDimension(2 * BorderMargin));
+  XScale := DispDimensions.Width / (ImgWorldWidth + 2 * BorderMargin / Scale);
+  YScale := DispDimensions.Height / (ImgWorldHeight + 2 * BorderMargin / Scale);
   SetScale(Min(XScale, YScale));
   { ВНИМАНИЕ! ВПЕРЕДИ МАГИЯ! РУКАМИ НЕ ТРОГАТЬ! }
   //TODO: понять как я это сделал
-  SetCanvasOffset(WorldToDispDimension(ImageBounds.Left) -
-      (PaintBox.ClientWidth - WorldToDispDimension(ImageWorldWidth)) / 2,
+  SetCanvasOffset(
+    WorldToDispDimension(ImageBounds.Left) -
+      (DispDimensions.Width - WorldToDispDimension(ImgWorldWidth)) / 2,
     WorldToDispDimension(ImageBounds.Top) -
-      (PaintBox.ClientHeight - WorldToDispDimension(WorldHeight)) / 2);
-  PaintBox.Invalidate;}
+      (DispDimensions.Height - WorldToDispDimension(ImgWorldHeight)) / 2);
+  {SetCanvasOffset(
+    ImageBounds.Left * Scale,
+    ImageBounds.Top * Scale);}
+  PaintBox.Invalidate;
 end;
 
 procedure TVectorEditor.AboutMenuItemClick(Sender: TObject);

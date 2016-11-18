@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 28
+  Left = 1044
   Height = 544
-  Top = 74
+  Top = 206
   Width = 743
   Caption = 'VectorEditor'
   ClientHeight = 524
@@ -202,11 +202,11 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = HorizontalScrollBar
     Left = 144
-    Height = 149
-    Top = 355
+    Height = 96
+    Top = 408
     Width = 579
     Anchors = [akLeft, akRight, akBottom]
-    ClientHeight = 149
+    ClientHeight = 96
     ClientWidth = 579
     ParentColor = False
     TabOrder = 3
@@ -280,6 +280,30 @@ object VectorEditor: TVectorEditor
       Top = 77
       Width = 96
       Caption = 'MouseYWrldLabel'
+      ParentColor = False
+    end
+    object ImageBoundsLabel: TLabel
+      Left = 97
+      Height = 15
+      Top = 1
+      Width = 101
+      Caption = 'ImageBoundsLabel'
+      ParentColor = False
+    end
+    object ImageBoundsX: TLabel
+      Left = 96
+      Height = 15
+      Top = 16
+      Width = 80
+      Caption = 'ImageBoundsX'
+      ParentColor = False
+    end
+    object ImageBoundsY: TLabel
+      Left = 97
+      Height = 15
+      Top = 32
+      Width = 80
+      Caption = 'ImageBoundsY'
       ParentColor = False
     end
   end
