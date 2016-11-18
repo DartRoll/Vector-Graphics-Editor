@@ -65,6 +65,7 @@ type
     procedure PaintBoxMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure PaintBoxPaint(Sender: TObject);
+    procedure PaintBoxResize(Sender: TObject);
     procedure PaletteGridDblClick(Sender: TObject);
     procedure PaletteGridDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -355,17 +356,18 @@ begin
   if isDrawing and (CurrentTool.GetFigure <> nil) then begin
     CurrentTool.GetFigure.Draw(PaintBox.Canvas);
   end;
-  {if ChangeBars then begin
-    SetScrollBarsPostions;
-  end
-  else ChangeBars := True;}
   UpdateScale;
-  UpdateDimensions;
+  SetScrollBarsPostions;
   {DEBUG}
   OffsetXLabel.Caption := 'x: ' + FloatToStr(GetCanvasOffset.X);
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
   ImageBoundsX.Caption := 'left: ' + FloatToStr(ImageBounds.Left);
   ImageBoundsY.Caption := 'top: ' + FloatToStr(ImageBounds.Top);
+end;
+
+procedure TVectorEditor.PaintBoxResize(Sender: TObject);
+begin
+  UpdateDimensions;
 end;
 
 procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
@@ -402,7 +404,11 @@ begin
 end;
 
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
+var StartCenterCrds: TDoublePoint;
 begin
+  StartCenterCrds := DispToWorldCoord(
+    round(DispDimensions.Width  / 2),
+    round(DispDimensions.Height / 2));
   Scale := (Sender as TFloatSpinEdit).Value / 100;
   PaintBox.Invalidate;
 end;

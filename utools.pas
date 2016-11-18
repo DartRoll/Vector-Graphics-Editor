@@ -118,7 +118,6 @@ begin
   (FFigure as TRectangleLine).SetSecondPoint(DispToWorldCoord(AMousePos));
 end;
 
-{PEREDELAT'}
 procedure TMagnifierTool.MouseUp(AMousePos: TPoint);
 const
   Delta = 5;//px
@@ -126,7 +125,6 @@ var
   XScale, YScale: Double;
   SelectionBounds: TDoubleRect;
   SelectionWidth, SelectionHeight: Double;
-  PaintBoxWidth, PaintBoxHeight: Double;
 begin
   SelectionBounds := FFigure.GetBounds;
   SelectionWidth := SelectionBounds.Right - SelectionBounds.Left;

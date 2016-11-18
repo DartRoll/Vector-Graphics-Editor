@@ -30,6 +30,7 @@ object VectorEditor: TVectorEditor
     OnMouseWheelDown = PaintBoxMouseWheelDown
     OnMouseWheelUp = PaintBoxMouseWheelUp
     OnPaint = PaintBoxPaint
+    OnResize = PaintBoxResize
   end
   object ToolPanel: TPanel
     Left = 0

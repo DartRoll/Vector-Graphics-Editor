@@ -404,8 +404,14 @@ begin
 end;
 
 procedure TVectorEditor.ScaleFloatSpinEditChange(Sender: TObject);
+var
+  CenterDspCrds: TPoint;
+  StartCenterWrldCrds: TDoublePoint;
 begin
+  CenterDspCrds := Point(round(DispDimensions.Width  / 2), round(DispDimensions.Height / 2));
+  StartCenterWrldCrds := DispToWorldCoord(CenterDspCrds);
   Scale := (Sender as TFloatSpinEdit).Value / 100;
+  AddCanvasOffset((StartCenterWrldCrds - DispToWorldCoord(CenterDspCrds)) * Scale);
   PaintBox.Invalidate;
 end;
 

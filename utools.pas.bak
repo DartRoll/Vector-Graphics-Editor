@@ -118,7 +118,6 @@ begin
   (FFigure as TRectangleLine).SetSecondPoint(DispToWorldCoord(AMousePos));
 end;
 
-{PEREDELAT'}
 procedure TMagnifierTool.MouseUp(AMousePos: TPoint);
 const
   Delta = 5;//px
@@ -139,7 +138,7 @@ begin
     XScale := (DispDimensions.Width) / SelectionWidth;
     YScale := (DispDimensions.Height) / SelectionHeight;
     Scale := Min(XScale, YScale);
-    //
+    //Размещение по центру
     SetCanvasOffset(
       SelectionBounds.Left * Scale - (DispDimensions.Width - (SelectionWidth ) * Scale) / 2,
       SelectionBounds.Top * Scale - (DispDimensions.Height - (SelectionHeight) * Scale) / 2);
