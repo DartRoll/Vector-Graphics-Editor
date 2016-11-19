@@ -1,7 +1,7 @@
 object VectorEditor: TVectorEditor
-  Left = 501
+  Left = 321
   Height = 772
-  Top = 140
+  Top = 76
   Width = 949
   Caption = 'VectorEditor'
   ClientHeight = 752
@@ -45,42 +45,10 @@ object VectorEditor: TVectorEditor
     Color = 16119285
     ParentColor = False
     TabOrder = 0
-    object LineWidthSpinEdit: TSpinEdit
-      Left = 79
-      Height = 28
-      Top = 176
-      Width = 64
-      Alignment = taRightJustify
-      Anchors = []
-      AutoSelect = False
-      AutoSize = False
-      Font.Height = -15
-      MaxValue = 500
-      MinValue = 1
-      OnChange = LineWidthSpinEditChange
-      ParentFont = False
-      TabOrder = 0
-      Value = 2
-    end
-    object LineWidthLabel: TLabel
-      AnchorSideLeft.Control = ToolPanel
-      AnchorSideRight.Control = LineWidthSpinEdit
-      Left = 0
-      Height = 20
-      Top = 176
-      Width = 79
-      Anchors = [akTop, akLeft, akRight]
-      AutoSize = False
-      Caption = 'Толщина'
-      Font.Height = -15
-      ParentColor = False
-      ParentFont = False
-      WordWrap = True
-    end
     object ScaleFloatSpinEdit: TFloatSpinEdit
       Left = 64
       Height = 28
-      Top = 216
+      Top = 200
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -92,14 +60,14 @@ object VectorEditor: TVectorEditor
       OnChange = ScaleFloatSpinEditChange
       ParentFont = False
       TabStop = False
-      TabOrder = 1
+      TabOrder = 0
       Value = 100
     end
     object ScaleLabel: TLabel
       AnchorSideRight.Control = ScaleFloatSpinEdit
       Left = 0
       Height = 20
-      Top = 224
+      Top = 200
       Width = 64
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
@@ -114,7 +82,7 @@ object VectorEditor: TVectorEditor
       AnchorSideLeft.Side = asrBottom
       Left = 128
       Height = 16
-      Top = 232
+      Top = 204
       Width = 18
       AutoSize = False
       Caption = '%'
@@ -131,14 +99,14 @@ object VectorEditor: TVectorEditor
       AnchorSideBottom.Control = ToolPanel
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 431
-      Top = 321
+      Height = 375
+      Top = 377
       Width = 144
       Anchors = [akLeft, akRight, akBottom]
       BevelOuter = bvNone
-      Color = clActiveBorder
+      Color = 14408667
       ParentColor = False
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object HorizontalScrollBar: TScrollBar

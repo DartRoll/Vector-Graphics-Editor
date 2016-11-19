@@ -51,16 +51,16 @@ begin
 
   FComponent := TComboBox.Create(nil);
   with FComponent as TComboBox do begin
-    Items.Add('bsSolid');
-    Items.Add('bsClear');
+    Items.Add('Сплошная');
+    Items.Add('Без заливки');
     Items.Add('bsHorizontal');
     Items.Add('bsVertical');
     Items.Add('bsFDiagonal');
     Items.Add('bsBDiagonal');
     Items.Add('bsCross');
     Items.Add('bsDiagCross');
-
-    Width := 130;//мб перенести в конструктор?
+    Font.Size := 10;
+    Width := 130;
     ItemIndex := 0;
     OnChange := AonChange;
   end;
@@ -81,6 +81,7 @@ begin
     Items.Add('─ • ─ • ─ •');
     Items.Add('─ • • ─ • •');
     AutoComplete := False;
+
     Font.Bold := True;
     Font.Size := 10;
     Width := 130;
@@ -116,7 +117,9 @@ begin
   with FComponent as TSpinEdit do begin
       MaxValue := 500;
       MinValue := 1;
-      Value := 2;
+      Value := 3;
+      Font.Size := 11;
+      Width := 64;
       OnChange := AonChange;
   end;
 end;

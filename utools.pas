@@ -113,6 +113,14 @@ type
       AButton: TMouseButton); override;
   end;
 
+  { TRegularPolygonTool }
+
+  TRegularPolygonTool = class(TFilledFigureTool)
+    constructor Create;
+    procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
+      AButton: TMouseButton); override;
+  end;
+
 var
   Tools: array of TTool;
 implementation
@@ -124,6 +132,21 @@ procedure RegisterTool(Tool: TTool);
 begin
   SetLength(Tools, Length(Tools) + 1);
   Tools[High(Tools)] := Tool;
+end;
+
+{ TRegularPolygonTool }
+
+constructor TRegularPolygonTool.Create;
+begin
+  Inherited;
+  FIcon := 'img/hand.bmp';
+end;
+
+procedure TRegularPolygonTool.MouseDown(AMousePos: TPoint; APenColor,
+  ABrushColor: TColor; AButton: TMouseButton);
+begin
+  FFigure := TRegularPolygon.Create(
+    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth, FBrushStyle, 6);
 end;
 
 { TFilledFigureTool }
@@ -155,7 +178,7 @@ procedure TFigureTool.InitParams;
 begin
   AddParam(TBorderWidthParameter.Create(@ChangeLineWidth));
   AddParam(TBorderStyleParameter.Create(@ChangeLineStyle));
-  FLineWidth := 2;
+  FLineWidth := 3;
 end;
 
 procedure TFigureTool.ChangeLineWidth(Sender: TObject);
@@ -275,8 +298,8 @@ begin
       with Params[i] do begin
         FLabel.Top := i * 50;
         FLabel.Parent := FPanel;
-        FComponent.Top := i * 50 + 15;
-        //FComponent.Left := FLabel.BoundsRect.Right + 5;
+        FComponent.Top := i * 50 + FLabel.ClientHeight + 5;
+        FComponent.Left := FPanel.ClientWidth - FComponent.ClientWidth;
         FComponent.Parent := FPanel;
       end;
   end;
@@ -400,6 +423,7 @@ RegisterTool(TPolylineTool.Create);
 RegisterTool(TRectangleTool.Create);
 RegisterTool(TEllipseTool.Create);
 RegisterTool(TLineTool.Create);
+RegisterTool(TRegularPolygonTool.Create);
 
 end.
 

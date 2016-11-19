@@ -1,11 +1,11 @@
 object VectorEditor: TVectorEditor
-  Left = 501
+  Left = 634
   Height = 772
-  Top = 140
+  Top = 176
   Width = 949
   Caption = 'VectorEditor'
-  ClientHeight = 752
-  ClientWidth = 949
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -19,9 +19,9 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = DebugPanel
     Left = 144
-    Height = 584
+    Height = 0
     Top = 84
-    Width = 785
+    Width = 0
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
@@ -35,52 +35,20 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 752
+    Height = 0
     Top = 0
     Width = 144
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 752
+    ClientHeight = 0
     ClientWidth = 144
     Color = 16119285
     ParentColor = False
     TabOrder = 0
-    object LineWidthSpinEdit: TSpinEdit
-      Left = 79
-      Height = 28
-      Top = 176
-      Width = 64
-      Alignment = taRightJustify
-      Anchors = []
-      AutoSelect = False
-      AutoSize = False
-      Font.Height = -15
-      MaxValue = 500
-      MinValue = 1
-      OnChange = LineWidthSpinEditChange
-      ParentFont = False
-      TabOrder = 0
-      Value = 2
-    end
-    object LineWidthLabel: TLabel
-      AnchorSideLeft.Control = ToolPanel
-      AnchorSideRight.Control = LineWidthSpinEdit
-      Left = 0
-      Height = 20
-      Top = 176
-      Width = 79
-      Anchors = [akTop, akLeft, akRight]
-      AutoSize = False
-      Caption = 'Толщина'
-      Font.Height = -15
-      ParentColor = False
-      ParentFont = False
-      WordWrap = True
-    end
     object ScaleFloatSpinEdit: TFloatSpinEdit
       Left = 64
       Height = 28
-      Top = 216
+      Top = 200
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -92,14 +60,14 @@ object VectorEditor: TVectorEditor
       OnChange = ScaleFloatSpinEditChange
       ParentFont = False
       TabStop = False
-      TabOrder = 1
+      TabOrder = 0
       Value = 100
     end
     object ScaleLabel: TLabel
       AnchorSideRight.Control = ScaleFloatSpinEdit
       Left = 0
       Height = 20
-      Top = 224
+      Top = 200
       Width = 64
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
@@ -114,7 +82,7 @@ object VectorEditor: TVectorEditor
       AnchorSideLeft.Side = asrBottom
       Left = 128
       Height = 16
-      Top = 232
+      Top = 204
       Width = 18
       AutoSize = False
       Caption = '%'
@@ -131,14 +99,14 @@ object VectorEditor: TVectorEditor
       AnchorSideBottom.Control = ToolPanel
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 431
-      Top = 321
+      Height = 375
+      Top = -375
       Width = 144
       Anchors = [akLeft, akRight, akBottom]
       BevelOuter = bvNone
-      Color = clActiveBorder
+      Color = 14408667
       ParentColor = False
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object HorizontalScrollBar: TScrollBar
@@ -149,8 +117,8 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Side = asrBottom
     Left = 144
     Height = 20
-    Top = 732
-    Width = 785
+    Top = -20
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 1
@@ -165,8 +133,8 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = 929
-    Height = 732
+    Left = -20
+    Height = 0
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
@@ -184,11 +152,11 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Control = HorizontalScrollBar
     Left = 144
     Height = 64
-    Top = 668
-    Width = 785
+    Top = -84
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     ClientHeight = 64
-    ClientWidth = 785
+    ClientWidth = 0
     ParentColor = False
     TabOrder = 3
     Visible = False
@@ -265,7 +233,7 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
     object ImageBoundsLabel: TLabel
-      Left = 88
+      Left = -50
       Height = 15
       Top = 1
       Width = 101
@@ -330,10 +298,10 @@ object VectorEditor: TVectorEditor
     Left = 144
     Height = 84
     Top = 0
-    Width = 785
+    Width = 0
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 84
-    ClientWidth = 785
+    ClientWidth = 0
     ParentColor = False
     TabOrder = 4
     object PaletteGrid: TDrawGrid

@@ -38,7 +38,6 @@ type
     ShowEverythingMenuItem: TMenuItem;
     ScaleFloatSpinEdit: TFloatSpinEdit;
     PaletteGrid: TDrawGrid;
-    LineWidthLabel: TLabel;
     MainMenu: TMainMenu;
     FileMenuItem: TMenuItem;
     HelpMenuItem: TMenuItem;
@@ -52,13 +51,11 @@ type
     HorizontalScrollBar: TScrollBar;
     VerticalScrollBar: TScrollBar;
     ToolPanel: TPanel;
-    LineWidthSpinEdit: TSpinEdit;
     procedure AboutMenuItemClick(Sender: TObject);
     procedure ClearMenuItemClick(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure HorizontalScrollBarChange(Sender: TObject);
-    procedure LineWidthSpinEditChange(Sender: TObject);
     procedure PaintBoxMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PaintBoxMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -271,12 +268,11 @@ procedure TVectorEditor.FormCreate(Sender: TObject);
 var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
-  CurrentTool := Tools[0];
-  //CurrentTool.Init(ParamPanel);
+  CurrentTool := Tools[2];
+  CurrentTool.Init(ParamPanel);
   //Передаём дефолтный параметры представлению
   PenColorPanel.Color := PenColor;
   BrushColorPanel.Color := BrushColor;
-  LineWidthSpinEdit.Value := LineWidth;
   ScaleFloatSpinEdit.Value := 100;
   //Параметры кнопок  интрументов
   BtnWidth := 48;
@@ -286,11 +282,6 @@ begin
   //Палитра
   FillPalette;
   UpdateDimensions;
-end;
-
-procedure TVectorEditor.LineWidthSpinEditChange(Sender: TObject);
-begin
-  LineWidth := (Sender as TSpinEdit).Value;
 end;
 
 procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;

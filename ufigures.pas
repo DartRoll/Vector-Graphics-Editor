@@ -76,7 +76,48 @@ type
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
+  { TRegularPolygon }
+
+  TRegularPolygon = class(TFilledFigure)
+    FCorners: Integer;
+    Vertexes: array of TPoint;
+    constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
+      APenStyle: TFPPenStyle; AThickness: Integer; AFillStyle: TFPBrushStyle; ACorners: Integer);
+    procedure DrawFigure(Canvas: TCanvas); override;
+  end;
+
 implementation
+
+{ TRegularPolygon }
+
+constructor TRegularPolygon.Create(ADoublePoint: TDoublePoint; APenColor,
+  ABrushColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer;
+  AFillStyle: TFPBrushStyle; ACorners: Integer);
+begin
+  Inherited Create(ADoublePoint, APenColor, ABrushColor, APenStyle, AThickness, AFillStyle);
+  FCorners := ACorners;
+end;
+
+procedure TRegularPolygon.DrawFigure(Canvas: TCanvas);
+var
+  i: Integer;
+  DispFigureBounds: TRect;
+  DispFigureCenterX: Integer;
+  DispFigureCenterY: Integer;
+  Radius: Integer;
+begin
+  DispFigureBounds := WorldToDispCoord(FigureBounds);
+  DispFigureCenterX := round((DispFigureBounds.Right - DispFigureBounds.Left) / 2);
+  DispFigureCentery := round((DispFigureBounds.Bottom - DispFigureBounds.Top) / 2);
+  Radius := round(sqrt((DispFigureBounds.Right - DispFigureCenterX)**2 + (DispFigureBounds.Top - DispFigureCenterY)**2));
+  { TODO : Улучшить алгоритм }
+  SetLength(Vertexes, FCorners);
+  for i := 0 to FCorners do begin
+    Vertexes[i].x := DispFigureCenterX + round(Radius*sin(i * 2 * pi / FCorners));
+    Vertexes[i].y := DispFigureCentery + round(Radius*cos(i * 2 * pi / FCorners));
+  end;
+  Canvas.Polygon(Vertexes);
+end;
 
 { TFilledFigure }
 
