@@ -35,18 +35,26 @@ type
   { TTwoPointFigure }
 
   TTwoPointFigure = class(TFigure)
-    BrushColor: TColor;
     FigureBounds: TDoubleRect;
-    constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
+    constructor Create(ADoublePoint: TDoublePoint; APenColor: TColor;
       APenStyle: TFPPenStyle; AThickness: Integer);
-    procedure Draw(Canvas: TCanvas); override;
     procedure SetSecondPoint(ADoublePoint: TDoublePoint);
     function GetBounds: TDoubleRect; override;
   end;
 
+  { TFilledFigure }
+
+  TFilledFigure = class(TTwoPointFigure)
+    BrushColor: TColor;
+    BrushStyle: TFPBrushStyle;
+    constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
+      APenStyle: TFPPenStyle; AThickness: Integer; AFillStyle: TFPBrushStyle);
+    procedure Draw(Canvas: TCanvas); override;
+  end;
+
   { TRectangle }
 
-  TRectangle = class(TTwoPointFigure)
+  TRectangle = class(TFilledFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
@@ -58,7 +66,7 @@ type
 
   { TEllipse }
 
-  TEllipse = class(TTwoPointFigure)
+  TEllipse = class(TFilledFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
@@ -69,6 +77,24 @@ type
   end;
 
 implementation
+
+{ TFilledFigure }
+
+constructor TFilledFigure.Create(ADoublePoint: TDoublePoint; APenColor,
+  ABrushColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer;
+  AFillStyle: TFPBrushStyle);
+begin
+  Inherited Create(ADoublePoint, APenColor, APenStyle, AThickness);
+  BrushColor := ABrushColor;
+  BrushStyle := AFillStyle;
+end;
+
+procedure TFilledFigure.Draw(Canvas: TCanvas);
+begin
+  Canvas.Brush.Color := BrushColor;
+  Canvas.Brush.Style := BrushStyle;
+  inherited Draw(canvas);
+end;
 
 { TFigure }
 constructor TFigure.Create(APenColor: TColor; APenStyle: TFPPenStyle;
@@ -88,18 +114,12 @@ begin
 end;
 
 { TTwoPointFigure }
+
 constructor TTwoPointFigure.Create(ADoublePoint: TDoublePoint;
-  APenColor, ABrushColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer);
+  APenColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer);
 begin
   inherited Create(APenColor, APenStyle, AThickness);
-  BrushColor := ABrushColor;
   FigureBounds := DoubleRect(ADoublePoint, ADoublePoint);
-end;
-
-procedure TTwoPointFigure.Draw(Canvas: TCanvas);
-begin
-  Canvas.Brush.Color := BrushColor;
-  Inherited;
 end;
 
 procedure TTwoPointFigure.SetSecondPoint(ADoublePoint: TDoublePoint);

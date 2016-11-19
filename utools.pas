@@ -68,6 +68,14 @@ type
     procedure MouseMove(AMousePos: TPoint); override;
   end;
 
+  { TFilledFigureTool }
+
+  TFilledFigureTool = class(TTwoPointFigureTool)
+    FBrushStyle: TFPBrushStyle;
+    procedure ChangeBrushStyle(Sender: TObject);
+    procedure InitParams; override;
+  end;
+
   { TPolylineTool }
 
   TPolylineTool = class(TFigureTool)
@@ -80,7 +88,7 @@ type
 
   { TRectangleTool }
 
-  TRectangleTool = class(TTwoPointFigureTool)
+  TRectangleTool = class(TFilledFigureTool)
     constructor Create;
     procedure InitParams; override;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
@@ -98,7 +106,7 @@ type
 
   { TEllipseTool }
 
-  TEllipseTool = class(TTwoPointFigureTool)
+  TEllipseTool = class(TFilledFigureTool)
     constructor Create;
     procedure InitParams; override;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
@@ -116,6 +124,30 @@ procedure RegisterTool(Tool: TTool);
 begin
   SetLength(Tools, Length(Tools) + 1);
   Tools[High(Tools)] := Tool;
+end;
+
+{ TFilledFigureTool }
+
+procedure TFilledFigureTool.ChangeBrushStyle(Sender: TObject);
+begin
+  with Sender as TComboBox do begin
+    case ItemIndex of
+      0: FBrushStyle := bsSolid;
+      1: FBrushStyle := bsClear;
+      2: FBrushStyle := bsHorizontal;
+      3: FBrushStyle := bsVertical;
+      4: FBrushStyle := bsFDiagonal;
+      5: FBrushStyle := bsBDiagonal;
+      6: FBrushStyle := bsCross;
+      7: FBrushStyle := bsDiagCross;
+    end;
+  end;
+end;
+
+procedure TFilledFigureTool.InitParams;
+begin
+  Inherited;
+  AddParam(TFillStyleParameter.Create(@ChangeBrushStyle));
 end;
 
 { TFigureTool }
@@ -138,9 +170,8 @@ begin
       0: FLineStyle := psSolid;
       1: FLineStyle := psDash;
       2: FLineStyle := psDot;
-      3: FLineStyle := psDash;
-      4: FLineStyle := psDashDot;
-      5: FLineStyle := psDashDotDot;
+      3: FLineStyle := psDashDot;
+      4: FLineStyle := psDashDotDot;
     end;
   end;
 end;
@@ -163,7 +194,7 @@ begin
   FIsSelectingArea := False;
   FMouseButton := AButton;
   FFigure := TRectangleLine.Create(
-    DispToWorldCoord(AMousePos), clBlack, ABrushColor, psSolid, 1);
+    DispToWorldCoord(AMousePos), clBlack, psSolid, 1);
   FStartingPoint := DispToWorldCoord(AMousePos);
 end;
 
@@ -320,7 +351,7 @@ procedure TRectangleTool.MouseDown(AMousePos: TPoint; APenColor,
   ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TRectangle.Create(
-    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth);
+    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth, FBrushStyle);
 end;
 
 { TEllipseTool }
@@ -339,7 +370,7 @@ procedure TEllipseTool.MouseDown(AMousePos: TPoint; APenColor,
   ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TEllipse.Create(
-   DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth);
+   DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth, FBrushStyle);
 end;
 
 { TLineTool }
@@ -358,7 +389,7 @@ procedure TLineTool.MouseDown(AMousePos: TPoint; APenColor,
   ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TLine.Create(
-   DispToWorldCoord(AMousePos), APenColor,ABrushColor, FLineStyle, FLineWidth);
+   DispToWorldCoord(AMousePos), APenColor, FLineStyle, FLineWidth);
 end;
 
 initialization

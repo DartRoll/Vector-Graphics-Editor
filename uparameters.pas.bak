@@ -33,7 +33,39 @@ type
     constructor Create(AonChange: TParamChange);
   end;
 
+  { TFillStyleParameter }
+
+  TFillStyleParameter= class(TParameter)
+    constructor Create(AonChange: TParamChange);
+  end;
+
+
 implementation
+
+{ TFillStyleParameter }
+
+constructor TFillStyleParameter.Create(AonChange: TParamChange);
+begin
+  Inherited Create;
+  FLabel.Caption := 'Стиль заливки';
+
+  FComponent := TComboBox.Create(nil);
+  with FComponent as TComboBox do begin
+    Items.Add('bsSolid');
+    Items.Add('bsClear');
+    Items.Add('bsHorizontal');
+    Items.Add('bsVertical');
+    Items.Add('bsFDiagonal');
+    Items.Add('bsBDiagonal');
+    Items.Add('bsCross');
+    Items.Add('bsDiagCross');
+    Items.Add('bsImage');
+
+    Width := 130;//мб перенести в конструктор?
+    ItemIndex := 0;
+    OnChange := AonChange;
+  end;
+end;
 
 { TBorderStyleParameter }
 
@@ -45,10 +77,13 @@ begin
   FComponent := TComboBox.Create(nil);
   with FComponent as TComboBox do begin
     Items.Add('─────');
-    Items.Add('─ ─ ─');
-    Items.Add('Кружочками');
-    Items.Add('Пунктирно-кружочная');
-    Items.Add('Линия точка точка');
+    Items.Add('─ ─ ─ ─ ─');
+    Items.Add('• • • • • • • • •');
+    Items.Add('─ • ─ • ─ •');
+    Items.Add('─ • • ─ • •');
+    AutoComplete := False;
+    Font.Bold := True;
+    Font.Size := 10;
     Width := 130;
     ItemIndex := 0;
     OnChange := AonChange;
@@ -61,6 +96,7 @@ constructor TParameter.Create;
 begin
   Inherited;
   FLabel := TLabel.Create(nil);
+  FLabel.Font.Size := 11;
 end;
 
 destructor TParameter.Destroy;

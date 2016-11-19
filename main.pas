@@ -271,8 +271,8 @@ procedure TVectorEditor.FormCreate(Sender: TObject);
 var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
-  CurrentTool := Tools[0];
-  //CurrentTool.Init(ParamPanel);
+  CurrentTool := Tools[2];
+  CurrentTool.Init(ParamPanel);
   //Передаём дефолтный параметры представлению
   PenColorPanel.Color := PenColor;
   BrushColorPanel.Color := BrushColor;
