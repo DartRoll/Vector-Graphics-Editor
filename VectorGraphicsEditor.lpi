@@ -101,7 +101,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="7">
       <Unit0>
         <Filename Value="VectorGraphicsEditor.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -135,6 +135,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="UTransform"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="uparameters.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="UParameters"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
