@@ -1,11 +1,11 @@
 object VectorEditor: TVectorEditor
-  Left = 504
-  Height = 544
-  Top = 240
-  Width = 743
+  Left = 407
+  Height = 772
+  Top = 153
+  Width = 949
   Caption = 'VectorEditor'
-  ClientHeight = 524
-  ClientWidth = 743
+  ClientHeight = 752
+  ClientWidth = 949
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -14,13 +14,14 @@ object VectorEditor: TVectorEditor
   object PaintBox: TPaintBox
     AnchorSideLeft.Control = ToolPanel
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Owner
+    AnchorSideTop.Control = ColorPanel
+    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = VerticalScrollBar
-    AnchorSideBottom.Control = HorizontalScrollBar
+    AnchorSideBottom.Control = DebugPanel
     Left = 144
-    Height = 504
-    Top = 0
-    Width = 579
+    Height = 584
+    Top = 84
+    Width = 785
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
@@ -34,21 +35,23 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 524
+    Height = 752
     Top = 0
     Width = 144
     Align = alLeft
-    ClientHeight = 524
+    BevelOuter = bvNone
+    ClientHeight = 752
     ClientWidth = 144
     Color = 16119285
     ParentColor = False
     TabOrder = 0
     object LineWidthSpinEdit: TSpinEdit
-      Left = 64
+      Left = 79
       Height = 28
-      Top = 440
+      Top = 176
       Width = 64
       Alignment = taRightJustify
+      Anchors = []
       AutoSelect = False
       AutoSize = False
       Font.Height = -15
@@ -60,11 +63,12 @@ object VectorEditor: TVectorEditor
       Value = 2
     end
     object LineWidthLabel: TLabel
+      AnchorSideLeft.Control = ToolPanel
       AnchorSideRight.Control = LineWidthSpinEdit
       Left = 0
       Height = 20
-      Top = 440
-      Width = 64
+      Top = 176
+      Width = 79
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       Caption = 'Толщина'
@@ -73,52 +77,10 @@ object VectorEditor: TVectorEditor
       ParentFont = False
       WordWrap = True
     end
-    object PaletteGrid: TDrawGrid
-      Left = 0
-      Height = 189
-      Top = 168
-      Width = 128
-      AutoEdit = False
-      ColCount = 6
-      DefaultColWidth = 21
-      DefaultDrawing = False
-      DefaultRowHeight = 21
-      ExtendedSelect = False
-      FixedCols = 0
-      FixedRows = 0
-      Flat = True
-      ParentColor = True
-      RowCount = 9
-      ScrollBars = ssNone
-      TabAdvance = aaNone
-      TabOrder = 1
-      TabStop = False
-      OnDblClick = PaletteGridDblClick
-      OnDrawCell = PaletteGridDrawCell
-      OnMouseDown = PaletteGridMouseDown
-    end
-    object BrushColorPanel: TPanel
-      Left = 48
-      Height = 50
-      Top = 384
-      Width = 50
-      Color = clWhite
-      ParentColor = False
-      TabOrder = 2
-    end
-    object PenColorPanel: TPanel
-      Left = 22
-      Height = 50
-      Top = 360
-      Width = 50
-      Color = clBlack
-      ParentColor = False
-      TabOrder = 3
-    end
     object ScaleFloatSpinEdit: TFloatSpinEdit
       Left = 64
       Height = 28
-      Top = 472
+      Top = 216
       Width = 64
       Alignment = taRightJustify
       AutoSelect = False
@@ -130,15 +92,15 @@ object VectorEditor: TVectorEditor
       OnChange = ScaleFloatSpinEditChange
       ParentFont = False
       TabStop = False
-      TabOrder = 4
+      TabOrder = 1
       Value = 100
     end
     object ScaleLabel: TLabel
       AnchorSideRight.Control = ScaleFloatSpinEdit
-      Left = 2
+      Left = 0
       Height = 20
-      Top = 472
-      Width = 62
+      Top = 224
+      Width = 64
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
@@ -152,13 +114,31 @@ object VectorEditor: TVectorEditor
       AnchorSideLeft.Side = asrBottom
       Left = 128
       Height = 16
-      Top = 476
+      Top = 232
       Width = 18
       AutoSize = False
       Caption = '%'
       Font.Height = -15
       ParentColor = False
       ParentFont = False
+    end
+    object ParamPanel: TPanel
+      AnchorSideLeft.Control = ToolPanel
+      AnchorSideTop.Control = ToolPanel
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = ToolPanel
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = ToolPanel
+      AnchorSideBottom.Side = asrBottom
+      Left = 0
+      Height = 431
+      Top = 321
+      Width = 144
+      Anchors = [akLeft, akRight, akBottom]
+      BevelOuter = bvNone
+      Color = clActiveBorder
+      ParentColor = False
+      TabOrder = 2
     end
   end
   object HorizontalScrollBar: TScrollBar
@@ -169,8 +149,8 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Side = asrBottom
     Left = 144
     Height = 20
-    Top = 504
-    Width = 579
+    Top = 732
+    Width = 785
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 1
@@ -185,8 +165,8 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = 723
-    Height = 504
+    Left = 929
+    Height = 732
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
@@ -203,14 +183,15 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = HorizontalScrollBar
     Left = 144
-    Height = 96
-    Top = 408
-    Width = 579
+    Height = 64
+    Top = 668
+    Width = 785
     Anchors = [akLeft, akRight, akBottom]
-    ClientHeight = 96
-    ClientWidth = 579
+    ClientHeight = 64
+    ClientWidth = 785
     ParentColor = False
     TabOrder = 3
+    Visible = False
     object OffsetXLabel: TLabel
       Left = 8
       Height = 15
@@ -236,58 +217,59 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
     object MouseDspLabel: TLabel
-      Left = 0
+      Left = 328
       Height = 15
-      Top = 53
+      Top = 1
       Width = 59
       Caption = 'MouseDsp:'
       ParentColor = False
     end
     object MouseXDspLabel: TLabel
-      Left = 0
+      Left = 328
       Height = 15
-      Top = 64
+      Top = 12
       Width = 91
       Caption = 'MouseXDspLabel'
       ParentColor = False
     end
     object MouseYDspLabel: TLabel
-      Left = 0
+      Left = 328
       Height = 15
-      Top = 77
+      Top = 25
       Width = 91
       Caption = 'MouseYDspLabel'
       ParentColor = False
     end
     object MouseWrldLabel: TLabel
-      Left = 88
+      Left = 432
       Height = 15
-      Top = 53
+      Top = 1
       Width = 89
       Caption = 'MouseWrldLabel'
       ParentColor = False
     end
     object MouseXWrldLabel: TLabel
-      Left = 88
+      Left = 432
       Height = 15
-      Top = 64
+      Top = 12
       Width = 96
       Caption = 'MouseXWrldLabel'
       ParentColor = False
     end
     object MouseYWrldLabel: TLabel
-      Left = 88
+      Left = 432
       Height = 15
-      Top = 77
+      Top = 25
       Width = 96
       Caption = 'MouseYWrldLabel'
       ParentColor = False
     end
     object ImageBoundsLabel: TLabel
-      Left = 97
+      Left = 88
       Height = 15
       Top = 1
       Width = 101
+      Anchors = [akTop]
       Caption = 'ImageBoundsLabel'
       ParentColor = False
     end
@@ -340,9 +322,66 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
   end
+  object ColorPanel: TPanel
+    AnchorSideLeft.Control = ToolPanel
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = VerticalScrollBar
+    Left = 144
+    Height = 84
+    Top = 0
+    Width = 785
+    Anchors = [akTop, akLeft, akRight]
+    ClientHeight = 84
+    ClientWidth = 785
+    ParentColor = False
+    TabOrder = 4
+    object PaletteGrid: TDrawGrid
+      Left = 80
+      Height = 84
+      Top = 0
+      Width = 210
+      AutoEdit = False
+      ColCount = 10
+      DefaultColWidth = 21
+      DefaultDrawing = False
+      DefaultRowHeight = 21
+      ExtendedSelect = False
+      FixedCols = 0
+      FixedRows = 0
+      Flat = True
+      ParentColor = True
+      RowCount = 4
+      ScrollBars = ssNone
+      TabAdvance = aaNone
+      TabOrder = 0
+      TabStop = False
+      OnDblClick = PaletteGridDblClick
+      OnDrawCell = PaletteGridDrawCell
+      OnMouseDown = PaletteGridMouseDown
+    end
+    object BrushColorPanel: TPanel
+      Left = 24
+      Height = 50
+      Top = 24
+      Width = 50
+      Color = clWhite
+      ParentColor = False
+      TabOrder = 1
+    end
+    object PenColorPanel: TPanel
+      Left = 5
+      Height = 50
+      Top = 5
+      Width = 50
+      Color = clBlack
+      ParentColor = False
+      TabOrder = 2
+    end
+  end
   object MainMenu: TMainMenu
-    left = 240
-    top = 8
+    left = 784
+    top = 136
     object FileMenuItem: TMenuItem
       Caption = 'Файл'
       object ShowEverythingMenuItem: TMenuItem
@@ -393,7 +432,7 @@ object VectorEditor: TVectorEditor
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 200
-    top = 8
+    left = 656
+    top = 152
   end
 end

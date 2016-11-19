@@ -17,6 +17,8 @@ type
     ImageBoundsLabel: TLabel;
     ImageBoundsX: TLabel;
     ImageBoundsY: TLabel;
+    ColorPanel: TPanel;
+    ParamPanel: TPanel;
     ScrollbarMinLabel: TLabel;
     ScrollbarMaxLabel: TLabel;
     ScrollbarPosLabel: TLabel;
@@ -165,13 +167,17 @@ end;
 
 procedure TVectorEditor.SetScrollBarsPostions;
 begin
-  HorizontalScrollBar.SetParams(round(GetCanvasOffset.X),
-  WorldToDispDimension(ImageBounds.Left), WorldToDispDimension(ImageBounds.Right));
+  {HorizontalScrollBar.SetParams(
+    round(GetCanvasOffset.X),
+    WorldToDispDimension(ImageBounds.Left),
+    WorldToDispDimension(ImageBounds.Right));
   HorizontalScrollBar.PageSize := round(DispDimensions.Width);
 
-  VerticalScrollBar.SetParams(round(GetCanvasOffset.Y),
-  WorldToDispDimension(ImageBounds.Top), WorldToDispDimension(ImageBounds.Bottom));
-  VerticalScrollBar.PageSize := round(DispDimensions.Height);
+  VerticalScrollBar.SetParams(
+    round(GetCanvasOffset.Y),
+    WorldToDispDimension(ImageBounds.Top),
+    WorldToDispDimension(ImageBounds.Bottom));
+  VerticalScrollBar.PageSize := round(DispDimensions.Height);}
  end;
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
@@ -181,11 +187,11 @@ begin
       Position := Max - PageSize;
       Exit;
     end;
-  end;}
+  end;
   with Sender as TScrollBar do
     SetCanvasOffset(Position, GetCanvasOffset.Y);
   ChangeBars := False;
-  PaintBox.Invalidate;
+  PaintBox.Invalidate};
 end;
 
 procedure TVectorEditor.VerticalScrollBarChange(Sender: TObject);
@@ -195,16 +201,17 @@ begin
       Position := Max - PageSize;
       Exit;
     end;
-  end;}
+  end;
   with Sender as TScrollBar do
     SetCanvasOffset(GetCanvasOffset.X, Position);
   ChangeBars := False;
-  PaintBox.Invalidate;
+  PaintBox.Invalidate;}
 end;
 
 procedure TVectorEditor.ToolClick(Sender: TObject);
 begin
   CurrentTool := Tools[(Sender as TSpeedButton).Tag];
+  CurrentTool.Init(ParamPanel)
 end;
 
 procedure TVectorEditor.CreateToolsButtons(
@@ -244,12 +251,12 @@ var
 begin
   index := 0;
   rate := floor(255 / (PaletteGrid.RowCount * PaletteGrid.ColCount));
-  for col := 0 to PaletteGrid.ColCount do begin
+  for row := 0 to PaletteGrid.RowCount do begin
     SetLength(PaletteColors, Length(PaletteColors) + 1);
-    for row := 0  to PaletteGrid.RowCount do begin
-      SetLength(PaletteColors[col], Length(PaletteColors[col]) + 1);
-      PaletteColors[col, row] := RGBToColor(index * rate, row * 28,
-        (PaletteGrid.ColCount - col) * 42);
+    for col := 0  to PaletteGrid.ColCount do begin
+      SetLength(PaletteColors[row], Length(PaletteColors[row]) + 1);
+      PaletteColors[row, col] := RGBToColor(index * rate, col * 28,
+        (PaletteGrid.ColCount - row) * 42);
       index += 1;
     end;
   end;
@@ -265,6 +272,7 @@ var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
   CurrentTool := Tools[0];
+  //CurrentTool.Init(ParamPanel);
   //Передаём дефолтный параметры представлению
   PenColorPanel.Color := PenColor;
   BrushColorPanel.Color := BrushColor;
@@ -273,7 +281,7 @@ begin
   //Параметры кнопок  интрументов
   BtnWidth := 48;
   BtnHeight := 48;
-  ColsCount := 2;
+  ColsCount := 3;
   CreateToolsButtons(BtnWidth, BtnHeight, ColsCount);
   //Палитра
   FillPalette;
@@ -289,7 +297,7 @@ procedure TVectorEditor.PaintBoxMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   isDrawing := True;
-  CurrentTool.MouseDown(Point(X, Y), PenColor, BrushColor, LineWidth, Button);
+  CurrentTool.MouseDown(Point(X, Y), PenColor, BrushColor, Button);
 end;
 
 procedure TVectorEditor.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState;
@@ -370,7 +378,7 @@ procedure TVectorEditor.PaletteGridDblClick(Sender: TObject);
 begin
   if ColorDialog.Execute then begin
     with Sender as TDrawGrid do begin
-      PaletteColors[Col, Row] := ColorDialog.Color;
+      PaletteColors[Row, COl] := ColorDialog.Color;
     end;
     PaletteGrid.Invalidate;
   end;
@@ -379,7 +387,7 @@ end;
 procedure TVectorEditor.PaletteGridDrawCell(Sender: TObject; aCol,
   aRow: Integer; aRect: TRect; aState: TGridDrawState);
 begin
-  PaletteGrid.Canvas.Brush.Color := PaletteColors[aCol, aRow];
+  PaletteGrid.Canvas.Brush.Color := PaletteColors[aRow, aCol];
   PaletteGrid.Canvas.FillRect(aRect);
 end;
 
@@ -390,11 +398,11 @@ var
 begin
   PaletteGrid.MouseToCell(X, Y, ACol, ARow);
   if Button = mbLeft then  begin
-    PenColor := PaletteColors[ACol, ARow];
+    PenColor := PaletteColors[ARow, ACol];
     PenColorPanel.Color := PenColor;
   end;
   if Button = mbRight then begin
-    BrushColor := PaletteColors[ACol, ARow];
+    BrushColor := PaletteColors[ARow, ACol];
     BrushColorPanel.Color := BrushColor;
   end;
 end;

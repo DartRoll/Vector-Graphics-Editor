@@ -5,20 +5,43 @@ unit UTools;
 interface
 
 uses
-  Classes, math, Controls, SysUtils, UFigures, Graphics, UTransform;
+  Classes, math, Controls, SysUtils, UFigures, Graphics, UTransform, StdCtrls,
+  ExtCtrls, LCLClasses, Spin;
 
 type
 
+  TParamChange = procedure(Sender: TObject) of Object;
+
+    { TParameter }//может вынести в отдельный модуль?
+  TParameter = class
+    FLabel: TLabel;
+    FComponent: TControl;
+    destructor Destroy; override; //этот деструктор будет выполнтся для потомков?
+  end;
+
+    { TWidthParameter }
+
+  TWidthParameter = class(TParameter)
+    constructor Create(AonChange: TParamChange);
+  end;
   { TTool }
 
   TTool = class
-    FFigure: TFigure;
-    FIcon: String;
-    function GetFigure: TFigure;
-    procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); virtual; abstract;
-    procedure MouseMove(AMousePos: TPoint); virtual; abstract;
-    procedure MouseUp(AMousePos: TPoint); virtual;
+    protected
+      FFigure: TFigure;
+      FPanel: TPanel;
+      FParams: array of TParameter;
+      procedure InitParams; virtual; abstract;
+      procedure AddParam(AParam: TParameter);
+      procedure ShowParams;
+    public
+      FIcon: String;
+      procedure Init(APanel: TPanel);
+      function GetFigure: TFigure;
+      procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
+        AButton: TMouseButton); virtual; abstract;
+      procedure MouseMove(AMousePos: TPoint); virtual; abstract;
+      procedure MouseUp(AMousePos: TPoint); virtual;
   end;
 
   { THandTool }
@@ -27,7 +50,7 @@ type
     FStartingPoint: TDoublePoint;
     constructor Create;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); override;
+      AButton: TMouseButton); override;
     procedure MouseMove(AMousePos: TPoint); override;
   end;
 
@@ -39,7 +62,7 @@ type
     FMouseButton: TMouseButton;
     constructor Create;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); override;
+      AButton: TMouseButton); override;
     procedure MouseMove(AMousePos: TPoint); override;
     procedure MouseUp(AMousePos: TPoint); override;
   end;
@@ -47,16 +70,22 @@ type
   { TTwoPointFigureTool }
 
   TTwoPointFigureTool = class(TTool)
+    FLineWidth: Integer;
     procedure MouseMove(AMousePos: TPoint); override;
   end;
 
   { TPolylineTool }
 
   TPolylineTool = class(TTool)
-    constructor Create;
-    procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); override;
-    procedure MouseMove(AMousePos: TPoint); override;
+    protected
+      FLineWidth: Integer;
+      procedure InitParams; override;
+      procedure ChangeWidth(Sender: TObject);
+    public
+      constructor Create;
+      procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
+        AButton: TMouseButton); override;
+      procedure MouseMove(AMousePos: TPoint); override;
   end;
 
   { TRectangleTool }
@@ -64,7 +93,7 @@ type
   TRectangleTool = class(TTwoPointFigureTool)
     constructor Create;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); override;
+      AButton: TMouseButton); override;
   end;
 
   { TLineTool }
@@ -72,7 +101,7 @@ type
   TLineTool = class(TTwoPointFigureTool)
     constructor Create;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); override;
+      AButton: TMouseButton); override;
   end;
 
   { TEllipseTool }
@@ -80,7 +109,7 @@ type
   TEllipseTool = class(TTwoPointFigureTool)
     constructor Create;
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
-      ALineWidth: Integer; AButton: TMouseButton); override;
+      AButton: TMouseButton); override;
   end;
 
 var
@@ -95,6 +124,31 @@ begin
   Tools[High(Tools)] := Tool;
 end;
 
+{ TParameter }
+
+destructor TParameter.Destroy;
+begin
+  FLabel.Free;
+  FComponent.Free;
+  inherited Destroy;
+end;
+
+{ TWidthParameter }
+
+constructor TWidthParameter.Create(AonChange: TParamChange);
+begin
+  FLabel := TLabel.Create(nil);
+  FLabel.Caption := 'Ширина';
+
+  FComponent := TSpinEdit.Create(nil);
+  with FComponent as TSpinEdit do begin
+      MaxValue := 500;
+      MinValue := 1;
+      Value := 2;
+      OnChange := AonChange;
+  end;
+end;
+
 { TMagnifierTool }
 constructor TMagnifierTool.Create;
 begin
@@ -103,7 +157,7 @@ begin
 end;
 
 procedure TMagnifierTool.MouseDown(AMousePos: TPoint; APenColor,
-  ABrushColor: TColor; ALineWidth: Integer; AButton: TMouseButton);
+  ABrushColor: TColor; AButton: TMouseButton);
 begin
   FIsSelectingArea := False;
   FMouseButton := AButton;
@@ -159,7 +213,7 @@ begin
 end;
 
 procedure THandTool.MouseDown(AMousePos: TPoint; APenColor,
-  ABrushColor: TColor; ALineWidth: Integer; AButton: TMouseButton);
+  ABrushColor: TColor; AButton: TMouseButton);
 begin
   FStartingPoint := DispToWorldCoord(AMousePos);
 end;
@@ -170,6 +224,36 @@ begin
 end;
 
 { TTool }
+
+procedure TTool.AddParam(AParam: TParameter);
+begin
+  SetLength(FParams, Length(FParams) + 1);
+  FParams[High(FParams)] := AParam;
+end;
+
+procedure TTool.ShowParams;
+var i: Integer;
+begin
+  for i := 0 to High(FParams) do begin
+      with FParams[i] do begin
+        FLabel.Top := i * 10;
+        FLabel.Parent := FPanel;
+        FComponent.Top := i * 10;
+        FComponent.Left := FLabel.BoundsRect.Right + 5;
+        FComponent.Parent := FPanel;
+      end;
+  end;
+end;
+
+procedure TTool.Init(APanel: TPanel);
+var i: Integer;
+begin
+  for i := Low(FParams) to High(FParams) do FParams[i].Free;
+  FPanel := APanel;
+  InitParams;
+  ShowParams;
+end;
+
 function TTool.GetFigure: TFigure;
 begin
   Result := FFigure;
@@ -193,11 +277,22 @@ begin
   FIcon := 'img/polyline.bmp';
 end;
 
+procedure TPolylineTool.InitParams;
+var WidthParameter: TWidthParameter;
+begin
+  AddParam(TWidthParameter.Create(@ChangeWidth));
+end;
+
+procedure TPolylineTool.ChangeWidth(Sender: TObject);
+begin
+  FLineWidth := (Sender as TSpinEdit).Value;
+end;
+
 procedure TPolylineTool.MouseDown(AMousePos: TPoint; APenColor,
-  ABrushColor: TColor; ALineWidth: Integer; AButton: TMouseButton);
+  ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TPolyline.Create(
-    DispToWorldCoord(AMousePos), APenColor, ABrushColor, ALineWidth);
+    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineWidth);
 end;
 
 procedure TPolylineTool.MouseMove(AMousePos: TPoint);
@@ -213,10 +308,10 @@ begin
 end;
 
 procedure TRectangleTool.MouseDown(AMousePos: TPoint; APenColor,
-  ABrushColor: TColor; ALineWidth: Integer; AButton: TMouseButton);
+  ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TRectangle.Create(
-    DispToWorldCoord(AMousePos), APenColor, ABrushColor, ALineWidth);
+    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineWidth);
 end;
 
 { TEllipseTool }
@@ -227,10 +322,10 @@ begin
 end;
 
 procedure TEllipseTool.MouseDown(AMousePos: TPoint; APenColor,
-  ABrushColor: TColor; ALineWidth: Integer; AButton: TMouseButton);
+  ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TEllipse.Create(
-   DispToWorldCoord(AMousePos), APenColor, ABrushColor, ALineWidth);
+   DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineWidth);
 end;
 
 { TLineTool }
@@ -241,10 +336,10 @@ begin
 end;
 
 procedure TLineTool.MouseDown(AMousePos: TPoint; APenColor,
-  ABrushColor: TColor; ALineWidth: Integer; AButton: TMouseButton);
+  ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TLine.Create(
-   DispToWorldCoord(AMousePos), APenColor,ABrushColor, ALineWidth);
+   DispToWorldCoord(AMousePos), APenColor,ABrushColor, FLineWidth);
 end;
 
 initialization
