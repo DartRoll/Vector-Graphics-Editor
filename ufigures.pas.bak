@@ -5,50 +5,65 @@ unit UFigures;
 interface
 
 uses
-  UTransform, Classes, SysUtils, Graphics, math;
+  UTransform, Classes, SysUtils, Graphics, math, FPCanvas;
 
 type
 
+  { TFigure }
+
   TFigure = class
     PenColor: TColor;
-    BrushColor: TColor;
+    PenStyle: TFPPenStyle;
     Thickness: Integer;
-    constructor Create(APenColor, ABrushColor: TColor; AThickness: Integer);
-    procedure Draw(Canvas: TCanvas);
+    constructor Create(APenColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer);
+    procedure Draw(Canvas: TCanvas); virtual;
     procedure DrawFigure(Canvas: TCanvas); virtual; abstract;
     function GetBounds: TDoubleRect; virtual; abstract;
   end;
 
+  { TPolyline }
+
   TPolyline = class(TFigure)
     Vertexes: array of TDoublePoint;
-    constructor Create(ADoublePoint: TDoublePoint;
-      APenColor, ABrushColor: TColor; AThickness: Integer);
+    constructor Create(ADoublePoint: TDoublePoint; APenColor: TColor;
+      APenStyle: TFPPenStyle; AThickness: Integer);
     procedure AddPoint(ADoublePoint: TDoublePoint);
     procedure DrawFigure(Canvas: TCanvas); override;
     function GetBounds: TDoubleRect; override;
   end;
 
+  { TTwoPointFigure }
+
   TTwoPointFigure = class(TFigure)
+    BrushColor: TColor;
     FigureBounds: TDoubleRect;
-    constructor Create(ADoublePoint: TDoublePoint;
-      APenColor, ABrushColor: TColor; AThickness: Integer);
+    constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
+      APenStyle: TFPPenStyle; AThickness: Integer);
+    procedure Draw(Canvas: TCanvas); override;
     procedure SetSecondPoint(ADoublePoint: TDoublePoint);
     function GetBounds: TDoubleRect; override;
   end;
+
+  { TRectangle }
 
   TRectangle = class(TTwoPointFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
+  { TLine }
+
   TLine = class(TTwoPointFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
+
+  { TEllipse }
 
   TEllipse = class(TTwoPointFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
 
   { TRectangleLine }
+
   TRectangleLine = class(TTwoPointFigure)
     procedure DrawFigure(Canvas: TCanvas); override;
   end;
@@ -56,27 +71,35 @@ type
 implementation
 
 { TFigure }
-constructor TFigure.Create(APenColor, ABrushColor: TColor; AThickness: Integer);
+constructor TFigure.Create(APenColor: TColor; APenStyle: TFPPenStyle;
+  AThickness: Integer);
 begin
   PenColor := APenColor;
-  BrushColor := ABrushColor;
   Thickness := AThickness;
+  PenStyle := APenStyle;
 end;
 
 procedure TFigure.Draw(Canvas: TCanvas);
 begin
   Canvas.Pen.Color := PenColor;
   Canvas.Pen.Width := Thickness;
-  Canvas.Brush.Color := BrushColor;
+  Canvas.Pen.Style := PenStyle;
   DrawFigure(Canvas);
 end;
 
 { TTwoPointFigure }
 constructor TTwoPointFigure.Create(ADoublePoint: TDoublePoint;
-  APenColor, ABrushColor: TColor; AThickness: Integer);
+  APenColor, ABrushColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer);
 begin
-  inherited Create(APenColor, ABrushColor, AThickness);
+  inherited Create(APenColor, APenStyle, AThickness);
+  BrushColor := ABrushColor;
   FigureBounds := DoubleRect(ADoublePoint, ADoublePoint);
+end;
+
+procedure TTwoPointFigure.Draw(Canvas: TCanvas);
+begin
+  Canvas.Pen.Style := PenStyle;
+  Inherited;
 end;
 
 procedure TTwoPointFigure.SetSecondPoint(ADoublePoint: TDoublePoint);
@@ -95,10 +118,10 @@ begin
 end;
 
 { TPolyline }
-constructor TPolyline.Create(ADoublePoint: TDoublePoint;
-  APenColor, ABrushColor: TColor; AThickness: Integer);
+constructor TPolyline.Create(ADoublePoint: TDoublePoint; APenColor: TColor;
+  APenStyle: TFPPenStyle; AThickness: Integer);
 begin
-  inherited Create(APenColor, ABrushColor, AThickness);
+  inherited Create(APenColor, APenStyle, AThickness);
   AddPoint(ADoublePoint);
 end;
 

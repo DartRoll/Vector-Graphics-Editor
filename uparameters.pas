@@ -12,21 +12,56 @@ type
 
   TParamChange = procedure(Sender: TObject) of Object;
 
-    { TParameter }//может вынести в отдельный модуль?
+  { TParameter }
+
   TParameter = class
     FLabel: TLabel;
     FComponent: TControl;
-    destructor Destroy; override; //этот деструктор будет выполнтся для потомков?
+    constructor Create;
+    destructor Destroy; override;
   end;
 
-    { TWidthParameter }
+  { TBorderWidthParameter }
 
-  TWidthParameter = class(TParameter)
+  TBorderWidthParameter = class(TParameter)
     constructor Create(AonChange: TParamChange);
   end;
+
+  { TBorderStyleParameter }
+
+  TBorderStyleParameter = class(TParameter)
+    constructor Create(AonChange: TParamChange);
+  end;
+
 implementation
 
+{ TBorderStyleParameter }
+
+constructor TBorderStyleParameter.Create(AonChange: TParamChange);
+begin
+  Inherited Create;
+  FLabel.Caption := 'Стиль линии';
+
+  FComponent := TComboBox.Create(nil);
+  with FComponent as TComboBox do begin
+    Items.Add('─────');
+    Items.Add('─ ─ ─ ─ ─');
+    Items.Add('Кружочками');
+    Items.Add('Пунктирно-кружочная');
+    Items.Add('Линия точка точка');
+    Width := 130;
+    ItemIndex := 0;
+    OnChange := AonChange;
+  end;
+end;
+
 { TParameter }
+
+constructor TParameter.Create;
+begin
+  Inherited;
+  FLabel := TLabel.Create(nil);
+end;
 
 destructor TParameter.Destroy;
 begin
@@ -35,13 +70,13 @@ begin
   inherited Destroy;
 end;
 
-{ TWidthParameter }
+{ TBorderWidthParameter }
 
-constructor TWidthParameter.Create(AonChange: TParamChange);
+constructor TBorderWidthParameter.Create(AonChange: TParamChange);
 begin
-  FLabel := TLabel.Create(nil);
-  FLabel.Caption := 'Ширина';
+  Inherited Create;
 
+  FLabel.Caption := 'Толщина линии';
   FComponent := TSpinEdit.Create(nil);
   with FComponent as TSpinEdit do begin
       MaxValue := 500;
@@ -50,7 +85,6 @@ begin
       OnChange := AonChange;
   end;
 end;
-
 
 end.
 
