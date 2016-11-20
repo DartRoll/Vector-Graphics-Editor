@@ -84,6 +84,7 @@ type
     constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       APenStyle: TFPPenStyle; AThickness: Integer; AFillStyle: TFPBrushStyle; ACorners: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
+    function GetBounds: TDoubleRect; override;
   end;
 
 implementation
@@ -117,6 +118,29 @@ begin
   Canvas.Polygon(WorldVertexesToDispCoord(Vertexes));
 
 end;
+
+function TRegularPolygon.GetBounds: TDoubleRect;
+var
+  i: Integer;
+  LeftX, RightX, TopY, BottomY: Double;
+begin
+  with Vertexes[0] do begin
+    LeftX := X;
+    RightX := X;
+    TopY := Y;
+    BottomY := Y;
+  end;
+  for i := 1 to High(Vertexes) do begin
+    with Vertexes[i] do begin
+      TopY := Min(TopY, y);
+      LeftX := Min(LeftX, X);
+      BottomY := Max(BottomY, Y);
+      RightX := Max(RightX, X);
+    end;
+  end;
+  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+end;
+
 
 { TFilledFigure }
 

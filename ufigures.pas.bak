@@ -47,6 +47,7 @@ type
   TFilledFigure = class(TTwoPointFigure)
     BrushColor: TColor;
     BrushStyle: TFPBrushStyle;
+    Vertexes: array of TDoublePoint;
     constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       APenStyle: TFPPenStyle; AThickness: Integer; AFillStyle: TFPBrushStyle);
     procedure Draw(Canvas: TCanvas); override;
@@ -84,6 +85,7 @@ type
     constructor Create(ADoublePoint: TDoublePoint; APenColor, ABrushColor: TColor;
       APenStyle: TFPPenStyle; AThickness: Integer; AFillStyle: TFPBrushStyle; ACorners: Integer);
     procedure DrawFigure(Canvas: TCanvas); override;
+    function GetBounds: TDoubleRect; override;
   end;
 
 implementation
@@ -110,13 +112,36 @@ begin
   { TODO : Улучшить алгоритм }
   SetLength(Vertexes, FCorners);
   for i := 0 to FCorners - 1 do begin
-    Vertexes[i].x := WrldFigureCenter.X + round(Radius*sin(i * 2 * pi / FCorners));
-    Vertexes[i].y := WrldFigureCenter.Y + round(Radius*cos(i * 2 * pi / FCorners));
+    Vertexes[i].x := WrldFigureCenter.X + (Radius*sin(i * 2 * pi / FCorners));
+    Vertexes[i].y := WrldFigureCenter.Y + (Radius*cos(i * 2 * pi / FCorners));
   end;
-  Canvas.Rectangle(WorldToDispCoord(FigureBounds));
+  //Canvas.Rectangle(WorldToDispCoord(FigureBounds));
   Canvas.Polygon(WorldVertexesToDispCoord(Vertexes));
 
 end;
+
+function TRegularPolygon.GetBounds: TDoubleRect;
+var
+  i: Integer;
+  LeftX, RightX, TopY, BottomY: Double;
+begin
+  with Vertexes[0] do begin
+    LeftX := X;
+    RightX := X;
+    TopY := Y;
+    BottomY := Y;
+  end;
+  for i := 1 to High(Vertexes) do begin
+    with Vertexes[i] do begin
+      TopY := Min(TopY, y);
+      LeftX := Min(LeftX, X);
+      BottomY := Max(BottomY, Y);
+      RightX := Max(RightX, X);
+    end;
+  end;
+  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+end;
+
 
 { TFilledFigure }
 

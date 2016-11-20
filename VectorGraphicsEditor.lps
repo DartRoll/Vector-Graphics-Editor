@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="54"/>
-        <CursorPos Y="293"/>
+        <TopLine Value="186"/>
+        <CursorPos X="45" Y="58"/>
         <ComponentState Value="1"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
@@ -43,10 +43,11 @@
         <Filename Value="ufigures.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UFigures"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="76"/>
-        <CursorPos X="43" Y="114"/>
+        <TopLine Value="43"/>
+        <CursorPos Y="50"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -56,8 +57,8 @@
         <UnitName Value="UTools"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="133"/>
-        <CursorPos X="77" Y="145"/>
+        <TopLine Value="162"/>
+        <CursorPos X="3" Y="165"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -66,19 +67,18 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="UTransform"/>
         <WindowIndex Value="1"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="168"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="uparameters.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UParameters"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="28"/>
-        <CursorPos X="21" Y="58"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="4"/>
+        <CursorPos Y="45"/>
+        <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -300,7 +300,7 @@
         <UsageCount Value="9"/>
       </Unit35>
     </Units>
-    <JumpHistory Count="23" HistoryIndex="22">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="ufigures.pas"/>
         <Caret Line="145" TopLine="133"/>
@@ -393,6 +393,34 @@
         <Filename Value="utools.pas"/>
         <Caret Line="121" Column="36" TopLine="95"/>
       </Position23>
+      <Position24>
+        <Filename Value="utools.pas"/>
+        <Caret Line="145" Column="77" TopLine="133"/>
+      </Position24>
+      <Position25>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="114" Column="43" TopLine="76"/>
+      </Position25>
+      <Position26>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="87" Column="47" TopLine="41"/>
+      </Position26>
+      <Position27>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="206" TopLine="107"/>
+      </Position27>
+      <Position28>
+        <Filename Value="utools.pas"/>
+        <Caret Line="303" Column="51" TopLine="292"/>
+      </Position28>
+      <Position29>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="149" Column="3" TopLine="94"/>
+      </Position29>
+      <Position30>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="84" Column="5" TopLine="58"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

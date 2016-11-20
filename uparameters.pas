@@ -76,12 +76,12 @@ begin
   with FComponent as TComboBox do begin
     Items.Add('Сплошная');
     Items.Add('Без заливки');
-    Items.Add('bsHorizontal');
-    Items.Add('bsVertical');
-    Items.Add('bsFDiagonal');
-    Items.Add('bsBDiagonal');
-    Items.Add('bsCross');
-    Items.Add('bsDiagCross');
+    Items.Add('Горизонтальная');
+    Items.Add('Вертикальная');
+    Items.Add('Диагональная 1');
+    Items.Add('Диагональная 2');
+    Items.Add('Крестом');
+    Items.Add('Наклонным крестом');
     Font.Size := 10;
     Width := 130;
     ItemIndex := 0;
