@@ -35,12 +35,35 @@ type
 
   { TFillStyleParameter }
 
-  TFillStyleParameter= class(TParameter)
+  TFillStyleParameter = class(TParameter)
     constructor Create(AonChange: TParamChange);
   end;
 
+  { TCornersNumberParameter }
+
+  TCornersNumberParameter = class(TParameter)
+    constructor Create(AonChange: TParamChange);
+  end;
 
 implementation
+
+{ TCornersNumberParameter }
+
+constructor TCornersNumberParameter.Create(AonChange: TParamChange);
+begin
+  Inherited Create;
+  FLabel.Caption := 'Количество углов';
+  FComponent := TSpinEdit.Create(nil);
+  with FComponent as TSpinEdit do begin
+      MaxValue := 15;
+      MinValue := 3;
+      Value := 3;
+      Font.Size := 11;
+      Alignment := taRightJustify;
+      Width := 64;
+      OnChange := AonChange;
+  end;
+end;
 
 { TFillStyleParameter }
 

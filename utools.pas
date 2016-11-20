@@ -116,7 +116,10 @@ type
   { TRegularPolygonTool }
 
   TRegularPolygonTool = class(TFilledFigureTool)
+    FCorners: Integer;
     constructor Create;
+    procedure InitParams; override;
+    procedure ChangeCornersNumber(Sender: TObject);
     procedure MouseDown(AMousePos: TPoint; APenColor, ABrushColor: TColor;
       AButton: TMouseButton); override;
   end;
@@ -142,11 +145,26 @@ begin
   FIcon := 'img/hand.bmp';
 end;
 
+procedure TRegularPolygonTool.InitParams;
+begin
+  Inherited;
+  AddParam(TCornersNumberParameter.Create(@ChangeCornersNumber));
+  FCorners := 3;
+end;
+
+procedure TRegularPolygonTool.ChangeCornersNumber(Sender: TObject);
+begin
+  with Sender as TSpinEdit do begin
+    FCorners := Value;
+  end;
+end;
+
 procedure TRegularPolygonTool.MouseDown(AMousePos: TPoint; APenColor,
   ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TRegularPolygon.Create(
-    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth, FBrushStyle, 6);
+    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth,
+    FBrushStyle, FCorners);
 end;
 
 { TFilledFigureTool }
