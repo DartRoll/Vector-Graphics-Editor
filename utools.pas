@@ -185,6 +185,7 @@ end;
 { TFigureTool }
 procedure TFigureTool.InitParams;
 begin
+  {ЭТО ВООБЩЕ ЗАКОННО ДЕЛАТЬ?}
   AddParam(TBorderWidthParameter.Create(@ChangeLineWidth));
   AddParam(TBorderStyleParameter.Create(@ChangeLineStyle));
   FLineWidth := 3;

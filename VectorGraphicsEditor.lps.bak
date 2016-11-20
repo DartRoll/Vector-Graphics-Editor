@@ -20,10 +20,11 @@
         <ComponentName Value="VectorEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="186"/>
-        <CursorPos X="45" Y="58"/>
+        <TopLine Value="189"/>
+        <CursorPos X="5" Y="218"/>
         <ComponentState Value="1"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
@@ -43,11 +44,10 @@
         <Filename Value="ufigures.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UFigures"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="43"/>
-        <CursorPos Y="50"/>
+        <TopLine Value="163"/>
+        <CursorPos Y="189"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -57,8 +57,8 @@
         <UnitName Value="UTools"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="162"/>
-        <CursorPos X="3" Y="165"/>
+        <TopLine Value="148"/>
+        <CursorPos X="42" Y="184"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -67,7 +67,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="UTransform"/>
         <WindowIndex Value="1"/>
-        <UsageCount Value="168"/>
+        <TopLine Value="215"/>
+        <CursorPos Y="224"/>
+        <UsageCount Value="171"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
@@ -76,9 +78,9 @@
         <UnitName Value="UParameters"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="4"/>
+        <TopLine Value="7"/>
         <CursorPos Y="45"/>
-        <UsageCount Value="35"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -86,7 +88,7 @@
         <ComponentName Value="aboutform"/>
         <ResourceBaseClass Value="Form"/>
         <CursorPos X="27" Y="30"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit7>
       <Unit8>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
@@ -109,21 +111,21 @@
         <Filename Value="C:\lazarus\lcl\include\brush.inc"/>
         <WindowIndex Value="1"/>
         <CursorPos Y="37"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:\lazarus\lcl\include\graphiccontrol.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="31"/>
         <CursorPos Y="66"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit11>
       <Unit12>
         <Filename Value="C:\lazarus\lcl\include\paintbox.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="2"/>
         <CursorPos Y="47"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit12>
       <Unit13>
         <Filename Value="C:\lazarus\lcl\include\winapi.inc"/>
@@ -131,7 +133,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="585"/>
         <CursorPos Y="611"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit13>
       <Unit14>
         <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\inc\objpash.inc"/>
@@ -139,21 +141,21 @@
         <WindowIndex Value="1"/>
         <TopLine Value="167"/>
         <CursorPos X="23" Y="193"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:\lazarus\lcl\include\fpimagebitmap.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="130"/>
         <CursorPos Y="141"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:\lazarus\lcl\include\speedbutton.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="915"/>
         <CursorPos Y="941"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus\lcl\lcltype.pp"/>
@@ -161,20 +163,20 @@
         <WindowIndex Value="1"/>
         <TopLine Value="1367"/>
         <CursorPos Y="1393"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32winapi.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="1905"/>
         <CursorPos Y="1931"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit18>
       <Unit19>
         <Filename Value="VectorGraphicsEditor.lpi"/>
         <WindowIndex Value="1"/>
         <TopLine Value="34"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit19>
       <Unit20>
@@ -183,14 +185,14 @@
         <WindowIndex Value="1"/>
         <TopLine Value="2583"/>
         <CursorPos Y="2610"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit20>
       <Unit21>
         <Filename Value="C:\lazarus\lcl\include\canvas.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="979"/>
         <CursorPos Y="1005"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit21>
       <Unit22>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
@@ -198,19 +200,19 @@
         <WindowIndex Value="1"/>
         <TopLine Value="4000"/>
         <CursorPos Y="4044"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit22>
       <Unit23>
         <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\objpas\classes\classesh.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="2030"/>
         <CursorPos X="10" Y="2056"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit23>
       <Unit24>
         <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\objpas\classes\classes.inc"/>
         <WindowIndex Value="1"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit24>
       <Unit25>
         <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
@@ -249,38 +251,39 @@
         <Filename Value="C:\lazarus\lcl\include\scrollbar.inc"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="81"/>
-        <CursorPos Y="98"/>
-        <UsageCount Value="7"/>
+        <TopLine Value="85"/>
+        <CursorPos Y="130"/>
+        <UsageCount Value="10"/>
       </Unit29>
       <Unit30>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32wsstdctrls.pp"/>
         <UnitName Value="Win32WSStdCtrls"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="443"/>
         <CursorPos Y="469"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="10"/>
       </Unit30>
       <Unit31>
         <Filename Value="C:\lazarus\lcl\include\customcontrol.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="80"/>
         <CursorPos X="39" Y="94"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit31>
       <Unit32>
         <Filename Value="C:\LANG\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\sysutilh.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="264"/>
         <CursorPos X="13" Y="290"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit32>
       <Unit33>
         <Filename Value="C:\LANG\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\sysutils.inc"/>
         <WindowIndex Value="1"/>
         <TopLine Value="147"/>
         <CursorPos X="9" Y="151"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit33>
       <Unit34>
         <Filename Value="C:\lazarus\lcl\include\customlabel.inc"/>
@@ -288,7 +291,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="162"/>
         <CursorPos Y="200"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit34>
       <Unit35>
         <Filename Value="C:\lazarus\lcl\lclclasses.pp"/>
@@ -297,129 +300,129 @@
         <WindowIndex Value="1"/>
         <TopLine Value="110"/>
         <CursorPos Y="140"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit35>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="145" TopLine="133"/>
+        <Filename Value="utransform.pas"/>
+        <Caret Line="223" TopLine="215"/>
       </Position1>
       <Position2>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="142" TopLine="133"/>
+        <Filename Value="utransform.pas"/>
+        <Caret Line="224" TopLine="215"/>
       </Position2>
       <Position3>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="143" TopLine="133"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="175" TopLine="163"/>
       </Position3>
       <Position4>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="144" TopLine="133"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="187" TopLine="163"/>
       </Position4>
       <Position5>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="145" TopLine="133"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="362" TopLine="336"/>
       </Position5>
       <Position6>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="161" TopLine="133"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="363" TopLine="336"/>
       </Position6>
       <Position7>
-        <Filename Value="utransform.pas"/>
-        <Caret Line="151" TopLine="125"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="364" TopLine="336"/>
       </Position7>
       <Position8>
-        <Filename Value="utransform.pas"/>
-        <Caret Line="152" TopLine="125"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="365" TopLine="336"/>
       </Position8>
       <Position9>
-        <Filename Value="utransform.pas"/>
-        <Caret Line="151" TopLine="125"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="367" TopLine="336"/>
       </Position9>
       <Position10>
-        <Filename Value="utransform.pas"/>
-        <Caret Line="153" TopLine="125"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="368" TopLine="336"/>
       </Position10>
       <Position11>
-        <Filename Value="utransform.pas"/>
-        <Caret Line="155" TopLine="125"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="369" TopLine="336"/>
       </Position11>
       <Position12>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="162" TopLine="133"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="352" TopLine="336"/>
       </Position12>
       <Position13>
         <Filename Value="ufigures.pas"/>
-        <Caret Line="127" TopLine="101"/>
+        <Caret Line="250" Column="61" TopLine="227"/>
       </Position13>
       <Position14>
         <Filename Value="ufigures.pas"/>
-        <Caret Line="128" TopLine="101"/>
+        <Caret Line="194" TopLine="172"/>
       </Position14>
       <Position15>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="129" TopLine="101"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="342" Column="60" TopLine="231"/>
       </Position15>
       <Position16>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="98" TopLine="72"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="170" TopLine="152"/>
       </Position16>
       <Position17>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="99" TopLine="72"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="179" Column="26" TopLine="153"/>
       </Position17>
       <Position18>
-        <Filename Value="utools.pas"/>
-        <Caret Line="151" TopLine="125"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="165" Column="80" TopLine="153"/>
       </Position18>
       <Position19>
         <Filename Value="main.pas"/>
-        <Caret Line="293" TopLine="267"/>
+        <Caret Line="279" TopLine="227"/>
       </Position19>
       <Position20>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="109" Column="87" TopLine="72"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="176" Column="48" TopLine="144"/>
       </Position20>
       <Position21>
-        <Filename Value="uparameters.pas"/>
-        <Caret Line="45" Column="17" TopLine="10"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="181" Column="7" TopLine="150"/>
       </Position21>
       <Position22>
-        <Filename Value="utools.pas"/>
-        <Caret Line="314" Column="3" TopLine="261"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="182" Column="7" TopLine="150"/>
       </Position22>
       <Position23>
-        <Filename Value="utools.pas"/>
-        <Caret Line="121" Column="36" TopLine="95"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="183" Column="7" TopLine="150"/>
       </Position23>
       <Position24>
-        <Filename Value="utools.pas"/>
-        <Caret Line="145" Column="77" TopLine="133"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="184" Column="25" TopLine="150"/>
       </Position24>
       <Position25>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="114" Column="43" TopLine="76"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="185" Column="20" TopLine="150"/>
       </Position25>
       <Position26>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="87" Column="47" TopLine="41"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="186" Column="7" TopLine="150"/>
       </Position26>
       <Position27>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="206" TopLine="107"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="187" Column="35" TopLine="150"/>
       </Position27>
       <Position28>
-        <Filename Value="utools.pas"/>
-        <Caret Line="303" Column="51" TopLine="292"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="188" Column="35" TopLine="150"/>
       </Position28>
       <Position29>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="149" Column="3" TopLine="94"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="189" Column="70" TopLine="150"/>
       </Position29>
       <Position30>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="84" Column="5" TopLine="58"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="207" Column="54" TopLine="155"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

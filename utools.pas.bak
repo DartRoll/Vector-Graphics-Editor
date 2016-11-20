@@ -142,7 +142,7 @@ end;
 constructor TRegularPolygonTool.Create;
 begin
   Inherited;
-  FIcon := 'img/hand.bmp';
+  FIcon := 'img/polygon.bmp';
 end;
 
 procedure TRegularPolygonTool.InitParams;

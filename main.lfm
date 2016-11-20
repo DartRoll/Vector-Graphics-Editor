@@ -4,8 +4,8 @@ object VectorEditor: TVectorEditor
   Top = 112
   Width = 949
   Caption = 'VectorEditor'
-  ClientHeight = 752
-  ClientWidth = 949
+  ClientHeight = 0
+  ClientWidth = 0
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -19,9 +19,9 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = DebugPanel
     Left = 145
-    Height = 584
+    Height = 0
     Top = 84
-    Width = 784
+    Width = 0
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
@@ -35,12 +35,12 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 752
+    Height = 0
     Top = 0
     Width = 145
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 752
+    ClientHeight = 0
     ClientWidth = 145
     Color = 16119285
     ParentColor = False
@@ -109,7 +109,7 @@ object VectorEditor: TVectorEditor
       AnchorSideBottom.Control = ToolPanel
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 724
+      Height = 0
       Top = 28
       Width = 145
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -143,8 +143,8 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Side = asrBottom
     Left = 145
     Height = 20
-    Top = 732
-    Width = 784
+    Top = -20
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 1
@@ -159,8 +159,8 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = 929
-    Height = 732
+    Left = -20
+    Height = 0
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
@@ -178,11 +178,11 @@ object VectorEditor: TVectorEditor
     AnchorSideBottom.Control = HorizontalScrollBar
     Left = 145
     Height = 64
-    Top = 668
-    Width = 784
+    Top = -84
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     ClientHeight = 64
-    ClientWidth = 784
+    ClientWidth = 0
     ParentColor = False
     TabOrder = 3
     Visible = False
@@ -324,10 +324,10 @@ object VectorEditor: TVectorEditor
     Left = 145
     Height = 84
     Top = 0
-    Width = 784
+    Width = 0
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 84
-    ClientWidth = 784
+    ClientWidth = 0
     ParentColor = False
     TabOrder = 4
     object PaletteGrid: TDrawGrid

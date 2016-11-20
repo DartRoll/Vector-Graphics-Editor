@@ -29,8 +29,8 @@ type
   end;
 
   TDimensions = record
-    Height: Double;
-    Width: Double;
+    Height: Integer;
+    Width: Integer;
   end;
 
   TArrayOfTpoint = array of TPoint;
@@ -67,7 +67,7 @@ procedure IncreaseScale;
 procedure DecreaseScale;
 function GetDispDimensions: TDimensions;
 procedure SetDispDimensions(ADispDimensions: TDimensions);
-function Dimensions(AWidth, AHeight: Double): TDimensions;
+function Dimensions(AWidth, AHeight: Integer): TDimensions;
 
 property Scale: Double read GetScale write SetScale;
 property DispDimensions: TDimensions
@@ -185,7 +185,7 @@ begin
   FDispDimensions := ADispDimensions;
 end;
 
-function Dimensions(AWidth, AHeight: Double): TDimensions;
+function Dimensions(AWidth, AHeight: Integer): TDimensions;
 begin
   with Result do begin
     Width := AWidth;
