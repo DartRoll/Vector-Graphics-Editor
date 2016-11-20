@@ -192,12 +192,12 @@ begin
 
 procedure TVectorEditor.HorizontalScrollBarChange(Sender: TObject);
 begin
-  {with Sender as TScrollBar do begin
+  with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
       Position := Max - PageSize;
       Exit;
     end;
-  end;}
+  end;
 
   with Sender as TScrollBar do
     SetCanvasOffset(Position, GetCanvasOffset.Y);
@@ -207,15 +207,15 @@ end;
 
 procedure TVectorEditor.VerticalScrollBarChange(Sender: TObject);
 begin
-  {with Sender as TScrollBar do begin
+  with Sender as TScrollBar do begin
     if Position > Max - PageSize then begin
       Position := Max - PageSize;
       Exit;
     end;
-  end;}
+  end;
   with Sender as TScrollBar do
     SetCanvasOffset(GetCanvasOffset.X, Position);
-  ChangeBars := False;
+  //ChangeBars := False;
   PaintBox.Invalidate;
 end;
 

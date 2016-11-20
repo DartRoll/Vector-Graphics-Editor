@@ -104,12 +104,10 @@ implementation
 var
   PenColor: TColor = clBlack;
   BrushColor: TColor = clBlue;
-  LineWidth: Integer = 2;
   isDrawing: Boolean = False;
   ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
-  ChangeBars: Boolean = True;
   CurrentTool: TTool;
 
 { TVectorEditor }
