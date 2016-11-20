@@ -119,6 +119,7 @@ begin
       MinValue := 1;
       Value := 3;
       Font.Size := 11;
+      Alignment := taRightJustify;
       Width := 64;
       OnChange := AonChange;
   end;

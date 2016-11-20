@@ -18,6 +18,7 @@ type
     ImageBoundsX: TLabel;
     ImageBoundsY: TLabel;
     ColorPanel: TPanel;
+    ToolButtonPanel: TPanel;
     ParamPanel: TPanel;
     ScrollbarMinLabel: TLabel;
     ScrollbarMaxLabel: TLabel;
@@ -32,7 +33,7 @@ type
     OffsetLabel: TLabel;
     OffsetYLabel: TLabel;
     OffsetXLabel: TLabel;
-    Label10: TLabel;
+    PercentLabel: TLabel;
     DebugPanel: TPanel;
     ScaleLabel: TLabel;
     ShowEverythingMenuItem: TMenuItem;
@@ -237,7 +238,7 @@ begin
       GroupIndex := 1;
       OnClick := @ToolClick;
       if i = 0 then Down := True;
-      Parent := ToolPanel;
+      Parent := ToolButtonPanel;
     end;
   end;
 end;

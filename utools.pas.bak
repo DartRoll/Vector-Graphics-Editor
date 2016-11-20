@@ -146,7 +146,7 @@ procedure TRegularPolygonTool.MouseDown(AMousePos: TPoint; APenColor,
   ABrushColor: TColor; AButton: TMouseButton);
 begin
   FFigure := TRegularPolygon.Create(
-    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth, FBrushStyle, 4);
+    DispToWorldCoord(AMousePos), APenColor, ABrushColor, FLineStyle, FLineWidth, FBrushStyle, 6);
 end;
 
 { TFilledFigureTool }
@@ -154,16 +154,7 @@ end;
 procedure TFilledFigureTool.ChangeBrushStyle(Sender: TObject);
 begin
   with Sender as TComboBox do begin
-    case ItemIndex of
-      0: FBrushStyle := bsSolid;
-      1: FBrushStyle := bsClear;
-      2: FBrushStyle := bsHorizontal;
-      3: FBrushStyle := bsVertical;
-      4: FBrushStyle := bsFDiagonal;
-      5: FBrushStyle := bsBDiagonal;
-      6: FBrushStyle := bsCross;
-      7: FBrushStyle := bsDiagCross;
-    end;
+    FBrushStyle := TFPBrushStyle(ItemIndex);
   end;
 end;
 
@@ -189,13 +180,7 @@ end;
 procedure TFigureTool.ChangeLineStyle(Sender: TObject);
 begin
   with Sender as TComboBox do begin
-    case ItemIndex of
-      0: FLineStyle := psSolid;
-      1: FLineStyle := psDash;
-      2: FLineStyle := psDot;
-      3: FLineStyle := psDashDot;
-      4: FLineStyle := psDashDotDot;
-    end;
+    FLineStyle := TFPPenStyle(ItemIndex);
   end;
 end;
 
@@ -297,6 +282,7 @@ begin
   for i := 0 to High(Params) do begin
       with Params[i] do begin
         FLabel.Top := i * 50;
+        FLabel.Left := 2;
         FLabel.Parent := FPanel;
         FComponent.Top := i * 50 + FLabel.ClientHeight + 5;
         FComponent.Left := FPanel.ClientWidth - FComponent.ClientWidth;
@@ -315,7 +301,7 @@ begin
   FPanel := APanel;
   InitParams;
   ShowParams;
-  APanel.Invalidate;
+  //APanel.Invalidate;
 end;
 
 function TTool.GetFigure: TFigure;

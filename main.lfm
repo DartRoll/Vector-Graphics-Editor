@@ -1,11 +1,11 @@
 object VectorEditor: TVectorEditor
-  Left = 634
+  Left = 691
   Height = 772
-  Top = 176
+  Top = 193
   Width = 949
   Caption = 'VectorEditor'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 752
+  ClientWidth = 949
   Color = clWhite
   KeyPreview = True
   Menu = MainMenu
@@ -18,10 +18,10 @@ object VectorEditor: TVectorEditor
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = DebugPanel
-    Left = 144
-    Height = 0
+    Left = 145
+    Height = 584
     Top = 84
-    Width = 0
+    Width = 784
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     ParentColor = False
@@ -35,25 +35,29 @@ object VectorEditor: TVectorEditor
   end
   object ToolPanel: TPanel
     Left = 0
-    Height = 0
+    Height = 752
     Top = 0
-    Width = 144
+    Width = 145
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 0
-    ClientWidth = 144
+    ClientHeight = 752
+    ClientWidth = 145
     Color = 16119285
     ParentColor = False
     TabOrder = 0
     object ScaleFloatSpinEdit: TFloatSpinEdit
-      Left = 64
+      AnchorSideTop.Control = ToolButtonPanel
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = ToolButtonPanel
+      AnchorSideRight.Side = asrBottom
+      Left = 72
       Height = 28
-      Top = 200
-      Width = 64
+      Top = 0
+      Width = 73
       Alignment = taRightJustify
+      Anchors = [akTop, akRight]
       AutoSelect = False
-      AutoSize = False
-      Font.Height = -13
+      Font.Height = -15
       Increment = 10
       MaxValue = 1600
       MinValue = 6.25
@@ -64,27 +68,33 @@ object VectorEditor: TVectorEditor
       Value = 100
     end
     object ScaleLabel: TLabel
+      AnchorSideTop.Control = ToolButtonPanel
+      AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = ScaleFloatSpinEdit
-      Left = 0
+      Left = -8
       Height = 20
-      Top = 200
-      Width = 64
+      Top = 3
+      Width = 72
       Alignment = taRightJustify
-      Anchors = [akTop, akLeft, akRight]
       AutoSize = False
+      BorderSpacing.Top = 3
       Caption = 'Масштаб'
       Font.Height = -15
       ParentColor = False
       ParentFont = False
     end
-    object Label10: TLabel
+    object PercentLabel: TLabel
       AnchorSideLeft.Control = ScaleFloatSpinEdit
       AnchorSideLeft.Side = asrBottom
-      Left = 128
+      AnchorSideTop.Control = ToolButtonPanel
+      AnchorSideTop.Side = asrBottom
+      Left = 146
       Height = 16
-      Top = 204
+      Top = 3
       Width = 18
       AutoSize = False
+      BorderSpacing.Left = 1
+      BorderSpacing.Top = 3
       Caption = '%'
       Font.Height = -15
       ParentColor = False
@@ -92,21 +102,37 @@ object VectorEditor: TVectorEditor
     end
     object ParamPanel: TPanel
       AnchorSideLeft.Control = ToolPanel
-      AnchorSideTop.Control = ToolPanel
-      AnchorSideTop.Side = asrCenter
+      AnchorSideTop.Control = ScaleFloatSpinEdit
+      AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = ToolPanel
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = ToolPanel
       AnchorSideBottom.Side = asrBottom
       Left = 0
-      Height = 375
-      Top = -375
-      Width = 144
-      Anchors = [akLeft, akRight, akBottom]
+      Height = 724
+      Top = 28
+      Width = 145
+      Anchors = [akTop, akLeft, akRight, akBottom]
       BevelOuter = bvNone
-      Color = 14408667
+      Color = 16119285
       ParentColor = False
       TabOrder = 1
+    end
+    object ToolButtonPanel: TPanel
+      AnchorSideLeft.Control = ToolPanel
+      AnchorSideTop.Control = ToolPanel
+      AnchorSideRight.Control = ToolPanel
+      AnchorSideRight.Side = asrBottom
+      Left = 0
+      Height = 0
+      Top = 0
+      Width = 145
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BevelOuter = bvNone
+      Color = 16119285
+      ParentColor = False
+      TabOrder = 2
     end
   end
   object HorizontalScrollBar: TScrollBar
@@ -115,10 +141,10 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 144
+    Left = 145
     Height = 20
-    Top = -20
-    Width = 0
+    Top = 732
+    Width = 784
     Anchors = [akLeft, akRight, akBottom]
     Max = 0
     PageSize = 1
@@ -133,8 +159,8 @@ object VectorEditor: TVectorEditor
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = -20
-    Height = 0
+    Left = 929
+    Height = 732
     Top = 0
     Width = 20
     Anchors = [akTop, akRight, akBottom]
@@ -150,13 +176,13 @@ object VectorEditor: TVectorEditor
     AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = VerticalScrollBar
     AnchorSideBottom.Control = HorizontalScrollBar
-    Left = 144
+    Left = 145
     Height = 64
-    Top = -84
-    Width = 0
+    Top = 668
+    Width = 784
     Anchors = [akLeft, akRight, akBottom]
     ClientHeight = 64
-    ClientWidth = 0
+    ClientWidth = 784
     ParentColor = False
     TabOrder = 3
     Visible = False
@@ -233,7 +259,7 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
     object ImageBoundsLabel: TLabel
-      Left = -50
+      Left = -51
       Height = 15
       Top = 1
       Width = 101
@@ -295,13 +321,13 @@ object VectorEditor: TVectorEditor
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = VerticalScrollBar
-    Left = 144
+    Left = 145
     Height = 84
     Top = 0
-    Width = 0
+    Width = 784
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 84
-    ClientWidth = 0
+    ClientWidth = 784
     ParentColor = False
     TabOrder = 4
     object PaletteGrid: TDrawGrid
