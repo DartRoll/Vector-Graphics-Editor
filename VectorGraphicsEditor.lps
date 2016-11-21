@@ -22,7 +22,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="400"/>
+        <TopLine Value="399"/>
         <CursorPos Y="366"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
@@ -44,7 +44,7 @@
         <UnitName Value="UFigures"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="216"/>
+        <TopLine Value="149"/>
         <CursorPos X="5" Y="133"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -53,10 +53,11 @@
         <Filename Value="utools.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UTools"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="194"/>
-        <CursorPos X="57" Y="189"/>
+        <TopLine Value="85"/>
+        <CursorPos X="57" Y="7"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -74,11 +75,10 @@
         <Filename Value="uparameters.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UParameters"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="1"/>
         <TopLine Value="85"/>
-        <CursorPos Y="140"/>
+        <CursorPos X="45" Y="106"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit6>
