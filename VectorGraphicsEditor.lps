@@ -3,12 +3,12 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="9"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Default"/>
     <Units Count="36">
       <Unit0>
         <Filename Value="VectorGraphicsEditor.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="1"/>
         <CursorPos X="29" Y="10"/>
         <UsageCount Value="202"/>
@@ -23,8 +23,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="194"/>
-        <CursorPos Y="220"/>
+        <TopLine Value="261"/>
+        <CursorPos Y="282"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -45,8 +45,8 @@
         <UnitName Value="UFigures"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="163"/>
-        <CursorPos Y="189"/>
+        <TopLine Value="102"/>
+        <CursorPos X="23" Y="102"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -54,10 +54,10 @@
         <Filename Value="utools.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UTools"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="148"/>
-        <CursorPos X="42" Y="184"/>
+        <TopLine Value="185"/>
+        <CursorPos X="57" Y="189"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -68,18 +68,18 @@
         <WindowIndex Value="1"/>
         <TopLine Value="215"/>
         <CursorPos Y="224"/>
-        <UsageCount Value="171"/>
+        <UsageCount Value="173"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="uparameters.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="UParameters"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="7"/>
-        <CursorPos Y="45"/>
-        <UsageCount Value="38"/>
+        <TopLine Value="115"/>
+        <CursorPos Y="140"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -304,124 +304,124 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="utransform.pas"/>
-        <Caret Line="224" TopLine="215"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="367" TopLine="336"/>
       </Position1>
       <Position2>
         <Filename Value="main.pas"/>
-        <Caret Line="175" TopLine="163"/>
+        <Caret Line="368" TopLine="336"/>
       </Position2>
       <Position3>
         <Filename Value="main.pas"/>
-        <Caret Line="187" TopLine="163"/>
+        <Caret Line="369" TopLine="336"/>
       </Position3>
       <Position4>
         <Filename Value="main.pas"/>
-        <Caret Line="362" TopLine="336"/>
+        <Caret Line="352" TopLine="336"/>
       </Position4>
       <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="363" TopLine="336"/>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="250" Column="61" TopLine="227"/>
       </Position5>
       <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="364" TopLine="336"/>
+        <Filename Value="ufigures.pas"/>
+        <Caret Line="194" TopLine="172"/>
       </Position6>
       <Position7>
         <Filename Value="main.pas"/>
-        <Caret Line="365" TopLine="336"/>
+        <Caret Line="342" Column="60" TopLine="231"/>
       </Position7>
       <Position8>
         <Filename Value="main.pas"/>
-        <Caret Line="367" TopLine="336"/>
+        <Caret Line="170" TopLine="152"/>
       </Position8>
       <Position9>
         <Filename Value="main.pas"/>
-        <Caret Line="368" TopLine="336"/>
+        <Caret Line="179" Column="26" TopLine="153"/>
       </Position9>
       <Position10>
         <Filename Value="main.pas"/>
-        <Caret Line="369" TopLine="336"/>
+        <Caret Line="165" Column="80" TopLine="153"/>
       </Position10>
       <Position11>
         <Filename Value="main.pas"/>
-        <Caret Line="352" TopLine="336"/>
+        <Caret Line="279" TopLine="227"/>
       </Position11>
       <Position12>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="250" Column="61" TopLine="227"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="176" Column="48" TopLine="144"/>
       </Position12>
       <Position13>
-        <Filename Value="ufigures.pas"/>
-        <Caret Line="194" TopLine="172"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="181" Column="7" TopLine="150"/>
       </Position13>
       <Position14>
         <Filename Value="main.pas"/>
-        <Caret Line="342" Column="60" TopLine="231"/>
+        <Caret Line="182" Column="7" TopLine="150"/>
       </Position14>
       <Position15>
         <Filename Value="main.pas"/>
-        <Caret Line="170" TopLine="152"/>
+        <Caret Line="183" Column="7" TopLine="150"/>
       </Position15>
       <Position16>
         <Filename Value="main.pas"/>
-        <Caret Line="179" Column="26" TopLine="153"/>
+        <Caret Line="184" Column="25" TopLine="150"/>
       </Position16>
       <Position17>
         <Filename Value="main.pas"/>
-        <Caret Line="165" Column="80" TopLine="153"/>
+        <Caret Line="185" Column="20" TopLine="150"/>
       </Position17>
       <Position18>
         <Filename Value="main.pas"/>
-        <Caret Line="279" TopLine="227"/>
+        <Caret Line="186" Column="7" TopLine="150"/>
       </Position18>
       <Position19>
         <Filename Value="main.pas"/>
-        <Caret Line="176" Column="48" TopLine="144"/>
+        <Caret Line="187" Column="35" TopLine="150"/>
       </Position19>
       <Position20>
         <Filename Value="main.pas"/>
-        <Caret Line="181" Column="7" TopLine="150"/>
+        <Caret Line="188" Column="35" TopLine="150"/>
       </Position20>
       <Position21>
         <Filename Value="main.pas"/>
-        <Caret Line="182" Column="7" TopLine="150"/>
+        <Caret Line="189" Column="70" TopLine="150"/>
       </Position21>
       <Position22>
         <Filename Value="main.pas"/>
-        <Caret Line="183" Column="7" TopLine="150"/>
+        <Caret Line="207" Column="54" TopLine="155"/>
       </Position22>
       <Position23>
         <Filename Value="main.pas"/>
-        <Caret Line="184" Column="25" TopLine="150"/>
+        <Caret Line="192" Column="50" TopLine="189"/>
       </Position23>
       <Position24>
-        <Filename Value="main.pas"/>
-        <Caret Line="185" Column="20" TopLine="150"/>
+        <Filename Value="uparameters.pas"/>
+        <Caret Line="27" Column="33" TopLine="12"/>
       </Position24>
       <Position25>
-        <Filename Value="main.pas"/>
-        <Caret Line="186" Column="7" TopLine="150"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="350" Column="13" TopLine="350"/>
       </Position25>
       <Position26>
-        <Filename Value="main.pas"/>
-        <Caret Line="187" Column="35" TopLine="150"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="302" Column="39" TopLine="297"/>
       </Position26>
       <Position27>
-        <Filename Value="main.pas"/>
-        <Caret Line="188" Column="35" TopLine="150"/>
+        <Filename Value="utools.pas"/>
+        <Caret Line="189" Column="57" TopLine="178"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="189" Column="70" TopLine="150"/>
+        <Caret Line="203" Column="47" TopLine="195"/>
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="207" Column="54" TopLine="155"/>
+        <Caret Line="180" Column="60" TopLine="171"/>
       </Position29>
       <Position30>
         <Filename Value="main.pas"/>
-        <Caret Line="192" Column="50" TopLine="189"/>
+        <Caret Line="178" Column="26" TopLine="171"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

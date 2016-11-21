@@ -199,7 +199,6 @@ begin
 
   with Sender as TScrollBar do
     SetCanvasOffset(Position, GetCanvasOffset.Y);
-  //ChangeBars := False;
   PaintBox.Invalidate;
 end;
 

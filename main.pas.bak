@@ -104,12 +104,10 @@ implementation
 var
   PenColor: TColor = clBlack;
   BrushColor: TColor = clBlue;
-  LineWidth: Integer = 2;
   isDrawing: Boolean = False;
   ImageBounds: TDoubleRect;
   Figures: array of TFigure;
   PaletteColors: array of array of TColor;
-  ChangeBars: Boolean = True;
   CurrentTool: TTool;
 
 { TVectorEditor }
@@ -201,7 +199,6 @@ begin
 
   with Sender as TScrollBar do
     SetCanvasOffset(Position, GetCanvasOffset.Y);
-  //ChangeBars := False;
   PaintBox.Invalidate;
 end;
 
@@ -282,6 +279,7 @@ procedure TVectorEditor.FormCreate(Sender: TObject);
 var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
+  PaintBox.Canvas.AntialiasingMode := amOn;
   CurrentTool := Tools[0];
   CurrentTool.Init(ParamPanel);
   //Передаём дефолтный параметры представлению
