@@ -89,38 +89,10 @@ type
 
 implementation
 
-{ TRegularPolygon }
+{ Misc }
 
-constructor TRegularPolygon.Create(ADoublePoint: TDoublePoint; APenColor,
-  ABrushColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer;
-  AFillStyle: TFPBrushStyle; ACorners: Integer);
-begin
-  Inherited Create(ADoublePoint, APenColor, ABrushColor, APenStyle, AThickness, AFillStyle);
-  FCorners := ACorners;
-end;
-
-procedure TRegularPolygon.DrawFigure(Canvas: TCanvas);
-var
-  i: Integer;
-  WrldFigureCenter: TDoublePoint;
-  Radius: Double;
-begin
-  WrldFigureCenter := FigureBounds.TopLeft + (FigureBounds.BottomRight - FigureBounds.TopLeft) / 2;
-  Radius := Min(
-    FigureBounds.Right - WrldFigureCenter.x, FigureBounds.Bottom - WrldFigureCenter.Y);
-  { TODO : Улучшить алгоритм }
-  SetLength(Vertexes, FCorners);
-  for i := 0 to FCorners - 1 do begin
-    Vertexes[i].x := WrldFigureCenter.X + (Radius*sin(i * 2 * pi / FCorners));
-    Vertexes[i].y := WrldFigureCenter.Y + (Radius*cos(i * 2 * pi / FCorners));
-  end;
-  //Canvas.Rectangle(WorldToDispCoord(FigureBounds));
-  Canvas.Polygon(WorldVertexesToDispCoord(Vertexes));
-
-end;
-
-function TRegularPolygon.GetBounds: TDoubleRect;
-var
+function GetVertexesBound(Vertexes: array of TDoublePoint): TDoubleRect;
+  var
   i: Integer;
   LeftX, RightX, TopY, BottomY: Double;
 begin
@@ -139,6 +111,43 @@ begin
     end;
   end;
   Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+end;
+
+{ TRegularPolygon }
+
+constructor TRegularPolygon.Create(ADoublePoint: TDoublePoint; APenColor,
+  ABrushColor: TColor; APenStyle: TFPPenStyle; AThickness: Integer;
+  AFillStyle: TFPBrushStyle; ACorners: Integer);
+begin
+  Inherited Create(ADoublePoint, APenColor, ABrushColor, APenStyle, AThickness, AFillStyle);
+  FCorners := ACorners;
+end;
+
+procedure TRegularPolygon.DrawFigure(Canvas: TCanvas);
+var
+  i: Integer;
+  WrldFigureCenter: TDoublePoint;
+  Radius: Double;
+  SinCorner: TDoublePoint;
+  SincornerD: Double;
+begin
+  WrldFigureCenter := FigureBounds.TopLeft;
+  Radius := sqrt((FigureBounds.Right - FigureBounds.Left)**2 + (FigureBounds.Bottom - FigureBounds.Top)**2);
+  { TODO : Улучшить алгоритм }
+  SetLength(Vertexes, FCorners);
+  //Vertexes[0] := FigureBounds.BottomRight;
+  for i := 0 to FCorners - 1 do begin
+    Vertexes[i].x := WrldFigureCenter.X + Radius * sin((i * 2 * pi / FCorners) + что=то);
+    Vertexes[i].y := WrldFigureCenter.Y + Radius * cos(i * 2 * pi / FCorners);
+  end;
+  //Canvas.Rectangle(WorldToDispCoord(FigureBounds));
+  Canvas.Polygon(WorldVertexesToDispCoord(Vertexes));
+
+end;
+
+function TRegularPolygon.GetBounds: TDoubleRect;
+begin
+  Result := GetVertexesBound(Vertexes);
 end;
 
 
@@ -221,25 +230,8 @@ begin
 end;
 
 function TPolyline.GetBounds: TDoubleRect;
-var
-  i: Integer;
-  LeftX, RightX, TopY, BottomY: Double;
 begin
-  with Vertexes[0] do begin
-    LeftX := X;
-    RightX := X;
-    TopY := Y;
-    BottomY := Y;
-  end;
-  for i := 1 to High(Vertexes) do begin
-    with Vertexes[i] do begin
-      TopY := Min(TopY, y);
-      LeftX := Min(LeftX, X);
-      BottomY := Max(BottomY, Y);
-      RightX := Max(RightX, X);
-    end;
-  end;
-  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+  Result := GetVertexesBound(Vertexes);
 end;
 
 { TRectangle }
