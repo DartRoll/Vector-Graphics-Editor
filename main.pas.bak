@@ -279,6 +279,7 @@ procedure TVectorEditor.FormCreate(Sender: TObject);
 var
   BtnWidth, BtnHeight, ColsCount: Integer;
 begin
+  PaintBox.Canvas.AntialiasingMode := amOn;
   CurrentTool := Tools[0];
   CurrentTool.Init(ParamPanel);
   //Передаём дефолтный параметры представлению
