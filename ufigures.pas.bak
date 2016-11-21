@@ -138,9 +138,7 @@ begin
     Vertexes[i].x := WrldFigureCenter.X + (Radius*sin(i * 2 * pi / FCorners));
     Vertexes[i].y := WrldFigureCenter.Y + (Radius*cos(i * 2 * pi / FCorners));
   end;
-  //Canvas.Rectangle(WorldToDispCoord(FigureBounds));
   Canvas.Polygon(WorldVertexesToDispCoord(Vertexes));
-
 end;
 
 function TRegularPolygon.GetBounds: TDoubleRect;
@@ -228,25 +226,8 @@ begin
 end;
 
 function TPolyline.GetBounds: TDoubleRect;
-var
-  i: Integer;
-  LeftX, RightX, TopY, BottomY: Double;
 begin
-  with Vertexes[0] do begin
-    LeftX := X;
-    RightX := X;
-    TopY := Y;
-    BottomY := Y;
-  end;
-  for i := 1 to High(Vertexes) do begin
-    with Vertexes[i] do begin
-      TopY := Min(TopY, y);
-      LeftX := Min(LeftX, X);
-      BottomY := Max(BottomY, Y);
-      RightX := Max(RightX, X);
-    end;
-  end;
-  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+  Result := GetVertexesBound(Vertexes);
 end;
 
 { TRectangle }

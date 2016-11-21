@@ -259,7 +259,7 @@ object VectorEditor: TVectorEditor
       ParentColor = False
     end
     object ImageBoundsLabel: TLabel
-      Left = -51
+      Left = -50
       Height = 15
       Top = 1
       Width = 101

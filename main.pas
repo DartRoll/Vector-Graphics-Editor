@@ -312,7 +312,6 @@ begin
   {DEBUG}
   MouseXDspLabel.Caption := 'x: ' + FloatToStr(X);
   MouseYDspLabel.Caption := 'y: ' + FloatToStr(Y);
-
   MouseXWrldLabel.Caption := 'x: ' + FloatToStr(DispToWorldCoord(X,Y).X);
   MouseYWrldLabel.Caption := 'y: ' + FloatToStr(DispToWorldCoord(X,Y).Y);
 end;
@@ -364,7 +363,6 @@ begin
   OffsetYLabel.Caption := 'y: ' + FloatToStr(GetCanvasOffset.Y);
   ImageBoundsX.Caption := 'left: ' + FloatToStr(ImageBounds.Left);
   ImageBoundsY.Caption := 'top: ' + FloatToStr(ImageBounds.Top);
-
   ScrollbarMinLabel.Caption := 'Min: ' + IntToStr(HorizontalScrollBar.Min);
   ScrollbarMaxLabel.Caption := 'Max: ' + IntToStr(HorizontalScrollBar.Max);
   ScrollbarPosLabel.Caption := 'Pos: ' + IntToStr(HorizontalScrollBar.Position);

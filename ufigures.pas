@@ -129,7 +129,8 @@ var
   WrldFigureCenter: TDoublePoint;
   Radius: Double;
 begin
-  WrldFigureCenter := FigureBounds.TopLeft + (FigureBounds.BottomRight - FigureBounds.TopLeft) / 2;
+  WrldFigureCenter := FigureBounds.TopLeft +
+    (FigureBounds.BottomRight - FigureBounds.TopLeft) / 2;
   Radius := Min(
     FigureBounds.Right - WrldFigureCenter.x, FigureBounds.Bottom - WrldFigureCenter.Y);
   { TODO : Улучшить алгоритм }
@@ -138,9 +139,7 @@ begin
     Vertexes[i].x := WrldFigureCenter.X + (Radius*sin(i * 2 * pi / FCorners));
     Vertexes[i].y := WrldFigureCenter.Y + (Radius*cos(i * 2 * pi / FCorners));
   end;
-  //Canvas.Rectangle(WorldToDispCoord(FigureBounds));
   Canvas.Polygon(WorldVertexesToDispCoord(Vertexes));
-
 end;
 
 function TRegularPolygon.GetBounds: TDoubleRect;
