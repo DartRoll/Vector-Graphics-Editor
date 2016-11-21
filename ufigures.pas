@@ -89,6 +89,30 @@ type
 
 implementation
 
+{ Misc }
+
+function GetVertexesBound(Vertexes: array of TDoublePoint): TDoubleRect;
+  var
+  i: Integer;
+  LeftX, RightX, TopY, BottomY: Double;
+begin
+  with Vertexes[0] do begin
+    LeftX := X;
+    RightX := X;
+    TopY := Y;
+    BottomY := Y;
+  end;
+  for i := 1 to High(Vertexes) do begin
+    with Vertexes[i] do begin
+      TopY := Min(TopY, y);
+      LeftX := Min(LeftX, X);
+      BottomY := Max(BottomY, Y);
+      RightX := Max(RightX, X);
+    end;
+  end;
+  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+end;
+
 { TRegularPolygon }
 
 constructor TRegularPolygon.Create(ADoublePoint: TDoublePoint; APenColor,
@@ -120,25 +144,8 @@ begin
 end;
 
 function TRegularPolygon.GetBounds: TDoubleRect;
-var
-  i: Integer;
-  LeftX, RightX, TopY, BottomY: Double;
 begin
-  with Vertexes[0] do begin
-    LeftX := X;
-    RightX := X;
-    TopY := Y;
-    BottomY := Y;
-  end;
-  for i := 1 to High(Vertexes) do begin
-    with Vertexes[i] do begin
-      TopY := Min(TopY, y);
-      LeftX := Min(LeftX, X);
-      BottomY := Max(BottomY, Y);
-      RightX := Max(RightX, X);
-    end;
-  end;
-  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+  Result := GetVertexesBound(Vertexes);
 end;
 
 
@@ -221,25 +228,8 @@ begin
 end;
 
 function TPolyline.GetBounds: TDoubleRect;
-var
-  i: Integer;
-  LeftX, RightX, TopY, BottomY: Double;
 begin
-  with Vertexes[0] do begin
-    LeftX := X;
-    RightX := X;
-    TopY := Y;
-    BottomY := Y;
-  end;
-  for i := 1 to High(Vertexes) do begin
-    with Vertexes[i] do begin
-      TopY := Min(TopY, y);
-      LeftX := Min(LeftX, X);
-      BottomY := Max(BottomY, Y);
-      RightX := Max(RightX, X);
-    end;
-  end;
-  Result := DoubleRect(LeftX, TopY, RightX, BottomY);
+  Result := GetVertexesBound(Vertexes);
 end;
 
 { TRectangle }
